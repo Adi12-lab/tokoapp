@@ -1,0 +1,313 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&family=Poppins:wght@600&family=Quicksand&display=swap');
+
+:root {
+  --color-primary: linear-gradient(150deg, #97c74e 0%, #2ab9a5 100%);
+  --color-succes: #23BC31;
+  --color-sucess-dark: #2D6D25;
+  --color-sucess-young: #DEF9EC;
+  --color-shadow: #e8dfec;
+  --color-bg: #4C18D0;
+  --color-bg2: #F7F09F;
+  --color-danger: #E33E3E;
+  --color-second: #ADADAD;
+  --color-orange: #EBA620;
+  --bs-gray-dark: #343a40;
+  --bs-gray-100: #f8f9fa;
+  --bs-gray-200: #e9ecef;
+  --bs-gray-300: #dee2e6;
+  --bs-gray-400: #ced4da;
+  --bs-gray-500: #adb5bd;
+  --bs-gray-600: #6c757d;
+  --bs-gray-700: #495057;
+  --bs-gray-800: #343a40;
+  --bs-gray-900: #212529;
+}
+
+
+span {
+  display: inline-block;
+  margin-right: 4px;
+}
+
+* {
+  font-family: "Quicksand", sans-serif;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  list-style: none;
+  
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Poppins", sans-serif;
+}
+
+h1 {
+  font-size: 40px;
+  line-height: 38.4px;
+}
+
+h2 {
+  font-size: 32px;
+  line-height: 29.8px;
+}
+
+h3 {
+  font-size: 24px;
+  
+}
+
+h4 {
+  font-size: 18px;
+}
+
+h5 {
+  font-size: 16px;
+
+
+}
+
+a {
+  color: var(--color-white);
+}
+
+img {
+  width: 100%;
+}
+.btn {
+  width: max-content;
+  color: white;
+  font-family: "Poppins", Sans-Serif;
+}
+.pre-title {
+  font-family: "Playfair Display", cursive;
+  font-style: italic;
+  color: var(--bs-gray-500);
+  font-size: 1.5rem;
+  text-align: center;
+}
+/*body {
+    background-image: url("img/home/hero-bg.svg");
+    background-size: 750px;
+    background-position: top -100px right -150px;
+    background-repeat: no-repeat;
+}*/
+
+section {
+  margin-top: 57px;
+}
+/*-----NAVBAR-------*/
+
+.navbar {
+  /* From https://css.glass */
+  background: rgba(79, 209, 121, 0.53);
+
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(13.3px);
+  -webkit-backdrop-filter: blur(13.3px);
+
+}
+
+.navbar-brand {
+  font-family: 'Poppins', Sans-Serif;
+  font-size: 1.3rem;
+  color: white;
+}
+
+.navbar-brand span {
+  color: var(--color-danger);
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+}
+
+.navbar-toggler-icon {
+  color: white;
+}
+
+.nav-item {
+  border-bottom: 1px solid var(--color-second);
+}
+
+.nav-item a {
+  color: black;
+  font-weight: 500;
+}
+
+.offcanvas-header {
+  background-color: var(--color-primary);
+}
+
+.offcanvas-body {
+  background: white;
+}
+
+.offcanvas-body form .btn {
+  position: absolute;
+  left: 83%;
+}
+
+.offcanvas-body form .btn:hover {
+  background: var(--color-succes);
+}
+
+.offcanvas-body .form-control {
+  background: var(--color-second);
+}
+
+.nav-link:hover {
+  transform: translateX(10px);
+
+}
+
+.info-item {
+  list-style: none;
+}
+
+.info-item a {
+  color: var(--color-succes);
+  display: inline-block;
+  font-weight: 400;
+  font-size: 0.85rem;
+  transition: transform 400ms ease;
+}
+
+.info-item a:hover {
+  transform: translateX(10px);
+}
+
+
+.follow-item {
+  color: white;
+  display: inline-block;
+  line-height: 2em;
+  text-align: center;
+  background-color: var(--color-succes);
+  margin-right: 5px;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  --webkit-tap-highlight: none;
+}
+/*-----HEADER------*/
+.header .header-hero {
+  height: 400px;
+  width: 100vw;
+  background-image: url('../img/home/bg-header2.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: white;
+}
+
+.header .header-hero p {
+  font-family: "Playfair Display", cursive;
+  font-style: italic;
+  color: var(--bs-gray-400);
+}
+.header .header-hero .header-hero-content .btn {
+  background: var(--color-primary);
+}
+
+/*------About-------*/
+.about img {
+  width: 170px;
+}
+.about span {
+  font-family: "Poppins", Sans-Serif;
+  width: 200px;
+  background: var(--color-primary);
+}
+.about .about-link {
+  background-color: var(--bs-gray-dark);
+}
+/*----+Quotes------*/
+.quotes .quotes-content{
+  background: var(--bs-gray-800);
+  font-family: "Playfair Display", cursive;
+  
+}
+/*-----Reason-----*/
+
+/*.reason .title::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: -50px;
+  left: 47%;
+  border-top: 40px solid white;
+  border-right: 40px solid transparent;
+  border-left: 40px solid transparent;
+}*/
+.reason .card {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
+
+.reason .card i {
+  align-self: center;
+  font-size: 5.2rem;
+  background: -webkit-linear-gradient(270deg, #97c74e 0%, #2ab9a5 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/*----Galeri---*/
+
+.galeri .gallery-item {
+  width: 200px;
+  padding: 5px;
+}
+
+
+/*---Produk---------*/
+.produk .daftar-produk {
+  background: var(--color-primary);
+}
+.produk .daftar-produk .card {
+  transition: all 400ms ease;
+}
+.produk .daftar-produk .card:hover {
+  border: 3px solid var(--color-primary);
+}
+
+.produk .produk-title {
+  font-size: 16px;
+  font-weight: 700;
+
+}
+.produk .produk-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-succes);
+}
+.produk .produk-price-old {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-second);
+}
+.produk .add {
+  font-size: 14px;
+  color: var(--color-primary);
+  background-color: var(--color-sucess-young);
+  transition: all 400ms ease;
+}
+.produk .add:hover {
+  font-size: 14px;
+  color: white;
+  transform: translateY(2px);
+  background-color: var(--color-primary);
+}
+.produk .btn-detail {
+  background-color: var(--color-orange);
+
+}
+/*Footer*/
+
+footer {
+  background-color: var(--color-second);
+}
