@@ -5,15 +5,15 @@
     <div class="header-hero row justify-content-center">
       <div class="col-md-10 d-flex align-items-center">
         <div class="header-hero-content">
-          <h1>Temukan keperluan untuk ibadahmu disini </h1>
+          <h1 class="text-white">Temukan keperluan untuk ibadahmu disini </h1>
           <p class="fs-5">
             Tentunya dengan aman dan terpercaya dan insyallah berkah.
           </p>
-          <a href="" class="btn d-block p-3 rounded border-0 text-decoration-none">Baca Lanjut</a>
+          <a href="" class="btn btn-grad d-block p-3 rounded border-0 text-decoration-none">Baca Lanjut</a>
         </div>
       </div>
     </div>
-   </div>
+  </div>
 </section>
 
 <section class="about">
@@ -35,19 +35,19 @@
 
       </div>
       <div class="col-md-6">
-         <h3 class="mt-4">Dapatkanlah di Afwaja Shop</h3>
+        <h3 class="mt-4">Dapatkanlah di Afwaja Shop</h3>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo error impedit, expedita perspiciatis quisquam laborum consequuntur voluptas, in, nobis illum nisi voluptates aliquam debitis!
         </p>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur doloremque libero, tempora excepturi similique?
         </p>
-        <a href="" class="about-link btn px-3 py-2"> Baca Lanjut</a>
+        <a href="" class="btn btn-dark px-3 py-2"> Baca Lanjut</a>
       </div>
     </div>
-    
+
   </div>
-  
+
 </section>
 
 <!-- Start Reason -->
@@ -112,41 +112,48 @@
   <div class="container-fluid">
     <div class="row px-2 px-md-0 justify-content-center">
       <div class="quotes-content col-md-11 rounded fs-4 text-white p-5">
-      " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quaerat doloremque dolore in aliquid voluptates placeat atque aut! Similique ducimus non explicabo laudantium, ipsa veritatis labore distinctio, modi consectetur totam eveniet repellat! "
+        " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quaerat doloremque dolore in aliquid voluptates placeat atque aut! Similique ducimus non explicabo laudantium, ipsa veritatis labore distinctio, modi consectetur totam eveniet repellat! "
       </div>
     </div>
   </div>
 </section>
-
 <!--End Quotes-->
+<section class="pre-produk">
+  <div class="container">
+    <img src="img/home/kenalan.png" alt="">
+  </div>
+</section>
 
 <!-- Produk -->
 <section class="produk">
   <div class="container-fluid">
-    <div class="row title text-center my-3">
+    <div class="row position-relative title text-center my-3">
       <span class="pre-title d-block mb-4">Lihat produk kami</span>
-      <h1>Produk</h1>
-      <p>Dibawah ini adalah produk - produk dari afwaja shop yang sering dibeli oleh mereka yang percaya</p>
+      <h1>Produk Populer Kami</h1>
+      <p>
+        Dibawah ini adalah produk - produk dari afwaja shop yang sering dibeli oleh mereka yang percaya
+      </p>
     </div>
-    <div class="daftar-produk row py-2 g-4 mt-3">
-          @foreach($products as $product)
+    <div class="daftar-produk row  g-4 mt-3">
+      @foreach($products as $product)
       <div class="col-md-4">
-          <div class="card border-0">
-            <img src="img/produk/{{$product->gambar}}" class="card-img-top rounded-4" alt="...">
-            <div class="card-body border-transparent p-2">
-              <a class="produk-title d-inline-block text-decoration-none">{{$product->nama}}</a>
-
-              <div class="product-card-bottom">
-                <span class="produk-price">Rp. {{$product->harga}}</span>
-                <span class="produk-price-old text-decoration-line-through">Rp. {{$product->harga}}</span>
-                <a href="" class="btn add"><i class="bi bi-cart"></i> Add</a>
-                <a href="/products/{{$product->slug}}" class="btn btn-detail d-block mt-3">Detail</a>
-              </div>
-
+        <div class="card border-0">
+          <img src="img/produk/{{$product->gambar}}" class="card-img-top rounded-4" alt="...">
+          <div class="card-body border-transparent p-2">
+            <a class="produk-title d-inline-block text-decoration-none">{{$product->nama}}</a>
+            <div>
+              <span class="produk-price">Rp. {{$product->harga}}</span>
+              <span class="produk-price-old text-decoration-line-through">Rp. {{$product->harga}}</span>
+              <a href="" class="btn add"><i class="bi bi-cart"></i> Add</a>
             </div>
+            <div class="mt-3 text-center">
+              <a href="/products/{{$product->slug}}" class="btn btn-grad2 p-2 ms-auto d-block">Detail Produk</a>
+            </div>
+
           </div>
+        </div>
       </div>
-          @endforeach
+      @endforeach
     </div>
   </div>
 </section>
@@ -154,34 +161,36 @@
 
 <!-- Galeri -->
 <section class="galeri">
-  <div class="container mt-4">
+  <div class="container-fluid">
     <div class="row title my-3">
+      <span class="pre-title mb-4">Yok intip galeri Afwaja Shop</span>
       <h1 class="text-center">Galeri</h1>
     </div>
-    <div id="animated-thumbnails-gallery" class="row justify-content-center">
-      <a href="img/home/gallery/gambar1.jpg " class="gallery-item d-block">
-        <img src="img/home/gallery/gambar1.jpg" class="img-thumbnail">
+    <div  id="animated-thumbnails-gallery" class="daftar-galeri owl-carousel owl-theme">
+      
+      <a href="img/home/gallery/gambar1.jpg " class="gallery-item">
+        <img src="img/home/gallery/gambar1.jpg" class="item">
       </a>
-      <a href="img/home/gallery/gambar2.jpg" class="gallery-item d-block">
-        <img src="img/home/gallery/gambar2.jpg" class="img-thumbnail">
+      <a href="img/home/gallery/gambar2.jpg" class="gallery-item">
+        <img src="img/home/gallery/gambar2.jpg" class="item ">
       </a>
-      <a href="img/home/gallery/gambar3.jpg" class="gallery-item d-block">
-        <img src="img/home/gallery/gambar3.jpg" class="img-thumbnail">
+      <a href="img/home/gallery/gambar3.jpg" class="gallery-item">
+        <img src="img/home/gallery/gambar3.jpg" class="item ">
       </a>
-      <a href="img/home/gallery/gambar4.jpg" class="gallery-item d-block">
-        <img src="img/home/gallery/gambar4.jpg" class="img-thumbnail">
+      <a href="img/home/gallery/gambar4.jpg" class="gallery-item">
+        <img src="img/home/gallery/gambar4.jpg" class="item ">
       </a>
-      <a href="img/home/gallery/gambar5.jpg" class="gallery-item d-block">
-        <img src="img/home/gallery/gambar5.jpg" class="img-thumbnail">
+      <a href="img/home/gallery/gambar5.jpg" class="gallery-item">
+        <img src="img/home/gallery/gambar5.jpg" class="item ">
       </a>
-      <a href="img/home/gallery/gambar6.jpg" class="gallery-item d-block">
-        <img src="img/home/gallery/gambar6.jpg" class="img-thumbnail">
+      <a href="img/home/gallery/gambar6.jpg" class="gallery-item">
+        <img src="img/home/gallery/gambar6.jpg" class="item ">
       </a>
-      <a href="img/home/gallery/gambar7.jpg" class="gallery-item d-block">
-        <img src="img/home/gallery/gambar7.jpg" class="img-thumbnail">
+      <a href="img/home/gallery/gambar7.jpg" class="gallery-item">
+        <img src="img/home/gallery/gambar7.jpg" class="item ">
       </a>
-      <a href="img/home/gallery/gambar8.jpg" class="gallery-item d-block">
-        <img src="img/home/gallery/gambar8.jpg" class="img-thumbnail">
+      <a href="img/home/gallery/gambar8.jpg" class="gallery-item">
+        <img src="img/home/gallery/gambar8.jpg" class="item ">
       </a>
     </div>
   </div>

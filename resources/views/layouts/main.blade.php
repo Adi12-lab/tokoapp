@@ -38,6 +38,7 @@
         thumbnail: true,
     });
     $('.owl-carousel').owlCarousel({
+    center:true,
     dots:true,
     loop:true,
     margin:10,
@@ -45,8 +46,8 @@
         200: {
             items:1
         },
-        1000:{
-            items:3
+        600:{
+            items:4
         }
     }
 })

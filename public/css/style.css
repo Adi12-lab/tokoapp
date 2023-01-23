@@ -7,9 +7,9 @@
   --color-sucess-young: #DEF9EC;
   --color-shadow: #e8dfec;
   --color-bg: #4C18D0;
-  --color-bg2: #F7F09F;
+  --color-black: #F7F09F;
   --color-danger: #E33E3E;
-  --color-second: #ADADAD;
+  --color-second: #8F9397;
   --color-orange: #EBA620;
   --bs-gray-dark: #343a40;
   --bs-gray-100: #f8f9fa;
@@ -36,7 +36,8 @@ span {
   margin: 0;
   outline: none;
   list-style: none;
-  
+  color: var(--color-second);
+
 }
 
 h1,
@@ -45,6 +46,7 @@ h3,
 h4,
 h5 {
   font-family: "Poppins", sans-serif;
+  color: var(--bs-gray-dark);
 }
 
 h1 {
@@ -59,7 +61,7 @@ h2 {
 
 h3 {
   font-size: 24px;
-  
+
 }
 
 h4 {
@@ -81,8 +83,23 @@ img {
 }
 .btn {
   width: max-content;
-  color: white;
   font-family: "Poppins", Sans-Serif;
+  padding: 5px;
+  border: 0;
+}
+.btn-dark {
+  background-color: var(--bs-gray-dark);
+  color: white;
+}
+.btn-grad {
+  background: var(--color-primary);
+  color: white;
+}
+.btn-grad2 {
+  background: rgb(255,180,11);
+  background: linear-gradient(290deg, rgba(255,180,11,1) 3%, rgba(240,110,12,1) 78%);
+  color: white;
+
 }
 .pre-title {
   font-family: "Playfair Display", cursive;
@@ -91,32 +108,22 @@ img {
   font-size: 1.5rem;
   text-align: center;
 }
-/*body {
-    background-image: url("img/home/hero-bg.svg");
-    background-size: 750px;
-    background-position: top -100px right -150px;
-    background-repeat: no-repeat;
-}*/
-
 section {
   margin-top: 57px;
 }
 /*-----NAVBAR-------*/
 
 .navbar {
-  /* From https://css.glass */
-  background: rgba(79, 209, 121, 0.53);
-
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(13.3px);
-  -webkit-backdrop-filter: blur(13.3px);
-
+background: rgba(131, 209, 90, 0.72);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(5px);
+-webkit-backdrop-filter: blur(5px);
 }
 
 .navbar-brand {
   font-family: 'Poppins', Sans-Serif;
   font-size: 1.3rem;
-  color: white;
+ 
 }
 
 .navbar-brand span {
@@ -130,70 +137,31 @@ section {
 }
 
 .nav-item {
-  border-bottom: 1px solid var(--color-second);
+  border-bottom: 1px solid var(--bs-gray-300);
 }
 
-.nav-item a {
-  color: black;
-  font-weight: 500;
-}
-
-.offcanvas-header {
-  background-color: var(--color-primary);
-}
-
-.offcanvas-body {
-  background: white;
-}
-
-.offcanvas-body form .btn {
-  position: absolute;
-  left: 83%;
-}
-
-.offcanvas-body form .btn:hover {
-  background: var(--color-succes);
-}
-
-.offcanvas-body .form-control {
-  background: var(--color-second);
+.nav-link {
+  color: var(--bs-gray-600);
+  font-weight: bold;
+  transition: transform 400ms ease;
 }
 
 .nav-link:hover {
   transform: translateX(10px);
-
-}
-
-.info-item {
-  list-style: none;
-}
-
-.info-item a {
   color: var(--color-succes);
-  display: inline-block;
-  font-weight: 400;
-  font-size: 0.85rem;
-  transition: transform 400ms ease;
 }
-
-.info-item a:hover {
+.nav-link.current {
   transform: translateX(10px);
+  color: var(--color-succes);
+}
+.nav-link.current i {
+  color: inherit;
 }
 
-
-.follow-item {
-  color: white;
-  display: inline-block;
-  line-height: 2em;
-  text-align: center;
-  background-color: var(--color-succes);
-  margin-right: 5px;
-  width: 2em;
-  height: 2em;
-  border-radius: 50%;
-  --webkit-tap-highlight: none;
-}
 /*-----HEADER------*/
+.header {
+  margin-top: 0;
+}
 .header .header-hero {
   height: 400px;
   width: 100vw;
@@ -209,9 +177,6 @@ section {
   font-style: italic;
   color: var(--bs-gray-400);
 }
-.header .header-hero .header-hero-content .btn {
-  background: var(--color-primary);
-}
 
 /*------About-------*/
 .about img {
@@ -222,18 +187,35 @@ section {
   width: 200px;
   background: var(--color-primary);
 }
-.about .about-link {
-  background-color: var(--bs-gray-dark);
-}
+
 /*----+Quotes------*/
-.quotes .quotes-content{
+.quotes .quotes-content {
   background: var(--bs-gray-800);
   font-family: "Playfair Display", cursive;
-  
+
 }
 /*-----Reason-----*/
+.reason .card {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
 
-/*.reason .title::after {
+.reason .card i {
+  align-self: center;
+  font-size: 5.2rem;
+  background: -webkit-linear-gradient(270deg, #97c74e 0%, #2ab9a5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/*----Galeri---*/
+/*---Produk---------*/
+
+.produk .daftar-produk {
+  background: var(--color-primary);
+  padding: 25px 4px;
+
+}
+.produk .title::after {
   content: '';
   position: absolute;
   width: 0;
@@ -243,33 +225,10 @@ section {
   border-top: 40px solid white;
   border-right: 40px solid transparent;
   border-left: 40px solid transparent;
-}*/
-.reason .card {
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
-}
-
-.reason .card i {
-  align-self: center;
-  font-size: 5.2rem;
-  background: -webkit-linear-gradient(270deg, #97c74e 0%, #2ab9a5 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-
-/*----Galeri---*/
-
-.galeri .gallery-item {
-  width: 200px;
-  padding: 5px;
-}
-
-
-/*---Produk---------*/
-.produk .daftar-produk {
-  background: var(--color-primary);
 }
 .produk .daftar-produk .card {
   transition: all 400ms ease;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 .produk .daftar-produk .card:hover {
   border: 3px solid var(--color-primary);
@@ -292,7 +251,7 @@ section {
 }
 .produk .add {
   font-size: 14px;
-  color: var(--color-primary);
+  color: var(--color-succes);
   background-color: var(--color-sucess-young);
   transition: all 400ms ease;
 }
@@ -304,10 +263,13 @@ section {
 }
 .produk .btn-detail {
   background-color: var(--color-orange);
-
 }
 /*Footer*/
 
 footer {
-  background-color: var(--color-second);
+  background-color: #F7F8F9;
+  padding: 48px 0;
+}
+footer .widget {
+  background: var(--color-primary);
 }
