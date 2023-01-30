@@ -29,31 +29,12 @@
     
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script src="{{asset("js/bootstrap.bundle.js");}}"></script>
-    <script src="js/jquery.js"></script>
+    <script src="{{asset("js/jquery.js");}}"></script>
     <script src="{{asset("light/dist/lightgallery.umd.js");}}"></script>
     <script src = "{{asset("owl/dist/owl.carousel.min.js");}}"> </script>
-    <script>
-   
-    lightGallery(document.getElementById('animated-thumbnails-gallery'), {
-        thumbnail: true,
-    });
-    $('.owl-carousel').owlCarousel({
-    center:true,
-    dots:true,
-    loop:true,
-    margin:10,
-    responsive: {
-        200: {
-            items:1
-        },
-        600:{
-            items:4
-        }
-    }
-})
-    </script>
-    <script>
-    </script>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script src="{{asset("js/method.js");}}"></script>
+
 </body>
 
 </html>

@@ -2,6 +2,8 @@
 
 use App\Models\Product;
 
+use App\Http\Controllers\ProductController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +22,5 @@ Route::get('/', function () {
         "products" => Product::all()
     ] );
 });
+
+Route::get("/produk",[ProductController::class, "index"]);

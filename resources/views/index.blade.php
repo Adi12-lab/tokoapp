@@ -17,25 +17,25 @@
 </section>
 
 <section class="about">
-  <div class="container-fluid">
+  <div class="container">
     <div class="row mt-4">
-      <div id="animated-thumbnails-gallery" class="col-md-6 d-flex flex-wrap justify-content-end">
-        <a href="img/home/header-1.jpg" class="gallery-item d-block me-2">
-          <img src="img/home/header-1.jpg" class="">
+      <div id="animated-thumbnails-gallery" class="col-lg-6 d-flex flex-wrap">
+        <a href="img/home/header-1.jpg" class="gallery-item d-inline-block me-2">
+          <img src="img/home/header-1.jpg" >
         </a>
-        <a href="img/home/header-2.jpg" class="gallery-item d-block">
+        <a href="img/home/header-2.jpg" class="gallery-item d-inline-block">
           <img src="img/home/header-2.jpg" class="">
         </a>
-        <span class="d-inline-block p-3 text-white text-center mt-2 d-flex align-items-center">
+        <span class="mt-3 d-inline-block p-3 text-white text-center d-flex align-items-center">
           "Demi Allah aman dan terpercaya"
         </span>
-        <a href="img/home/header-2.jpg" class="gallery-item d-block mt-2">
+        <a href="img/home/header-2.jpg" class="gallery-item d-inline-block mt-2">
           <img src="img/home/header-3.jpg" class="">
         </a>
 
       </div>
-      <div class="col-md-6">
-        <h3 class="mt-4">Dapatkanlah di Afwaja Shop</h3>
+      <div class="col-lg-6">
+        <h3 class="mt-3">Dapatkanlah di Afwaja Shop</h3>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo error impedit, expedita perspiciatis quisquam laborum consequuntur voluptas, in, nobis illum nisi voluptates aliquam debitis!
         </p>
@@ -52,12 +52,12 @@
 
 <!-- Start Reason -->
 <section class="reason">
-  <div class="container-fluid">
+  <div class="container">
     <div class="row title position-relative">
       <span class="pre-title d-block mb-4">Lihat alasan mengapa beli disini</span>
       <h1 class="text-center ">Kenapa membeli disini ?</h1>
     </div>
-    <div class="row g-4 alasan p-5 mt-3">
+    <div class="row g-4 alasan mt-3">
       <div class="col-lg-3 col-md-6 my-2">
         <div class="card border-0 p-3 text-center">
           <i class="fa-solid fa-tags"></i>
@@ -109,20 +109,15 @@
 
 <!--Quotes-->
 <section class="quotes">
-  <div class="container-fluid">
+  <div class="container">
     <div class="row px-2 px-md-0 justify-content-center">
-      <div class="quotes-content col-md-11 rounded fs-4 text-white p-5">
+      <div class="quotes-content col rounded fs-5 text-white p-4">
         " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quaerat doloremque dolore in aliquid voluptates placeat atque aut! Similique ducimus non explicabo laudantium, ipsa veritatis labore distinctio, modi consectetur totam eveniet repellat! "
       </div>
     </div>
   </div>
 </section>
 <!--End Quotes-->
-<section class="pre-produk">
-  <div class="container">
-    <img src="img/home/kenalan.png" alt="">
-  </div>
-</section>
 
 <!-- Produk -->
 <section class="produk">
@@ -134,22 +129,21 @@
         Dibawah ini adalah produk - produk dari afwaja shop yang sering dibeli oleh mereka yang percaya
       </p>
     </div>
-    <div class="daftar-produk row  g-4 mt-3">
+    <div class="daftar-produk bg-grad row g-4 mt-3">
       @foreach($products as $product)
       <div class="col-md-4">
         <div class="card border-0">
           <img src="img/produk/{{$product->gambar}}" class="card-img-top rounded-4" alt="...">
-          <div class="card-body border-transparent p-2">
-            <a class="produk-title d-inline-block text-decoration-none">{{$product->nama}}</a>
+          <div class="card-body p-2">
+            <a class="produk-title d-inline-block text-decoration-none text-black">{{$product->nama}}</a>
             <div>
               <span class="produk-price">Rp. {{$product->harga}}</span>
               <span class="produk-price-old text-decoration-line-through">Rp. {{$product->harga}}</span>
-              <a href="" class="btn add"><i class="bi bi-cart"></i> Add</a>
             </div>
-            <div class="mt-3 text-center">
-              <a href="/products/{{$product->slug}}" class="btn btn-grad2 p-2 ms-auto d-block">Detail Produk</a>
-            </div>
-
+             <div class="produk-bottom mt-2">
+            <a href="" class="btn btn-outline-warning"><i class="bi bi-cart"></i> Tambahkan ke Keranjang</a>
+            <span class="btn text-danger"><i class="fa-regular fa-heart"></i> Favorit</span>
+          </div>
           </div>
         </div>
       </div>
@@ -161,7 +155,7 @@
 
 <!-- Galeri -->
 <section class="galeri">
-  <div class="container-fluid">
+  <div class="container">
     <div class="row title my-3">
       <span class="pre-title mb-4">Yok intip galeri Afwaja Shop</span>
       <h1 class="text-center">Galeri</h1>
@@ -196,8 +190,6 @@
   </div>
 </section>
 <!-- End Galeri -->
-
-
 
 
 

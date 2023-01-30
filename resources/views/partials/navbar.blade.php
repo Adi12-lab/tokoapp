@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg fixed-top bg-light">
   <div class="container">
     <a class="navbar-brand" href="/">Afwaja <span>Shop</span></a>
@@ -5,17 +6,17 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav ms-auto me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link current" href="/"><i class="fa-solid fa-house"></i> Home</a>
+          <a class="nav-link {{Request::is("/") ? "current" : ""}}" href="/"><i class="fa-solid fa-house"></i> Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa-solid fa-box"></i> Produk</a>
+        <li class="nav-item border-lg-0">
+          <a class="nav-link {{Request::is("produk") ? "current" : ""}}" href="/produk"><i class="fa-solid fa-box"></i> Produk</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item border-lg-0">
           <a class="nav-link" href="#"><i class="fa-solid fa-blog"></i> Postingan</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item border-lg-0">
           <a class="nav-link" href="#"><i class="fa-solid fa-headphones-simple"></i> Contact</a>
         </li>
        
