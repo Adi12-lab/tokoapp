@@ -92,6 +92,9 @@ img {
   padding: 5px;
   word-spacing: 0.5px;
 }
+.btn i {
+  
+}
 .btn-dark {
   background-color: var(--bs-gray-dark);
   color: white;
@@ -292,6 +295,7 @@ backdrop-filter: blur(5px);
 footer {
   background-color: #F7F8F9;
   padding: 48px 0;
+  
 }
 footer .widget {
   background: var(--color-primary);

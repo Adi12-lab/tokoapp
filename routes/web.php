@@ -3,6 +3,7 @@
 use App\Models\Product;
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,6 @@ Route::get('/', function () {
 });
 
 Route::get("/produk",[ProductController::class, "index"]);
+Route::post("/addCart", [CartController::class, "addCart"])->name("productIndex.addCart");
+Route::get("/cart", [CartController::class, "cartContent"]);
+Route::post("/deleteCart", [CartController::class, "deleteCart"]);
