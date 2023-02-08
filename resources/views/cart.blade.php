@@ -1,35 +1,40 @@
 @extends("layouts.main")
 @section('isi')
 <section>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-8">
-                <table class="table">
-                    <thead>
-                        <tr class="table-success">
-                          <th scope="col">Gambar</th>
-                          <th scope="col">Nama</th>
-                          <th scope="col">Harga</th>
-                          <th scope="col">Jumlah</th>
-                          <th scope="col">Sub-Harga</th>
-                          <th scope="col">Delete</th>
-                        </tr>
-                      </thead>
-                    @foreach ($products as $product)
-                      <tr>
-                      	<td><img src="{{$product["gambar"]}}" class = "img-fluid"alt=""></td>
-                      	<td><a href="">{{$product["nama"]}}</a></td>
-                      	<td>{{$product["harga"]}}</td>
-                      	<td>{{$product["quantity"]}}</td>
-                      	<td>
-                      		<a href = "/deleteCart"class="btn removeCart btn-danger"><i class="fa-regular fa-trash-can"></i> Remove</a>
-                      		<input type="hidden" value="{{$product["id"]}}" class="form-control">
-                      	</td>
-                      </tr>
-                    @endforeach
-                </table>
-            </div>
+  <div class="container">
+    <div class="row">
+      <h1 class="my-4">Keranjang Anda</h1>
+      @foreach($products as $product)
+      <div class="card mb-3">
+        <div class="row cart-row">
+          <input type="hidden" class="form-control" value="{{$product['id']}}">
+          <div class="col-md-2 cart-col">
+            <img src="img/product/{{$product["gambar"]}}" alt=""
+            >
+          </div>
+          <div class="col-md-3 cart-col">
+            <h4 class="card-title">{{$product["name"]}}</h4>
+          </div>
+          <div class="col-md-2 cart-col">
+            <span class="text-muted fs-5 fw-bold">Rp. {{$product["price"]}}</span>
+          </div>
+          <div class="col-md-2 d-flex cart-col">
+            <button class="btn minus btn-outline-secondary px-3 rounded-0" onclick="decrement(this)">-</button>
+            <input type="number" class="form-control quantity-form rounded-0" value="{{$product["quantity"]}}">
+            <button class="btn plus btn-outline-success px-3 rounded-0" onclick="increment(this)">+</button>
+          </div>
+          <div class="col-md-2 cart-col">
+            <span class="text-success fs-5 fw-bold">Rp. {{$product["priceSum"]}}</span>
+          </div>
+          <div class="col-md-1 cart-col">
+
+            <a class="removeCart"><i class="fa-solid fa-trash-can text-danger fs-4"></i></a>
+          </div>
         </div>
+      </div>
+      @endforeach
+
     </div>
+  </div>
 </section>
 @endsection

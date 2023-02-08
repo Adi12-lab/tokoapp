@@ -88,6 +88,7 @@ img {
 }
 .btn {
   width: max-content;
+  height: max-content;
   font-family: "Poppins", Sans-Serif;
   padding: 5px;
   word-spacing: 0.5px;
@@ -129,6 +130,9 @@ section {
 ul {
   margin: 0;
   padding: 0;
+}
+.text-success {
+  color: var(--color-succes) !important;
 }
 
 /*-----NAVBAR-------*/
@@ -301,7 +305,25 @@ footer .widget {
   background: var(--color-primary);
 }
 
-@media screen and (max-width : 576px ) {
+.quantity-form{
+  width: 65px;
+  text-align: center;
+  height: 35.5px;
+  
+}
+
+.cart-col {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    padding: 10px;
+}
+@media screen and (min-width : 576px ) {
+  .container {
+    max-width: 94% !important;
+  }
+  
 }
 
 .owl-carousel .owl-nav {

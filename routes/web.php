@@ -19,12 +19,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view("index", [
-        "products" => Product::all()
-    ] );
+  return view("index", [
+    "products" => Product::all()
+  ]);
 });
 
-Route::get("/produk",[ProductController::class, "index"]);
-Route::post("/addCart", [CartController::class, "addCart"])->name("productIndex.addCart");
-Route::get("/cart", [CartController::class, "cartContent"]);
-Route::post("/deleteCart", [CartController::class, "deleteCart"]);
+Route::get("/produk", [ProductController::class, "index"]);
+
+Route::controller(CartController::class)->group(function() {
+  Route::post("/addCart", "addCart")->name("productIndex.addCart");
+  Route::get("/cart", "cartContent");
+  Route::post("/deleteCart", "deleteCart");
+  Route::post("/degQuantity", "degQuantity");
+});

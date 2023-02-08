@@ -30,9 +30,10 @@
     @include("partials/footer")
     
     
+   
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script src="{{asset("js/bootstrap.bundle.js");}}"></script>
-    <script src="{{asset("js/jquery.js");}}"></script>
+     <script src="{{asset("js/jquery.js");}}"></script>
     <script src="{{asset("light/dist/lightgallery.umd.js");}}"></script>
     <script src = "{{asset("owl/dist/owl.carousel.min.js");}}"> </script>
     <script src="{{asset("js/isotope.js");}}"></script>
