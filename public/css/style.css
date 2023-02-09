@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Playfair+Display:ital,wght@0,500;1,500&family=Poppins:wght@500;700&family=Quicksand:wght@600;700&display=swap');
 :root {
-  --color-primary: linear-gradient(150deg, #97c74e 0%, #2ab9a5 100%);
+  --color-grad: linear-gradient(150deg, #97c74e 0%, #2ab9a5 100%);
+  --color-primary:#4cbd89;
+  --color-light:#f7f8f9;
   --color-succes: #3BB77E;
   --color-sucess-dark: #2D6D25;
   --color-sucess-young: #DEF9EC;
@@ -22,8 +24,6 @@
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
 }
-
-
 span {
   display: inline-block;
   margin-right: 4px;
@@ -79,6 +79,7 @@ h5 {
 
 a {
   cursor: pointer;
+  text-decoration: none;
 }
 a:hover {
   color: var(--color-succes);
@@ -89,27 +90,68 @@ img {
 .btn {
   width: max-content;
   height: max-content;
-  font-family: "Poppins", Sans-Serif;
+  font-family: "Quicksand", Sans-Serif;
   padding: 5px;
   word-spacing: 0.5px;
+  vertical-align: middle;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.btn-primary i {
+  color: white;
+}
+.btn-primary:hover {
+  background-color: var(--color-primary) !important;
+  border: 2px solid var(--color-primary) !important;
+  filter: brightness(0.8);
+}
+.btn-outline-primary {
+  background-color: white;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  
 }
 .btn i {
   
 }
-.btn-dark {
-  background-color: var(--bs-gray-dark);
+.btn-grad {
+  background: var(--color-grad);
+  border:2px solid var(--color-grad);
   color: white;
 }
-.btn-grad {
-  background: var(--color-primary);
-  color: white;
+.brn-outline-grad {
+  background: white;
+  border: 2px solid var(--color-grad);
+  color: (--color-primary);
+}
+.btn-light {
+  background-color: var(--color-light);
+  color: #000000;
+  border: 2px solid var(--color-light);
+}
+.btn-outline-light {
+  background-color:white;
+  border: 2px solid #d0d4d9;
+  color: #b4b9bd;
+}
+.btn-outline-light:hover {
+  background-color: #d0d4d9;
+  color: black;
 }
 .bg-dark {
   background-color: var(--bs-gray-dark);
-
+  color: white;
+}
+.bg-success {
+  background-color: var(--color-succes);
 }
 .bg-grad {
-  background: var(--color-primary);
+  background: var(--color-grad);
+  color: white;
 }
 .bg-grad2 {
   background: rgb(255,180,11);
@@ -204,7 +246,7 @@ backdrop-filter: blur(5px);
 .about span {
   font-family: "Poppins", Sans-Serif;
   width: 200px;
-  background: var(--color-primary);
+  background: var(--color-grad);
 }
 
 /*----+Quotes------*/
@@ -230,7 +272,7 @@ backdrop-filter: blur(5px);
 /*---product---------*/
 
  .daftar-product {
-  background: var(--color-primary);
+  background: var(--color-grad);
   padding: 25px 4px;
 
 }
@@ -250,7 +292,7 @@ backdrop-filter: blur(5px);
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
  .daftar-product .card:hover {
-  border: 3px solid var(--color-primary);
+  border: 3px solid var(--color-grad);
 }
 
  .product-title {
@@ -302,7 +344,7 @@ footer {
   
 }
 footer .widget {
-  background: var(--color-primary);
+  background: var(--color-grad);
 }
 
 .quantity-form{
@@ -311,7 +353,6 @@ footer .widget {
   height: 35.5px;
   
 }
-
 .cart-col {
     display: flex;
     align-items: center;
@@ -319,6 +360,19 @@ footer .widget {
     justify-content: center;
     padding: 10px;
 }
+
+.cart-head > * {
+  background: var(--bs-gray-300);
+  height: 80px;
+  text-align: center;
+  line-height: 80px;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+.cart-head span {
+  color: var(--bs-gray-dark);
+}
+
 @media screen and (min-width : 576px ) {
   .container {
     max-width: 94% !important;

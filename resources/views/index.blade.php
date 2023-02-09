@@ -19,7 +19,7 @@
 <section class="about">
   <div class="container">
     <div class="row mt-4">
-      <div id="animated-thumbnails-gallery" class="col-lg-6 d-flex flex-wrap">
+      <div class="animated-thumbnails-gallery col-lg-6 d-flex flex-wrap">
         <a href="img/home/header-1.jpg" class="gallery-item d-inline-block me-2">
           <img src="img/home/header-1.jpg" >
         </a>
@@ -42,7 +42,7 @@
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur doloremque libero, tempora excepturi similique?
         </p>
-        <a href="" class="btn btn-dark px-3 py-2"> Baca Lanjut</a>
+        <a href="" class="btn bg-dark px-3 py-2"> Baca Lanjut</a>
       </div>
     </div>
 
@@ -129,16 +129,16 @@
         Dibawah ini adalah produk - produk dari afwaja shop yang sering dibeli oleh mereka yang percaya
       </p>
     </div>
-    <div class="daftar-produk bg-grad row g-4 mt-3">
+    <div class="daftar-produk bg-grad row g-4 mt-3 pb-4">
       @foreach($products as $product)
       <div class="col-md-4">
         <div class="card border-0">
-          <img src="img/produk/{{$product->gambar}}" class="card-img-top rounded-4" alt="...">
+          <img src="img/product/{{$product->gambar}}" class="card-img-top rounded-4" alt="...">
           <div class="card-body p-2">
-            <a class="produk-title d-inline-block text-decoration-none text-black">{{$product->nama}}</a>
+            <a class="product-title d-inline-block fs-4">{{$product->name}}</a>
             <div>
-              <span class="produk-price">Rp. {{$product->harga}}</span>
-              <span class="produk-price-old text-decoration-line-through">Rp. {{$product->harga}}</span>
+              <span class="product-price fs-3">Rp. {{rupiah($product->price)}}</span>
+              <span class="produk-price-old text-decoration-line-through">Rp. {{$product->price}}</span>
             </div>
              <div class="produk-bottom mt-2">
             <a href="" class="btn btn-outline-warning"><i class="bi bi-cart"></i> Tambahkan ke Keranjang</a>
@@ -160,7 +160,7 @@
       <span class="pre-title mb-4">Yok intip galeri Afwaja Shop</span>
       <h1 class="text-center">Galeri</h1>
     </div>
-    <div  id="animated-thumbnails-gallery" class="daftar-galeri owl-carousel owl-theme">
+    <div class="animated-thumbnails-gallery daftar-galeri owl-carousel owl-theme">
       
       <a href="img/home/gallery/gambar1.jpg " class="gallery-item">
         <img src="img/home/gallery/gambar1.jpg" class="item">

@@ -1,8 +1,11 @@
 $(document).ready(function() {
   //lightgallery
-  lightGallery(document.getElementById('animated-thumbnails-gallery'), {
-    thumbnail: true,
+  $(".animated-thumbnails-gallery").each(function(indeks, element) {
+    lightGallery(element, {
+      thumbnail: true,
+    });
   });
+  //owl-carousel
   $('.owl-carousel').owlCarousel({
     center: true,
     dots: false,
@@ -21,6 +24,7 @@ $(document).ready(function() {
       }
     }
   });
+  //Dropdown Isotope
   let $grid = $('.grid.product').isotope({
     // options
     itemSelector: '.grid-item',
@@ -55,16 +59,10 @@ $(document).ready(function() {
 
   });
 
-  $(".grid-item a.btn").click(function(e) {
-    e.preventDefault();
-    const namaProduct = $(this).parents(".card-body").children(".product-title").text();
-    console.log(namaProduct);
-
-  });
   //Menghapus cart
   $(".removeCart").click(function(e) {
     e.preventDefault();
-    const productId = $(this).parents(".cart-row");
+    const productId = $(this).parents(".cart-row").find("input[type='hidden']").val();
     $.ajax({
       url: "/deleteCart",
       type: "post",
@@ -81,13 +79,12 @@ $(document).ready(function() {
     });
 
   });
-  //Mengurangi (decrement)
-
 });
 
+//Mengurangi (decrement)
 function decrement(element) {
   var input = $(element).siblings(".quantity-form");
-  var productId = $(element);
+  var productId = $(element).parents(".cart-row").find("input[type='hidden']").val();
   if (parseInt(input.val()) == 1) return false;
   var dikurangi = parseInt(input.val())-1;
   input.val(dikurangi);
@@ -98,15 +95,25 @@ function decrement(element) {
       'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
     },
     data: {
-      quantity: parseInt(input.val())
-    },
-    success: function(text) {
-      alert(text);
+      id: productId,
     }
+
   });
 }
 function increment(element) {
   var input = $(element).siblings(".quantity-form");
+  var productId = $(element).parents(".cart-row").find("input[type='hidden']").val();
   var ditambah = parseInt(input.val())+1;
   input.val(ditambah);
+  $.ajax({
+    url: "/incQuantity",
+    type: "post",
+    headers: {
+      'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+    },
+    data: {
+      id: productId,
+    }
+
+  });
 }

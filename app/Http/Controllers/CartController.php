@@ -33,8 +33,8 @@ class CartController extends Controller
 
     // dd($dataProduk);
     return view("cart", [
-        "products" => $dataProduk
-        
+        "products" => $dataProduk,
+        "productCount" => $dataProduk->count()
         ]);
     }
     
@@ -46,9 +46,14 @@ class CartController extends Controller
     }
     
     public function degQuantity(Request $request) {
-      \Cart::update($request->id);
-       return response($request->quantity, 200)
-            ->header('Content-Type', 'text/plain');
+      \Cart::update($request->id, array(
+        "quantity" => -1
+        ));
+    }
+    public function incQuantity(Request $request) {
+      \Cart::update($request->id, array(
+        "quantity" => +1
+        ));
     }
     
 }

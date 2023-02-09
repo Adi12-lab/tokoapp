@@ -4,6 +4,7 @@ use App\Models\Product;
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\UserController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,12 @@ Route::controller(CartController::class)->group(function() {
   Route::get("/cart", "cartContent");
   Route::post("/deleteCart", "deleteCart");
   Route::post("/degQuantity", "degQuantity");
+  Route::post("/incQuantity", "incQuantity");
+});
+
+Route::controller(UserController::class)->group(function() {
+  Route::get("/metal", "login")->name("login");
+  Route::post("/metal", "authenticate")->name("authenticate");
+  Route::get("/dashboard", "index")->middleware("auth");
+  Route::post("/dashboard", "logout")->name("logout");
 });

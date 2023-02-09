@@ -28,13 +28,13 @@
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <a class="product-title d-block text-decoration-none"
+                  <a class="product-title d-block"
                     href="/product/{{ $product->slug }}">{{ $product->name }}</a>
                   <p class="product-text">
                     {{ $product->deskripsi }}
                   </p>
                   <span class="product-price fs-2" data-price="{{ $product->price }}">Rp.
-                    {{ $product->price }}</span>
+                    {{ rupiah($product->price)}}</span>
                   <span class="product-price-old text-decoration-line-through">Rp.
                     {{ $product->price }}</span>
                   <div class="product-bottom mt-2">
@@ -43,7 +43,7 @@
                       <input type="hidden" name="productId" value="{{ $product->id }}">
                       <input type="hidden" name="productName" value="{{ $product->name }}">
                       <input type="hidden" name="productPrice" value="{{ $product->price }}">
-                      <input type="hidden" name="productQuantity" value="24">
+                      <input type="hidden" name="productQuantity" value="1">
                       <button type="submit" name="submit" class="btn btn-outline-warning"><i
                         class="bi bi-cart text-warning"></i> Tambahkan ke
                         Keranjang</button>
