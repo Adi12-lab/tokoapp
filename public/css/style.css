@@ -27,6 +27,10 @@
 span {
   display: inline-block;
   margin-right: 4px;
+  
+}
+.font-dark {
+  color: var(--bs-gray-700) ;
 }
 
 * {
@@ -49,12 +53,12 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: "Poppins", sans-serif;
   font-weight: 700;
   color: var(--bs-gray-dark);
 }
 
 h1 {
+  font-family: "Poppins", sans-serif;
   font-size: 40px;
   line-height: 38.4px;
 }
@@ -87,18 +91,34 @@ a:hover {
 img {
   width: 100%;
 }
+.all-lato-font > * {
+  font-family: "Lato", Sans-Serif;
+}
 .btn {
   width: max-content;
   height: max-content;
   font-family: "Quicksand", Sans-Serif;
   padding: 5px;
-  word-spacing: 0.5px;
   vertical-align: middle;
 }
-
+.btn.variant {
+  font-family: "Lato", Sans-Serif;
+  padding: 3px 10px;
+  color: var(--color-second);
+  border-radius: 0;
+}
+.btn.variant:active {
+  background-color: var(--color-primary);
+  color: white;
+}
+.btn.variant.active {
+  background-color: var(--color-primary);
+  color: white;
+}
 .btn-primary {
   background-color: var(--color-primary);
   border: 2px solid var(--color-primary);
+  transition: filter 300ms ease;
 }
 
 .btn-primary i {
@@ -107,7 +127,7 @@ img {
 .btn-primary:hover {
   background-color: var(--color-primary) !important;
   border: 2px solid var(--color-primary) !important;
-  filter: brightness(0.8);
+  filter: brightness(0.9);
 }
 .btn-outline-primary {
   background-color: white;
@@ -115,9 +135,7 @@ img {
   color: var(--color-primary);
   
 }
-.btn i {
-  
-}
+
 .btn-grad {
   background: var(--color-grad);
   border:2px solid var(--color-grad);
@@ -142,6 +160,17 @@ img {
   background-color: #d0d4d9;
   color: black;
 }
+.btn-icon-light {
+  text-align: center;
+  height:40px;
+}
+.btn-icon-light:hover {
+  background-color: var(--color-primary);
+}
+.btn-icon-light:hover i {
+  color: white;
+}
+
 .bg-dark {
   background-color: var(--bs-gray-dark);
   color: white;

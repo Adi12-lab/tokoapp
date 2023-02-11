@@ -24,6 +24,7 @@ $(document).ready(function() {
       }
     }
   });
+  
   //Dropdown Isotope
   let $grid = $('.grid.product').isotope({
     // options
@@ -79,6 +80,10 @@ $(document).ready(function() {
     });
 
   });
+  $('.btn.variant').click(function() {
+     $(this).siblings().removeClass("active");
+     $(this).addClass('active');
+  });
 });
 
 //Mengurangi (decrement)
@@ -116,4 +121,7 @@ function increment(element) {
     }
 
   });
+  
 }
+
+  

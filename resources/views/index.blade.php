@@ -161,7 +161,6 @@
       <h1 class="text-center">Galeri</h1>
     </div>
     <div class="animated-thumbnails-gallery daftar-galeri owl-carousel owl-theme">
-      
       <a href="img/home/gallery/gambar1.jpg " class="gallery-item">
         <img src="img/home/gallery/gambar1.jpg" class="item">
       </a>
