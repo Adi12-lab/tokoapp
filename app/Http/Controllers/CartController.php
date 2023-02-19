@@ -10,11 +10,29 @@ Use Alert;
 class CartController extends Controller
 {
    public function addCart(Request $request) {
-    $productId = intval($request->productId);
+   //dd($request->all());
+    $cartId = intval($request->cartId);
+    $productSize = $request->productSize;
+    $productVariant = $request->productVariant;
     $productPrice = intval($request->productPrice);
     $productQuantity = intval($request->productQuantity);
     $productName = $request->productName;
-    \Cart::add(["id" => $productId, "name" => $productName, "price" => $productPrice,"quantity" => $productQuantity, 'attributes' => array()]);
+    
+   $cek = \Cart::getContent()->firstWhere("name",$productName);
+   $queryAdd = [
+    "name" => $productName, 
+    "price" => $productPrice,
+    "quantity" => $productQuantity, 
+    'attributes' => array(
+      "size" => $productSize,
+      "variant"=> $productVariant
+    )];
+   if($cek->attributes->size == $productSize && $cek->attributes->variant == $productVariant) {
+     $queryAdd["id"] = $cek->id;
+   } else {
+     $queryAdd["id"] = $cartId;
+   }
+    \Cart::add($queryAdd);
     Alert::success('Berhasil', 'Barang telah ditambahkan ke keranjang...')->autoClose(3000);
     return back();
     // return $request;
@@ -22,30 +40,43 @@ class CartController extends Controller
 
    public function cartContent() {
     $cartCollection = \Cart::getContent();
-    $dataProduk = collect([]);
-    foreach($cartCollection as $collection) {
-        $dataProduk->push(collect(Product::find($collection->id))
-        ->merge([
+    $dataProduk = Product::with(["size", "variant"])->get();
+    
+    /*foreach($cartCollection as $collection) {
+    //dd(Product::find($collection->id)->with(["size", "variant"])->get());
+        $dataProduk->firstWhere("id", $collection->id)->selected = [
+        "size" => $collection->attributes->size,
+        "variant" => $collection->attributes->variant,
         "quantity" => $collection->quantity,
-        "priceSum" => $collection->price * $collection->quantity
-        ]));   
-    }
+        "priceSum" => $collection->price * $collection->quantity];
+    }*/
+    $cartCollection->each( function($item ,$key) use ($dataProduk){
+      $item->database_data = $dataProduk->firstWhere("name", $item->name);
+      $item->put("priceSum", $item->price * $item->quantity);
 
-    // dd($dataProduk);
+    });
+    
     return view("cart", [
-        "products" => $dataProduk,
-        "productCount" => $dataProduk->count()
+        "carts" => $cartCollection,
+        "productCount" => $cartCollection->count()
         ]);
     }
     
     public function deleteCart(Request $request) {
+    
         \Cart::remove($request->id);
         Alert::success('Barang telah dihapus dari keranjang')->autoClose(3000);
         return response($request->id, 200)
             ->header('Content-Type', 'text/plain');
     }
-    
-    public function degQuantity(Request $request) {
+    public function updateCart(Request $request) {
+      //alert()->success("Berhasil", "Keranjang telahb berhasil diupdate");
+      $dataCart =  collect($request->input()["request"])->where("id", 2);
+      
+      return response($dataCart, 200)
+            ->header('Content-Type', 'text/plain');
+    }
+    /*public function degQuantity(Request $request) {
       \Cart::update($request->id, array(
         "quantity" => -1
         ));
@@ -54,6 +85,6 @@ class CartController extends Controller
       \Cart::update($request->id, array(
         "quantity" => +1
         ));
-    }
+    }*/
     
 }

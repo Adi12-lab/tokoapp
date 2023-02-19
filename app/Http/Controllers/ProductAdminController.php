@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 class ProductAdminController extends Controller
@@ -14,6 +15,9 @@ class ProductAdminController extends Controller
   */
   public function index() {
     $products = Product::all();
+    foreach($products as $product) {
+      $product->deskripsi = htmlspecialchars_decode($product->deskripsi);
+    }
     return view("admin.product.index", [
       "products" => $products
     ]);
@@ -40,7 +44,6 @@ class ProductAdminController extends Controller
       "kelompok" => "required",
       "slug" => "required|max:225|unique:products",
       "stok" => "required|numeric",
-      "price" => "required|numeric",
       "deskripsi" => "required",
       "body" => "required"
     ]);
@@ -50,6 +53,12 @@ class ProductAdminController extends Controller
     $cradentials["body"] = htmlspecialchars($cradentials["body"]);
     
       Product::create($cradentials);
+      $fetchLagi = Product::firstWhere("slug", $cradentials["slug"]);
+      Size::insert([
+        "product_id" => $fetchLagi->id,
+        "price" => $request->price
+        ]);
+        
     
     return redirect("/metal/products")->with("success", "Produk Anda Telah berhasil ditambahkan");
   }
@@ -90,7 +99,6 @@ class ProductAdminController extends Controller
       "name" => "required|max:225",
       "kelompok" => "required",
       "stok" => "required|numeric",
-      "price" => "required|numeric",
       "deskripsi" => "required",
       "body" => "required"
     ];
@@ -98,6 +106,7 @@ class ProductAdminController extends Controller
         $rules["slug"] = "required|max:225|unique:products";
     }
     $cradentials = $request->validate($rules);
+    
     $cradentials["gambar"] = "Ahai";
       Product::where("id", $product->id)->update($cradentials);
     
@@ -112,6 +121,7 @@ class ProductAdminController extends Controller
   */
   public function destroy(Product $product) {
     Product::destroy($product->id);
+    Size::where("product_id", $product->id)->delete();
     return redirect("/metal/products")->with("success", "Produk Telah dihapus");
   }
 }

@@ -5,8 +5,9 @@
     <h1>Buat Produk</h1>
     <div class="row">
 
-      <form action="/metal/products" method="post">
+      <form action="/metal/products" method="post" enctype="multipart/form-data">
         @csrf
+
         <div class="mb-3">
           <label for="name" class="form-label">Nama Produk</label>
           <input type="text" class="form-control @error("name") is-invalid @enderror" value="{{old("name")}}" id="name" name="name">
@@ -62,6 +63,7 @@
           @enderror
           <trix-editor input="deskripsi"></trix-editor>
         </div>
+
         <div class="mb-3">
           <label for="body" class="form-label">Body</label>
           <input id="body" type="hidden" name="body" value="{{old("body")}}">

@@ -101,17 +101,17 @@ img {
   padding: 5px;
   vertical-align: middle;
 }
-.btn.variant {
+.btn.option {
   font-family: "Lato", Sans-Serif;
   padding: 3px 10px;
   color: var(--color-second);
   border-radius: 0;
 }
-.btn.variant:active {
+.btn.option:active {
   background-color: var(--color-primary);
   color: white;
 }
-.btn.variant.active {
+.btn.option.active {
   background-color: var(--color-primary);
   color: white;
 }
@@ -160,15 +160,12 @@ img {
   background-color: #d0d4d9;
   color: black;
 }
-.btn-icon-light {
-  text-align: center;
-  height:40px;
+.click-icon {
+  cursor: pointer;
+  font-size: 30px;
 }
-.btn-icon-light:hover {
-  background-color: var(--color-primary);
-}
-.btn-icon-light:hover i {
-  color: white;
+.click-icon:hover i {
+  color: red;
 }
 
 .bg-dark {
@@ -344,27 +341,32 @@ backdrop-filter: blur(5px);
   font-family: "Lato", sans-serif;
   color: var(--color-second);
 }
-
+/* Dropdowns*/
 .sort.dropdown .btn span {
   font-family: "Lato", sans-serif;
   font-size: 14px;
   color: #777777;
 }
-.sort.dropdown .dropdown-item {
+.my-dropdown-toggle::after {
+    content: none;
+}
+.dropdown-item i {
+  margin-right: 10px ;
+}
+.dropdown-item {
   font-family: "Lato", sans-serif;
   color: #7E7E7E;
   font-size: 13px;
 }
-.sort.dropdown .dropdown-item:hover {
+.dropdown-item:hover {
   background-color: var(--color-succes);
   color: white;
 }
-.sort.dropdown .dropdown-item i {
-  color: var(--color-succes);
-  font-size: 15px;
-  margin-right: 4px;
-}
 
+
+.cart.dropdown {
+  width: max-content;
+}
 /*Footer*/
 
 footer {
@@ -374,6 +376,26 @@ footer {
 }
 footer .widget {
   background: var(--color-grad);
+}
+
+.body-product {
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+}
+.body-product .nav-tabs {
+  border: 0;
+}
+.body-product .nav-tabs .nav-link {
+  margin-right: 5px;
+  transition: all 0.2s ease 0s;
+  border-radius:30px;
+}
+.body-product .nav-tabs .nav-link.current {
+  border: 1px solid #e9ecef;
+transform: translateY(-4px);
+}
+.body-product .nav-tabs .nav-link:hover{
+  transform:translateY(-4px);
 }
 
 .quantity-form{
@@ -401,6 +423,8 @@ footer .widget {
 .cart-head span {
   color: var(--bs-gray-dark);
 }
+
+
 
 @media screen and (min-width : 576px ) {
   .container {

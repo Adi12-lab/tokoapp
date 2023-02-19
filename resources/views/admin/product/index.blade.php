@@ -23,6 +23,7 @@
             </p>
             <a href="/metal/products/{{$product->slug}}" class="btn btn-primary">Detail</a>
             <a href="/metal/products/{{$product->slug}}/edit" class="btn btn-warning">Edit</a>
+            <a href="/metal/products/{{$product->slug}}/size" class="btn btn-info">Sizes</a>
             <form action="/metal/products/{{$product->slug}}" method="post" class="d-inline">
               @csrf
               @method("delete")

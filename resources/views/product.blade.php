@@ -33,16 +33,20 @@
                   <p class="product-text">
                     {!! $product->deskripsi !!}
                   </p>
-                  <span class="product-price fs-2" data-price="{{ $product->price }}">Rp.
-                    {{ rupiah($product->price)}}</span>
+                
+                  <span class="product-price fs-2" data-price="{{ $product->size[0]->price ?? 0 }}">
+                    Rp. {{rupiah($product->size[0]->price ?? 0)}}</span>
                   <span class="product-price-old text-decoration-line-through">Rp.
-                    {{ $product->price }}</span>
+                    {{ $product->size[0]->old_price ?? ""}}</span>
                   <div class="product-bottom mt-2">
                     <form action="{{ route('productIndex.addCart') }}" method="POST">
                       @csrf
-                      <input type="hidden" name="productId" value="{{ $product->id }}">
+                      <input type="hidden" name="cartId" value="{{ rand(100,500) }}">
                       <input type="hidden" name="productName" value="{{ $product->name }}">
-                      <input type="hidden" name="productPrice" value="{{ $product->price }}">
+                      <input type="hidden" name="productSize" value="{{$product->size[0]->name ?? ""}}">
+                      
+                      <input type="hidden" name="productPrice" value="{{ $product->size[0]->price ?? "" }}">
+                      <input type="hidden" name="productVariant" value="{{ $product->variant[0]->name ?? "" }}">
                       <input type="hidden" name="productQuantity" value="1">
                       <button type="submit" name="submit" class="btn btn-outline-warning"><i
                         class="bi bi-cart text-warning"></i> Tambahkan ke

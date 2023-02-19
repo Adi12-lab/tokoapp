@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Product;
-use App\Models\Variant;
+use App\Models\Colour;
 
 class ProductController extends Controller
 {
@@ -24,6 +24,7 @@ class ProductController extends Controller
     $product["deskripsi"] = htmlspecialchars_decode($product["deskripsi"]);
     
     $product["body"] = htmlspecialchars_decode($product["body"]);
+    
     return view("detailProduct", [
       "product" => $product
     ]);
