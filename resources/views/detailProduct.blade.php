@@ -14,7 +14,8 @@
         </div>
       </div>
       <div class="col-md-6">
-        <h2 class="mt-4">{{$product->name}}</h2>
+        <h2 class="mt-4 productName">{{$product->name}}</h2>
+        <input class = "cartId"type="hidden" value="{{rand(100, 500)}}">
         <span class="product-price fs-2">Rp. {{rupiah($product->price)}}</span>
         <span class="product-price-old text-decoration-line-through fs-5">Rp. {{rupiah($product->price)}}</span>
         <p class="product-text">
@@ -26,26 +27,26 @@
           <div>
             @foreach($product->variant as $var)
             @if($loop->first)
-            <a class="btn option active">{{$var->name}}</a>
+            <a class="btn option variant active" data-variant = "{{$var->name}}">{{$var->name}}</a>
             @continue
             @endif
-            <a class="btn option">{{$var->name}}</a>
+            <a class="btn option variant" data-variant="{{$var->name}}">{{$var->name}}</a>
             @endforeach
           </div>
         </div>
         @endif
 
         @isset($product->size[0]->name)
-        <div class="row my-3">
+        <div class="row size my-3">
           <span class="font-dark fw-bold">Ukuran : </span>
           <div>
 
             @foreach($product->size as $siz)
             @if($loop->first)
-            <a class="btn option active">{{$siz->name}} : {{rupiah($siz->price ?? 0)}}</a>
+            <a class="btn option size active" data-size = "{{$siz->name}}" data-price-size = "{{$size->name->price}}">{{$siz->name}} : {{rupiah($siz->price ?? 0)}}</a>
             @continue
             @endif
-            <a class="btn option">{{$siz->name}} : {{rupiah($siz->price?? 0)}} </a>
+            <a class="btn option size" data-size="{{$siz->name}}" data-price-size = "{{$size->name->price}}">{{$siz->name}} : {{rupiah($siz->price?? 0)}} </a>
             @endforeach
           </div>
         </div>
@@ -55,7 +56,7 @@
             <button class="btn minus btn-outline-secondary px-3 rounded-0" onclick="decrement(this)">-</button>
             <input type="number" class="form-control quantity-form rounded-0" value="1">
             <button class="btn plus btn-outline-success px-3 rounded-0" onclick="increment(this)">+</button>
-            <button class="btn btn-primary px-3 py-2 ms-3"><i
+            <button class="btn btn-primary px-3 py-2 ms-3 checkout"><i
               class="bi bi-cart"></i> Keranjang</button>
             <span class="click-icon ">
               <i class="fa-regular fa-heart"></i>

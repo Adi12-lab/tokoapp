@@ -10,7 +10,7 @@ use App\Models\Colour;
 class ProductController extends Controller
 {
   public function index(Request $request) {
-    $products = Product::all();
+    $products = Product::with(["size", "variant"])->get();
     for ($i = 0; $i < count($products); $i++) {
       $products[$i]["deskripsi"] = htmlspecialchars_decode($products[$i]["deskripsi"]);
     }

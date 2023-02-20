@@ -1,7 +1,6 @@
 @extends("layouts.main")
 @section('isi')
 <section>
-
   <div class="container">
     <div class="row">
       <h1 class="mt-3">Keranjang Anda</h1>

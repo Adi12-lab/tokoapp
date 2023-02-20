@@ -30,8 +30,6 @@
     @include("partials/footer")
     
     
-   <script src="//cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script src="{{asset("js/bootstrap.bundle.js");}}"></script>
      <script src="{{asset("js/jquery.js");}}"></script>

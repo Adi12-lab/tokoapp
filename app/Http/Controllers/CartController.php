@@ -27,29 +27,27 @@ class CartController extends Controller
       "size" => $productSize,
       "variant"=> $productVariant
     )];
-   if($cek->attributes->size == $productSize && $cek->attributes->variant == $productVariant) {
-     $queryAdd["id"] = $cek->id;
-   } else {
-     $queryAdd["id"] = $cartId;
-   }
+  if(isset($cek)) {
+    if($cek->attributes->size == $productSize && $cek->attributes->variant == $productVariant) {
+      $queryAdd["id"] = $cek->id;
+    } else {
+      $queryAdd["id"] = $cartId;
+    	 }
+    }
+  else {
+    $queryAdd["id"] = $cartId;
+  }
     \Cart::add($queryAdd);
-    Alert::success('Berhasil', 'Barang telah ditambahkan ke keranjang...')->autoClose(3000);
-    return back();
-    // return $request;
-   }
+     Alert::success('Berhasil', 'Barang telah ditambahkan ke keranjang...')->autoClose(3000);
+     return back();
+     // return $request;
+  }
+   
 
    public function cartContent() {
     $cartCollection = \Cart::getContent();
     $dataProduk = Product::with(["size", "variant"])->get();
-    
-    /*foreach($cartCollection as $collection) {
-    //dd(Product::find($collection->id)->with(["size", "variant"])->get());
-        $dataProduk->firstWhere("id", $collection->id)->selected = [
-        "size" => $collection->attributes->size,
-        "variant" => $collection->attributes->variant,
-        "quantity" => $collection->quantity,
-        "priceSum" => $collection->price * $collection->quantity];
-    }*/
+
     $cartCollection->each( function($item ,$key) use ($dataProduk){
       $item->database_data = $dataProduk->firstWhere("name", $item->name);
       $item->put("priceSum", $item->price * $item->quantity);
@@ -71,10 +69,13 @@ class CartController extends Controller
     }
     public function updateCart(Request $request) {
       //alert()->success("Berhasil", "Keranjang telahb berhasil diupdate");
-      $dataCart =  collect($request->input()["request"])->where("id", 2);
+      $dataCart =  collect($request->input()["request"]);
+      if($dataCart->duplicates("name")) {
+        return response($dataCart, 200)
+        ->header('Content-Type', 'text/plain');
+      }
       
-      return response($dataCart, 200)
-            ->header('Content-Type', 'text/plain');
+     
     }
     /*public function degQuantity(Request $request) {
       \Cart::update($request->id, array(

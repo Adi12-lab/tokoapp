@@ -1,4 +1,4 @@
-Enter password: 
+
 -- MariaDB dump 10.19  Distrib 10.10.2-MariaDB, for Android (aarch64)
 --
 -- Host: localhost    Database: toko
