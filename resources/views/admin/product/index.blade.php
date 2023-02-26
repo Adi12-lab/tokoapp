@@ -27,14 +27,14 @@
             <form action="/metal/products/{{$product->slug}}" method="post" class="d-inline">
               @csrf
               @method("delete")
-              <button class="btn btn-danger" type="submit">Hapus</button>
+              <button class="btn btn-danger" type="submit">Delete</button>
             </form>
           </div>
         </div>
       </div>
       @endforeach
     </div>
-
+    
   </div>
-</section>
-@endsection
+  </section>
+  @endsection

@@ -30,24 +30,24 @@
                 <div class="card-body">
                   <a class="product-title d-block"
                     href="/produk/{{ $product->slug }}">{{ $product->name }}</a>
-                  <p class="product-text">
-                    {!! $product->deskripsi !!}
-                  </p>
-                
                   <span class="product-price fs-2" data-price="{{ $product->size[0]->price ?? 0 }}">
                     Rp. {{rupiah($product->size[0]->price ?? 0)}}</span>
                   <span class="product-price-old text-decoration-line-through">Rp.
                     {{ $product->size[0]->old_price ?? ""}}</span>
+                  <div class="product-text">
+                    {!! $product->deskripsi !!}
+                  </div>
+
                   <div class="product-bottom mt-2">
                     <form action="{{ route('productIndex.addCart') }}" method="POST">
                       @csrf
-                      <input type="hidden" name="cartId" value="{{ rand(100,500) }}">
-                      <input type="hidden" name="productName" value="{{ $product->name }}">
-                      <input type="hidden" name="productSize" value="{{$product->size[0]->name ?? ""}}">
-                      
-                      <input type="hidden" name="productPrice" value="{{ $product->size[0]->price ?? "" }}">
-                      <input type="hidden" name="productVariant" value="{{ $product->variant[0]->name ?? "" }}">
-                      <input type="hidden" name="productQuantity" value="1">
+                      <input type="hidden" name="id" value="{{ rand(100,500) }}">
+                      <input type="hidden" name="name" value="{{ $product->name }}">
+                      <input type="hidden" name="size" value="{{$product->size[0]->name ?? ""}}">
+
+                      <input type="hidden" name="price" value="{{ $product->size[0]->price ?? "" }}">
+                      <input type="hidden" name="variant" value="{{ $product->variant[0]->name ?? "" }}">
+                      <input type="hidden" name="quantity" value="1">
                       <button type="submit" name="submit" class="btn btn-outline-warning"><i
                         class="bi bi-cart text-warning"></i> Tambahkan ke
                         Keranjang</button>

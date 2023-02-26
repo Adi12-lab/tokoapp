@@ -5,7 +5,7 @@
     <div class="row">
       <h1 class="mt-3">Keranjang Anda</h1>
       <p class="bg-red" style="width:max-content;">
-        Kami menemukan <span class="text-success">{{$productCount}}</span> produk di keranjang anda..
+        Kami menemukan <span class="text-success">{{$countCart}}</span> produk di keranjang anda..
       </p>
       <button class="btn clearCart ms-auto" onclick="clearCart()"><i class="fa-solid fa-trash-can"></i> Clear cart</button>
     </div>

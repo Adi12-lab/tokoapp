@@ -22,7 +22,8 @@ use Illuminate\Http\Request;
 
 Route::get('/', function () {
   return view("index", [
-    "products" => Product::all()
+    "products" => Product::all(),
+    "countCart" => \Cart::getContent()->count()
   ]);
 });
 
@@ -33,6 +34,7 @@ Route::controller(CartController::class)->group(function() {
   Route::get("/cart", "cartContent");
   Route::post("/deleteCart", "deleteCart");
   Route::post("/updateCart", "updateCart");
+  Route::get("/testCart", "testCart");
   
 });
 

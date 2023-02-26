@@ -173,7 +173,7 @@ img {
   color: white;
 }
 .bg-success {
-  background-color: var(--color-succes);
+  background-color: var(--color-succes) !important;
 }
 .bg-grad {
   background: var(--color-grad);
@@ -182,7 +182,6 @@ img {
 .bg-grad2 {
   background: rgb(255,180,11);
   background: linear-gradient(290deg, rgba(255,180,11,1) 3%, rgba(240,110,12,1) 78%);
-
 }
 .pre-title {
   font-family: "Playfair Display", cursive;
@@ -337,7 +336,7 @@ backdrop-filter: blur(5px);
   font-weight: 700;
   color: var(--color-second);
 }
-.product-text {
+.product-text > div {
   font-family: "Lato", sans-serif;
   color: var(--color-second);
 }
@@ -382,19 +381,17 @@ footer .widget {
   border: 1px solid #e9ecef;
   border-radius: 10px;
 }
-.body-product .nav-tabs {
-  border: 0;
-}
-.body-product .nav-tabs .nav-link {
+
+.body-product .nav-body .nav-link {
   margin-right: 5px;
   transition: all 0.2s ease 0s;
   border-radius:30px;
 }
-.body-product .nav-tabs .nav-link.current {
+.body-product .nav-body .nav-link.current {
   border: 1px solid #e9ecef;
 transform: translateY(-4px);
 }
-.body-product .nav-tabs .nav-link:hover{
+.body-product .nav-body .nav-link:hover{
   transform:translateY(-4px);
 }
 

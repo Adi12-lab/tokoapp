@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Size;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductAdminController extends Controller
 {
@@ -15,7 +16,7 @@ class ProductAdminController extends Controller
   */
   public function index() {
     $products = Product::all();
-    foreach($products as $product) {
+    foreach ($products as $product) {
       $product->deskripsi = htmlspecialchars_decode($product->deskripsi);
     }
     return view("admin.product.index", [
@@ -39,27 +40,33 @@ class ProductAdminController extends Controller
   * @return \Illuminate\Http\Response
   */
   public function store(Request $request) {
-    $cradentials = $request->validate([
+    $cradentials = Validator::make($request->all(), [
       "name" => "required|max:225",
       "kelompok" => "required",
       "slug" => "required|max:225|unique:products",
       "stok" => "required|numeric",
+      "price" => "required|numeric",
       "deskripsi" => "required",
       "body" => "required"
     ]);
+    if ($cradentials->fails()) {
+      return redirect('/metal/products/create')
+      ->withErrors($cradentials)
+      ->withInput();
+    }
+    $validated = $cradentials->validated();
+    $validated["gambar"]= "Ahai";
+    $validated["deskripsi"] = htmlspecialchars($validated["deskripsi"]);
+    $validated["body"] = htmlspecialchars($validated["body"]);
 
-    $cradentials["gambar"] = "Ahai";
-    $cradentials["deskripsi"] = htmlspecialchars($cradentials["deskripsi"]);
-    $cradentials["body"] = htmlspecialchars($cradentials["body"]);
-    
-      Product::create($cradentials);
-      $fetchLagi = Product::firstWhere("slug", $cradentials["slug"]);
-      Size::insert([
-        "product_id" => $fetchLagi->id,
-        "price" => $request->price
-        ]);
-        
-    
+    Product::create($validated);
+    $fetchLagi = Product::firstWhere("slug", $validated["slug"]);
+    Size::insert([
+      "product_id" => $fetchLagi->id,
+      "price" => $request->price
+    ]);
+
+
     return redirect("/metal/products")->with("success", "Produk Anda Telah berhasil ditambahkan");
   }
 
@@ -69,7 +76,8 @@ class ProductAdminController extends Controller
   * @param  \App\Models\Product  $product
   * @return \Illuminate\Http\Response
   */
-  public function show(Product $product) {//Langsung diquery
+  public function show(Product $product) {
+    //Langsung diquery
     return redirect("/produk");
   }
 
@@ -80,11 +88,11 @@ class ProductAdminController extends Controller
   * @return \Illuminate\Http\Response
   */
   public function edit(Product $product) {
-  $product["deskripsi"] = htmlspecialchars_decode($product["deskripsi"]);
-  $product["body"] = htmlspecialchars_decode($product["body"]);
+    $product["deskripsi"] = htmlspecialchars_decode($product["deskripsi"]);
+    $product["body"] = htmlspecialchars_decode($product["body"]);
     return view("admin.product.edit", [
       "product" => $product
-      ]);
+    ]);
   }
 
   /**
@@ -102,14 +110,14 @@ class ProductAdminController extends Controller
       "deskripsi" => "required",
       "body" => "required"
     ];
-    if($product->slug != $request->slug) {
-        $rules["slug"] = "required|max:225|unique:products";
+    if ($product->slug != $request->slug) {
+      $rules["slug"] = "required|max:225|unique:products";
     }
     $cradentials = $request->validate($rules);
     
     $cradentials["gambar"] = "Ahai";
-      Product::where("id", $product->id)->update($cradentials);
-    
+    Product::where("id", $product->id)->update($cradentials);
+
     return redirect("/metal/products")->with("success", "Produk Anda Telah berhasil diperbarui");
   }
 

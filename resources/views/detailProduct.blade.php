@@ -15,26 +15,26 @@
       </div>
       <div class="col-md-6">
         <h2 class="mt-4 productName">{{$product->name}}</h2>
-        <input class = "cartId"type="hidden" value="{{rand(100, 500)}}">
-        <span class="product-price fs-2">Rp. {{rupiah($product->price)}}</span>
-        <span class="product-price-old text-decoration-line-through fs-5">Rp. {{rupiah($product->price)}}</span>
+        <input class="cartId" type="hidden" value="{{rand(100, 500)}}">
+        <span class="product-price fs-2">Rp. {{rupiah($product->size[0]->price)}}</span>
+        <span class="product-price-old text-decoration-line-through fs-5">Rp. {{rupiah($product->size[0]->old_price)}}</span>
         <p class="product-text">
           {!! $product->deskripsi !!}
         </p>
-        @if(count($product->variant) > 0)
+        @isset($product->variant[0]->name)
         <div class="row">
           <span class="font-dark fw-bold">Variant : </span>
           <div>
             @foreach($product->variant as $var)
             @if($loop->first)
-            <a class="btn option variant active" data-variant = "{{$var->name}}">{{$var->name}}</a>
+            <a class="btn option variant active" data-variant="{{$var->name}}">{{$var->name}}</a>
             @continue
             @endif
             <a class="btn option variant" data-variant="{{$var->name}}">{{$var->name}}</a>
             @endforeach
           </div>
         </div>
-        @endif
+        @endisset
 
         @isset($product->size[0]->name)
         <div class="row size my-3">
@@ -43,10 +43,10 @@
 
             @foreach($product->size as $siz)
             @if($loop->first)
-            <a class="btn option size active" data-size = "{{$siz->name}}" data-price-size = "{{$size->name->price}}">{{$siz->name}} : {{rupiah($siz->price ?? 0)}}</a>
+            <a class="btn option size active" data-size="{{$siz->name}}" data-price-size="{{$siz->price}}">{{$siz->name}} : {{rupiah($siz->price ?? 0)}}</a>
             @continue
             @endif
-            <a class="btn option size" data-size="{{$siz->name}}" data-price-size = "{{$size->name->price}}">{{$siz->name}} : {{rupiah($siz->price?? 0)}} </a>
+            <a class="btn option size" data-size="{{$siz->name}}" data-price-size="{{$siz->price}}">{{$siz->name}} : {{rupiah($siz->price?? 0)}} </a>
             @endforeach
           </div>
         </div>
@@ -65,22 +65,33 @@
         </div>
       </div>
     </div>
-    <div class="row mt-3">
+    <div class="row my-3">
       <div class="col body-product">
-        <ul class="nav nav-tabs mt-4 mb-3">
+        <ul class="nav nav-body mt-4 mb-3">
           <li class="nav-item">
-            <a id="description" href="" class="nav-link current">Description</a>
+            <a class="nav-link current" data-body="body-description">Description</a>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link">Gallery</a>
+            <a class="nav-link" data-body="body-gallery">Gallery</a>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link">Reviews</a>
+            <a class="nav-link" data-body="body-reviews">Reviews</a>
           </li>
         </ul>
-        <div class="all-lato-font">
-          {!! $product->body!!}
-        </div>
+
+          <div class="all-lato-font body-description body-content">
+            {!! $product->body!!}
+          </div>
+          <div class="animated-thumbnails-gallery d-none body-gallery body-content">
+            @foreach($product->productGallery->where("jenis", "gallery") as $gallery)
+            <a href="/img/productGallery/{{$gallery->gambar}}" class="gallery-item">
+              <img src="{{asset('img/productGallery/'.$gallery->gambar)}}" class="item">
+            </a>
+            @endforeach
+          </div>
+          <div class="body-reviews d-none body-content">
+            Reviews
+          </div>
       </div>
     </div>
   </div>
