@@ -72,8 +72,3 @@ Route::post("/metal/products/size/update", function(Request $request) {
     ]);
   return back()->with("success", "Size telah diupdate");
 });
-
-Route::post("/uploadImg", function(Request $request) {
-  $file = $request->file("file");
-  
-});

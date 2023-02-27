@@ -54,6 +54,16 @@
           @enderror
         </div>
         <div class="mb-3">
+          <label for="image" class="form-label">Gambar</label>
+          <img class="img-preview d-block mb-3" style="width:500px;">
+          <input type="file" class="form-control @error("image") is-invalid @enderror" id="image" name="image" onchange="previewImage()">
+          @error("image")
+          <div class="invalid-feedback">
+            {{$message}}
+          </div>
+          @enderror
+        </div>
+        <div class="mb-3">
           <label for="deskripsi" class="form-label">Deskripsi</label>
           <input id="deskripsi" type="hidden" name="deskripsi" value="{{old("deskripsi")}}">
           @error("deskripsi")

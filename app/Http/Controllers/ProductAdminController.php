@@ -40,11 +40,13 @@ class ProductAdminController extends Controller
   * @return \Illuminate\Http\Response
   */
   public function store(Request $request) {
+
     $cradentials = Validator::make($request->all(), [
       "name" => "required|max:225",
       "kelompok" => "required",
       "slug" => "required|max:225|unique:products",
       "stok" => "required|numeric",
+      "gambar" => "image|file|max:1024",
       "price" => "required|numeric",
       "deskripsi" => "required",
       "body" => "required"
@@ -55,7 +57,9 @@ class ProductAdminController extends Controller
       ->withInput();
     }
     $validated = $cradentials->validated();
-    $validated["gambar"]= "Ahai";
+    if($request->file("image")) {
+      $validated["gambar"] = $request->file("image")->store("product");
+    }
     $validated["deskripsi"] = htmlspecialchars($validated["deskripsi"]);
     $validated["body"] = htmlspecialchars($validated["body"]);
 
@@ -107,6 +111,7 @@ class ProductAdminController extends Controller
       "name" => "required|max:225",
       "kelompok" => "required",
       "stok" => "required|numeric",
+      "image" => "image|file|max:1024",
       "deskripsi" => "required",
       "body" => "required"
     ];
@@ -115,7 +120,6 @@ class ProductAdminController extends Controller
     }
     $cradentials = $request->validate($rules);
     
-    $cradentials["gambar"] = "Ahai";
     Product::where("id", $product->id)->update($cradentials);
 
     return redirect("/metal/products")->with("success", "Produk Anda Telah berhasil diperbarui");

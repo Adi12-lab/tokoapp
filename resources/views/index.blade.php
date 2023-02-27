@@ -133,7 +133,7 @@
       @foreach($products as $product)
       <div class="col-md-4">
         <div class="card border-0">
-          <img src="img/product/{{$product->gambar}}" class="card-img-top rounded-4" alt="...">
+          <img src="img/product/{{$product->image}}" class="card-img-top rounded-4" alt="...">
           <div class="card-body p-2">
             <a class="product-title d-inline-block fs-4">{{$product->name}}</a>
             <div>

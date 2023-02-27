@@ -15,7 +15,7 @@
       @foreach($products as $product)
       <div class="col-md-4">
         <div class="card mb-3">
-          <img src="{{asset('img/product/'.$product->gambar)}}" class="card-img-top">
+          <img src="{{asset('storage/'.$product->gambar)}}" class="card-img-top">
           <div class="card-body">
             <h5 class="card-title">{{$product->name}}</h5>
             <p class="product-text">
@@ -24,6 +24,7 @@
             <a href="/metal/products/{{$product->slug}}" class="btn btn-primary">Detail</a>
             <a href="/metal/products/{{$product->slug}}/edit" class="btn btn-warning">Edit</a>
             <a href="/metal/products/{{$product->slug}}/size" class="btn btn-info">Sizes</a>
+            <a href="/metal/products/{{$product->slug}}/images" class="btn btn-secondary">Images</a>
             <form action="/metal/products/{{$product->slug}}" method="post" class="d-inline">
               @csrf
               @method("delete")
