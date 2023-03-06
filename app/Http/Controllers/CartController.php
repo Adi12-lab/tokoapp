@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-Use Alert;
-
+use Alert;
+use App\Http\Controllers\RajaOngkirController;
 
 class CartController extends Controller
 {
@@ -60,10 +60,13 @@ class CartController extends Controller
       $item->put("priceSum", $item->price * $item->quantity);
 
     });
-
+    $provinsi = collect(json_decode(RajaOngkirController::get_province()));
+    $provinsi = $provinsi["rajaongkir"]->results;
+    
     return view("cart", [
       "carts" => $cartCollection,
-      "countCart" => $cartCollection->count()
+      "countCart" => $cartCollection->count(),
+      "provinsi" => $provinsi
     ]);
   }
 
@@ -74,6 +77,7 @@ class CartController extends Controller
     return response($request->id, 200)
     ->header('Content-Type', 'text/plain');
   }
+  
   public function updateCart(Request $request) {
     //alert()->success("Berhasil", "Keranjang telahb berhasil diupdate");
     $product = Product::all();
@@ -131,8 +135,10 @@ class CartController extends Controller
   "quantity" => +1
   ));
     }*/
-
-
+  public function clearCart() {
+    \Cart::clear();
+  }
+  
   public function testCart() {
     $dataCart = collect([
       [

@@ -1,11 +1,11 @@
 @extends("layouts.main")
 @section("isi")
 <section>
-  <div class="container-md">
+  <div class="container-md">  
+    {{ Breadcrumbs::render('produk.name', $product) }}
     <div class="row">
       <div class="col-md-6">
-        <div id="sync1" class="owl-carousel owl-theme mt-4">
-
+        <div id="sync1" class="owl-carousel owl-theme">
           @foreach($product->productGallery->where("jenis","carousel") as $crl)
           <div class="item">
             <img src="{{asset("img/productCarousel/".$crl->gambar)}}" class="img-thumbnail" alt="{{$crl->name}}">

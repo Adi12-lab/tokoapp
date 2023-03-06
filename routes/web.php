@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductAdminController;
+use App\Http\Controllers\RajaOngkirController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 /*
@@ -25,17 +26,17 @@ Route::get('/', function () {
     "products" => Product::all(),
     "countCart" => \Cart::getContent()->count()
   ]);
-});
+})->name("home");
 
-Route::get("/produk", [ProductController::class, "index"]);
-Route::get("/produk/{slug}", [ProductController::class, "detail"]);
+Route::get("/produk", [ProductController::class, "index"])->name("produk");
+Route::get("/produk/{slug}", [ProductController::class, "detail"])->name("produk.name");
 Route::controller(CartController::class)->group(function() {
   Route::post("/addCart", "addCart")->name("productIndex.addCart");
-  Route::get("/cart", "cartContent");
+  Route::get("/cart", "cartContent")->name("cart");
   Route::post("/deleteCart", "deleteCart");
   Route::post("/updateCart", "updateCart");
+  Route::get("/clearCart", "clearCart");
   Route::get("/testCart", "testCart");
-  
 });
 
 Route::controller(UserController::class)->group(function() {
@@ -45,6 +46,12 @@ Route::controller(UserController::class)->group(function() {
   Route::post("/metal", "logout")->name("logout");
 
 });
+
+Route::controller(RajaOngkirController::class)->group(function() {
+  Route::get("/getProvince", "get_province");
+  Route::get("/getCity", "get_city");
+});
+
 
 Route::resource("/metal/products", ProductAdminController::class)->middleware("auth");
 

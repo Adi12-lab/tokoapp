@@ -45,6 +45,15 @@
           @enderror
         </div>
         <div class="mb-3">
+          <label for="weight" class="form-label">Weight</label>
+          <input type="number" class="form-control @error("stok") is-invalid @enderror" value="{{old("stok")}}" id="weight" name="weight">
+          @error("stok")
+          <div class="invalid-feedback">
+            {{$message}}
+          </div>
+          @enderror
+        </div>
+        <div class="mb-3">
           <label for="price" class="form-label">Harga</label>
           <input type="text" class="form-control @error("price") is-invalid @enderror" value="{{old("price")}}" id="price" name="price">
           @error("price")

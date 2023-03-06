@@ -3,6 +3,7 @@
 @section('isi')
 <section>
   <div class="container-fluid">
+    {{ Breadcrumbs::render('produk') }}
     <div class="row">
       <div class="col-lg-10">
         <div class="sort dropdown mb-3">

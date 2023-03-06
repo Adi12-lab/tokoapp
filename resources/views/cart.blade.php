@@ -2,6 +2,7 @@
 @section('isi')
 <section>
   <div class="container">
+    {{ Breadcrumbs::render('cart') }}
     <div class="row">
       <h1 class="mt-3">Keranjang Anda</h1>
       <p class="bg-red" style="width:max-content;">
@@ -33,17 +34,17 @@
         <div class="row cart-row">
           <input type="hidden" class="cart-id form-control" value="{{$cart->id}}">
           <div class="col-md-2 cart-col">
-            <img src="img/product/{{$cart->database_data->gambar}}" alt=""
+            <img src="img/product/{{$cart->database_data->gambar}}"
             >
           </div>
           <div class="col-md-3 text-center py-3">
             <h4 class="cart-title">{{$cart->name}}</h4>
             <div class="row g-2 justify-content-center">
-                @isset($cart->attributes["size"])
+              @isset($cart->attributes["size"])
               <div class="cart dropdown size">
                 <button class="btn border-success px-3" type="button"
                   data-bs-toggle="dropdown" aria-expanded="false">
-                  <span class="dropdown-html" data-select-drop = "{{$cart->attributes->size}}">{{$cart->attributes->size}}</span>
+                  <span class="dropdown-html" data-select-drop="{{$cart->attributes->size}}">{{$cart->attributes->size}}</span>
                 </button>
                 <ul class="dropdown-menu">
                   @foreach($cart->database_data->size as $size)
@@ -52,20 +53,20 @@
                   @endforeach
                 </ul>
               </div>
-                @endisset
-                @isset($cart->attributes["variant"])
+              @endisset
+              @isset($cart->attributes["variant"])
               <div class="cart dropdown variant">
                 <button class="btn border-danger px-3" type="button"
                   data-bs-toggle="dropdown" aria-expanded="false">
-                  <span class="dropdown-html" data-select-drop= "{{$cart->attributes->variant ?? ""}}">{{$cart->attributes->variant??""}}</span>
+                  <span class="dropdown-html" data-select-drop="{{$cart->attributes->variant ?? ""}}">{{$cart->attributes->variant??""}}</span>
                 </button>
                 <ul class="dropdown-menu">
                   @foreach($cart->database_data->variant as $variant)
-                  <li><a class="dropdown-item" data-dropdown="{{$variant->name}}" ><i class="bi bi-check-lg {{$cart->attributes->variant == $variant->name ? "": "invisible"}}"></i> {{$variant->name}}</a></li>
+                  <li><a class="dropdown-item" data-dropdown="{{$variant->name}}"><i class="bi bi-check-lg {{$cart->attributes->variant == $variant->name ? "": "invisible"}}"></i> {{$variant->name}}</a></li>
                   @endforeach
                 </ul>
               </div>
-                @endisset
+              @endisset
             </div>
 
           </div>
@@ -88,8 +89,50 @@
       @endforeach
     </div>
     <div class="row">
-      <a href="/produk" class="btn btn-primary px-3 mt-3"><i class="fa-regular fa-circle-left"></i> Lanjut Belanja</a>
-      <a  class="btn btn-primary px-3 mt-3 ms-auto update-cart"><i class="fa-solid fa-rotate"></i> Update Keranjang</a>
+      <div class="col d-flex">
+        <a href="/produk" class="btn btn-primary px-3 mt-3"><i class="fa-regular fa-circle-left"></i> Lanjut Belanja</a>
+        <a class="btn btn-primary px-3 mt-3 ms-auto update-cart"><i class="fa-solid fa-rotate"></i> Update Keranjang</a>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col">
+        <div class="card p-4">
+          <h3>Data penerima</h3>
+          <div class="mb-3">
+            <label for="nama" class="form-label">Nama Penerima</label>
+            <input type="text" class="form-control" id="nama">
+          </div>
+          <div class="mb-3">
+            <div class="dropdown residence province">
+              <button class="btn dropdown-toggle border w-100 text-start px-4 py-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Pilih provinsi
+              </button>
+              <div class="dropdown-menu w-100 p-3">
+                <input type="text" class="dropdown-input form-control py-1">
+                <ul class="dropdown-menu-body mt-2">
+                  <li class="drop-list active">Pilih Provinsi</li>
+                  @foreach($provinsi as $prov)
+                  <li class="drop-list" data-id="{{$prov->province_id}}">{{$prov->province}}</li>
+                  @endforeach
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="dropdown residence city">
+              <button class="btn dropdown-toggle border w-100 text-start px-4 py-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Pilih Kabupaten/Kota
+              </button>
+              <div class="dropdown-menu w-100 p-3">
+                <input type="text" class="dropdown-input form-control py-1">
+                <ul class="dropdown-menu-body mt-2">
+                  <li class="drop-list active">Pilih kota</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

@@ -87,6 +87,7 @@ $(document).ready(function () {
     }
     $(this).children().removeClass("invisible"); // tag i
   });
+//----AFWAJA SHOP CART-----
 
   //Menghapus cart
   $(".removeCart").click(function (e) {
@@ -110,6 +111,8 @@ $(document).ready(function () {
       },
     });
   });
+  
+  //Update Cart
   $(".update-cart").click(function () {
     let allCart = [];
     $(".cart-id").each(function (i, e) {
@@ -147,6 +150,75 @@ $(document).ready(function () {
       },
     });
   });
+  
+
+  const orginalDrop = [];
+  $(".drop-list").each(function(i,item) {
+    orginalDrop.push([$(item).data("id"), $(item).text()]);
+  });
+  
+  $('.dropdown-menu-body').on('click', '.drop-list',function(e) {
+    //Ambil saudaranya, dan hilangkan kelas active
+    $(this).siblings('.drop-list').removeClass('active');
+    const drop_list = $(this).text();
+    //Ambil orangtuanya(residence) dan temukan dropdown-toggle yang spesifik
+    $(this).parents(".residence").find('.dropdown-toggle').html(drop_list);
+    const dropdownMenu =$(this).parents(".dropdown-menu-body");
+    dropdownMenu.siblings(".dropdown-input").val('');
+    dropdownMenu.empty();
+    $.each(orginalDrop, (i, item) => {
+      dropdownMenu.append(`<li class="drop-list" data-id="${item[0]}">${item[1]}</li>`);
+    });
+    $(`.drop-list[data-id="${$(this).data("id")}"]`).addClass("active");
+    
+    $.ajax({
+      url:"/getCity",
+      type:"get",
+      dataType:"json",
+      data: {
+        id:$(this).data("id")
+      },
+      success: function(results) {
+        const result = results.rajaongkir.results;
+        $(".residence.city .dropdown-menu-body").empty();
+        $.each(result, (i,item) => {
+          $(".residence.city .dropdown-menu-body").append(`
+          <li class="drop-list" data-id="${item.city_id}">
+            ${item.type} ${item.city_name}
+          </li>
+          `);
+        });
+      }
+    });
+  });
+  
+  
+
+  let arrDropList = [];
+  $(".drop-list").each(function(i, e) {
+    arrDropList.push([$(e).data("id"), $(e).text().toLowerCase()]);
+  });
+  
+  
+
+  $('.dropdown-input').on('keyup', function() {
+    let dropdownMenu = $(this).siblings(".dropdown-menu-body");
+    dropdownMenu.empty();
+    //Ambil inputwn
+    const searchValue = $(this).val().toLowerCase();
+    //Ambil drop_list
+    let result = arrDropList.filter((item) => item[1].includes(searchValue)).
+    map(
+      (str) => [str[0], str[1].split(" "). // [sumatra, barat]
+        map((word) => word.charAt(0).toUpperCase() + word.slice(1)).
+        join("  ")]
+    );
+    $.each(result, (i,item) => {
+    dropdownMenu.append(`<li class="drop-list" data-id="${item[0]}">${item[1]}</li>`);
+    });
+  });
+
+  
   //Body detail product
   $(".btn.option").click(function () {
     $(this).siblings().removeClass("active");
@@ -243,15 +315,17 @@ function increment(element) {
   input.val(ditambah);
   
 }
-function previewImage() {
-  const image = document.querySelector("#image");
-  const imgPreview = document.querySelector(".img-preview");
 
-
-  const ofReader = new FileReader();
-  ofReader.readAsDataURL(image.files[0]);
-
-  ofReader.onload = function(ofREvent) {
-    imgPreview.src = ofREvent.target.result;                                            
-  }
+function clearCart() {
+  $.ajax({
+    url:'/clearCart',
+    type: 'get',
+    headers: {
+      "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
+    },
+    success: function() {
+      window.location.reload();
+    },
+  });
 }
+

@@ -40,8 +40,9 @@ class ProductAdminController extends Controller
   * @return \Illuminate\Http\Response
   */
   public function store(Request $request) {
-
-    $cradentials = Validator::make($request->all(), [
+  dd($request->has('attachment'));
+    $cradentials = Validator::make($request->all(), 
+    [
       "name" => "required|max:225",
       "kelompok" => "required",
       "slug" => "required|max:225|unique:products",

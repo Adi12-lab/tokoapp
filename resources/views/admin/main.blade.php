@@ -19,8 +19,11 @@
   @include("admin.partials.navbar")
   
   @yield("content")
-
+  <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+  <script>eruda.init();</script>
+  <script src="{{asset("js/jquery.js");}}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="{{asset("js/bootstrap.bundle.js")}}"></script>
-  <script src="{{asset("js/method.js")}}"></script>
+  <script src="{{asset("js/methodAdmin.js")}}"></script>
 </body>
 </html>
