@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Variant;
 use App\Models\ProductGallery;
 use App\Models\Size;
@@ -26,4 +27,12 @@ class Product extends Model
   public function getRouteKeyName() {
     return 'slug';
   }
+  public static function booted() {
+
+    static::deleting(function($product) { // saat menghapus, maka hapus juga sizenya dan variantnya
+         $product->size()->delete();
+         $product->variant()->delete();
+         Storage::delete($product->gambar);
+    });
+}
 }

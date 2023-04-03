@@ -56,11 +56,11 @@ $(document).ready(function () {
   $(".dropdown-item").click(function (e) {
     e.preventDefault();
     $(this)
-    .parent()
-    .siblings()
-    .each(function (i, e) {
-      $(e).find("i").addClass("invisible");
-    });
+      .parent()
+      .siblings()
+      .each(function (i, e) {
+        $(e).find("i").addClass("invisible");
+      });
     if ($(this).parents(".dropdown").hasClass("sort")) {
       const nameSort = $(this).attr("data-sort");
       const valueSort = $(this).attr("data-sort-by");
@@ -77,25 +77,25 @@ $(document).ready(function () {
       //kita ganti propertinya
       if (dropdown.hasClass("size")) {
         dropdown
-        .find(".dropdown-html")
-        .attr("data-select-drop", valDropDown);
+          .find(".dropdown-html")
+          .attr("data-select-drop", valDropDown);
       } else if (dropdown.hasClass("variant")) {
         dropdown
-        .find(".dropdown-html")
-        .attr("data-select-drop", valDropDown);
+          .find(".dropdown-html")
+          .attr("data-select-drop", valDropDown);
       }
     }
     $(this).children().removeClass("invisible"); // tag i
   });
-//----AFWAJA SHOP CART-----
+  //----AFWAJA SHOP CART-----
 
   //Menghapus cart
   $(".removeCart").click(function (e) {
     e.preventDefault();
     const productId = $(this)
-    .parents(".cart-row")
-    .find("input[type='hidden']")
-    .val();
+      .parents(".cart-row")
+      .find("input[type='hidden']")
+      .val();
     $.ajax({
       url: "/deleteCart",
       type: "post",
@@ -111,7 +111,7 @@ $(document).ready(function () {
       },
     });
   });
-  
+
   //Update Cart
   $(".update-cart").click(function () {
     let allCart = [];
@@ -150,75 +150,114 @@ $(document).ready(function () {
       },
     });
   });
-  
 
-  const orginalDrop = [];
-  $(".drop-list").each(function(i,item) {
-    orginalDrop.push([$(item).data("id"), $(item).text()]);
-  });
+
+  // const tempDrop = []; //Berisi dropdown api pertama yaitu provinsi
+  // let arrDropList = [];
+  // $(".drop-list").each(function (i, item) {
+  //   tempDrop.push([$(item).data("id"), $(item).text()]);
+  // });
+  let provinceDrop = [];
+  let cityDrop = [];
   
-  $('.dropdown-menu-body').on('click', '.drop-list',function(e) {
+  
+  $.each($(".residence[data-kind-residence=province] .dropdown-menu-body").children(".drop-list"), (i, item) => {//ambil semua element dan masukan pada provinceDrop
+    // console.log(item)
+    provinceDrop.push([$(item).data("id"), $(item).text()]);
+  });
+
+  $('.dropdown-menu-body').on('click', '.drop-list', function (e) {
+    let tempDrop = []; //tempDrop dapat berisi dari provinceDrop cityDrop dll
     //Ambil saudaranya, dan hilangkan kelas active
     $(this).siblings('.drop-list').removeClass('active');
     const drop_list = $(this).text();
     //Ambil orangtuanya(residence) dan temukan dropdown-toggle yang spesifik
     $(this).parents(".residence").find('.dropdown-toggle').html(drop_list);
-    const dropdownMenu =$(this).parents(".dropdown-menu-body");
-    dropdownMenu.siblings(".dropdown-input").val('');
-    dropdownMenu.empty();
-    $.each(orginalDrop, (i, item) => {
-      dropdownMenu.append(`<li class="drop-list" data-id="${item[0]}">${item[1]}</li>`);
-    });
-    $(`.drop-list[data-id="${$(this).data("id")}"]`).addClass("active");
-    
-    $.ajax({
-      url:"/getCity",
-      type:"get",
-      dataType:"json",
-      data: {
-        id:$(this).data("id")
-      },
-      success: function(results) {
-        const result = results.rajaongkir.results;
-        $(".residence.city .dropdown-menu-body").empty();
-        $.each(result, (i,item) => {
-          $(".residence.city .dropdown-menu-body").append(`
-          <li class="drop-list" data-id="${item.city_id}">
-            ${item.type} ${item.city_name}
-          </li>
-          `);
+    const kindRresidence = $(this).parents(".residence").data("kind-residence");
+    const dropdownMenu = $(this).parents(".dropdown-menu-body");
+
+    switch (kindRresidence) {
+      //Jika residence yang dipilih adalah provinsi
+      case "province":
+        tempDrop = provinceDrop;
+        $.ajax({
+          url: "/getCity",
+          type: "get",
+          dataType: "json",
+          data: {
+            id: $(this).data("id")
+          },
+          success: function (results) {
+            const result = results.rajaongkir.results;
+            let residenceCityBody = $('.residence[data-kind-residence="city"] .dropdown-menu-body');
+            //kosongkan terlebih dahulu
+            residenceCityBody.empty();
+
+            //setelah itu tambahkan itemnya
+            $.each(result, (i, item) => {
+              residenceCityBody.append(`
+              <li class="drop-list" data-id="${item.city_id}">
+              ${item.type} ${item.city_name}
+              </li>
+              `);
+            });
+            //tampilkan pilihan lain lagi
+
+            residenceCityBody.children('.drop-list').each(function (i, e) {
+              cityDrop.push([$(e).data("id"), $(e).text()]);
+            });
+
+          }
         });
-      }
-    });
-  });
-  
-  
+        
+        //tambahkan data untuk city
+        break;
+        case "city":
+          console.log("memencet kota");
+          tempDrop = cityDrop;
+          break;
+        default:
+            console.log("dropdown cart not found");
+            return;
+          }
+          dropdownMenu.siblings(".dropdown-input").val(''); //Kosongkan searchnya
+          dropdownMenu.empty(); //Kosongkan semua drop list yang berada di dropdown-menu-body
+          //isi semua dengan data yang ada
+          // console.log(tempDrop);
+          // return;
+          $.each(tempDrop, (i, item) => {
+            dropdownMenu.append(`<li class="drop-list" data-id="${item[0]}">${item[1]}</li>`);
+          });
+          dropdownMenu.children(`.drop-list[data-id="${$(this).data("id")}"]`).addClass("active"); //jadikan data yang sekarang menjadi active
 
-  let arrDropList = [];
-  $(".drop-list").each(function(i, e) {
-    arrDropList.push([$(e).data("id"), $(e).text().toLowerCase()]);
   });
-  
-  
 
-  $('.dropdown-input').on('keyup', function() {
+  //Mengambil data untuk diproses dalam sebuah event keyup
+  $('.dropdown-input').on('keyup', function () {
     let dropdownMenu = $(this).siblings(".dropdown-menu-body");
     dropdownMenu.empty();
     //Ambil inputwn
+
+    let arrDropList = [];
+    switch (dropdownMenu.parents(".residence").data("kind-residence")) {
+      case "province":
+        arrDropList = provinceDrop;
+        break;
+      case "city":
+        arrDropList = cityDrop;
+        break;
+      default:
+        console.log("not found");
+    }
     const searchValue = $(this).val().toLowerCase();
     //Ambil drop_list
-    let result = arrDropList.filter((item) => item[1].includes(searchValue)).
-    map(
-      (str) => [str[0], str[1].split(" "). // [sumatra, barat]
-        map((word) => word.charAt(0).toUpperCase() + word.slice(1)).
-        join("  ")]
-    );
-    $.each(result, (i,item) => {
-    dropdownMenu.append(`<li class="drop-list" data-id="${item[0]}">${item[1]}</li>`);
+    let result = arrDropList.filter((item) => item[1].toLowerCase().includes(searchValue));
+    $.each(result, (i, item) => {
+      dropdownMenu.append(`<li class="drop-list" data-id="${item[0]}">${item[1]}</li>`);
     });
   });
 
-  
+
   //Body detail product
   $(".btn.option").click(function () {
     $(this).siblings().removeClass("active");
@@ -255,7 +294,7 @@ $(".checkout").click(function () {
     data: formData,
     processData: false,
     contentType: false,
-    success: function() {
+    success: function () {
       window.location.reload();
     },
     error: function (jqXHR,
@@ -272,23 +311,23 @@ $(".checkout").click(function () {
 });
 
 //product Detail body navigation
-$(".nav-body").find(".nav-link").each(function(i, e) {
-  $(e).click(function(el) {
+$(".nav-body").find(".nav-link").each(function (i, e) {
+  $(e).click(function (el) {
     //kita ambil tujuannya
     let destiny = $(this).attr("data-body");
     el.preventDefault();
     //hilanhkan kelas curent
-    $(".nav-body").find(".nav-link").each(function() {
+    $(".nav-body").find(".nav-link").each(function () {
       $(this).removeClass("current");
     });
     //tambahkan kelas current
     $(this).addClass("current");
     //hilangkan body content
-    $(".body-content").each(function(e) {
+    $(".body-content").each(function (e) {
       $(this).fadeOut(500).addClass("d-none");
     });
     //munculkan body content
-      $(`.${destiny}`).fadeIn(500).removeClass("d-none");
+    $(`.${destiny}`).fadeIn(500).removeClass("d-none");
   });
 });
 
@@ -296,9 +335,9 @@ $(".nav-body").find(".nav-link").each(function(i, e) {
 function decrement(element) {
   var input = $(element).siblings(".quantity-form");
   var productId = $(element)
-  .parents(".cart-row")
-  .find("input[type='hidden']")
-  .val();
+    .parents(".cart-row")
+    .find("input[type='hidden']")
+    .val();
   if (parseInt(input.val()) == 1) return false;
   var dikurangi = parseInt(input.val()) - 1;
   input.val(dikurangi);
@@ -308,22 +347,22 @@ function decrement(element) {
 function increment(element) {
   var input = $(element).siblings(".quantity-form");
   var productId = $(element)
-  .parents(".cart-row")
-  .find("input[type='hidden']")
-  .val();
+    .parents(".cart-row")
+    .find("input[type='hidden']")
+    .val();
   var ditambah = parseInt(input.val()) + 1;
   input.val(ditambah);
-  
+
 }
 
 function clearCart() {
   $.ajax({
-    url:'/clearCart',
+    url: '/clearCart',
     type: 'get',
     headers: {
       "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
     },
-    success: function() {
+    success: function () {
       window.location.reload();
     },
   });

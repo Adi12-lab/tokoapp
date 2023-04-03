@@ -52,30 +52,17 @@ Route::controller(RajaOngkirController::class)->group(function() {
   Route::get("/getCity", "get_city");
 });
 
-
 Route::resource("/metal/products", ProductAdminController::class)->middleware("auth");
 
-Route::get("/metal/products/{slug}/size",function(Product $slug){
-  return view("admin.sizeProduct", [
-    "product" => $slug
-    ]);
+Route::get("/metal/testRequest", function() {
+  return view("testRequest");
 });
-Route::post("/metal/products/size", function(Request $request ){
-  Size::insert([
-    "product_id" => $request->productId,
-    "name" => $request->size,
-    "price" => $request->price,
-    "old_price" => $request->old_price
-    ]);
-    return back()->with("success", "Size baru sudah ditambahkan");
+Route::post("/metal/testRequest", function(Request $request) {
+  dd($request->all());
 });
-Route::post("/metal/products/size/update", function(Request $request) {
 
-  Size::find($request->sizeId)->update([
-    "name" => $request->size,
-    "price"  => $request->price,
-    "old_price" => $request->old_price
-    
-    ]);
-  return back()->with("success", "Size telah diupdate");
+//Menangani attachment dari 
+
+Route::post("/upload-attachment", function(Request $request) {
+  return response("Koneksi dengnan route berhasil", 200);
 });

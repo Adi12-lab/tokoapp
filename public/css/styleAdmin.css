@@ -1,0 +1,11 @@
+.trix-content {
+    
+}
+.attachment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.attachment img{
+    width: 80%;
+}

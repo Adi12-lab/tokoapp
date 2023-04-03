@@ -1,5 +1,5 @@
-<div >
-  <button class="btn btn-{{$type}}" type="button" data-bs-toggle="modal" data-bs-target="#{{$target}}">{{$buttonMessage}}</button>
+<div class="d-inline">
+  <button class="btn btn-{{$type}}" type="button" data-bs-toggle="modal" data-bs-target="#{{$target}}">{!!$buttonHtml!!}</button>
 
 <div class="modal fade" id="{{$target}}" aria-labelledby="delete" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -13,7 +13,13 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" name="submit"class="btn btn-{{$type}}">{{$buttonMessage}}</button>
+        <form action="{{$action}}" method="POST">
+          @if($submitText == "Delete") 
+            @method('DELETE')
+          @endif
+            @csrf
+            <button type="submit" name="submit"class="btn btn-{{$type}}">{{$submitText}}</button>
+        </form>
       </div>
     </div>
   </div>

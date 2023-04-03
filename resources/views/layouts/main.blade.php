@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{{asset("light/dist/css/lightgallery-bundle.css");}}">
     <link rel="stylesheet" href="{{asset("owl/dist/assets/owl.carousel.css");}}">
     <link rel="stylesheet" href="{{asset("owl/dist/assets/owl.theme.default.css");}}">
+
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
     <!-- Own Style -->
     <link rel="stylesheet" href="{{asset("css/style.css");}}">
@@ -29,8 +31,6 @@
 
     @include("partials/footer")
     
-    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script src="{{asset("js/bootstrap.bundle.js");}}"></script>
      <script src="{{asset("js/jquery.js");}}"></script>

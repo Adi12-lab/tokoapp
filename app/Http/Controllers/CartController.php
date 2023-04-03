@@ -56,16 +56,23 @@ class CartController extends Controller
     $dataProduk = Product::with(["size", "variant"])->get();
 
     $cartCollection->each(function($item, $key) use ($dataProduk) {
-      $item->database_data = $dataProduk->firstWhere("name", $item->name);
+
+      $item->database_data = $dataProduk->firstWhere("name", $item->name); //Disini ada informasi gambar produk, nama dll sebagainya yang lebih terperinci
       $item->put("priceSum", $item->price * $item->quantity);
 
     });
+
+    $total_price_item = $cartCollection->sum("priceSum");
+    
+
+    //Menampilkan data provinsi di cart
     $provinsi = collect(json_decode(RajaOngkirController::get_province()));
     $provinsi = $provinsi["rajaongkir"]->results;
     
     return view("cart", [
       "carts" => $cartCollection,
       "countCart" => $cartCollection->count(),
+      "total_price_item" => $total_price_item,
       "provinsi" => $provinsi
     ]);
   }
@@ -140,33 +147,6 @@ class CartController extends Controller
   }
   
   public function testCart() {
-    $dataCart = collect([
-      [
-        "id" => "453", "name" => "Buku", "size" => "A5", "variant" => "biru", "quantity" => 3
-      ],
-      [
-        "id" => "74", "name" => "Buku", "size" => "A4", "variant" => "biru", "quantity" => 3
-      ],
-      [
-        "id" => "421", "name" => "Buku", "size" => "A5", "variant" => "pink", "quantity" => 3
-      ],
-      [
-        "id" => "4", "name" => "Buku", "size" => "A5", "variant" => "pink", "quantity" => 33
-      ],
-    ]);
-    $processCart = $dataCart->groupBy(['name', 'size', 'variant'])->map(function($group) {
-      return $group->map(function($group2) {
-        return $group2->map(function($group3) {
-          return [
-            "id" => $group3->first()["id"],
-            "name" => $group3->first()["name"],
-            "size" => $group3->first()["size"],
-            "variant" => $group3->first()["variant"],
-            "quantity" => $group3->sum("quantity")
-          ];
-        })->values();
-      })->values();
-    })->values()->collapse()->collapse()->toArray();
-    dd($processCart);
+   
   }
 }
