@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\RajaOngkirController;
+use App\Http\Controllers\AttachmentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 /*
@@ -62,7 +63,6 @@ Route::post("/metal/testRequest", function(Request $request) {
 });
 
 //Menangani attachment dari 
-
-Route::post("/upload-attachment", function(Request $request) {
-  return response("Koneksi dengnan route berhasil", 200);
+Route::controller(AttachmentController::class)->group(function() {
+  Route::post("/toPending", "toPending" )->name("toPending");
 });

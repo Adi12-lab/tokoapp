@@ -9,4 +9,7 @@ class ProductGallery extends Model
 {
     use HasFactory;
     protected $table = "product_gallery";
+
+    protected $guarded = ["id"];
+    public $timestamps = false;
 }

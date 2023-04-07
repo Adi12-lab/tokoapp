@@ -46,8 +46,7 @@ class ProductAdminController extends Controller
   * @param  \Illuminate\Http\Request  $request
   * @return \Illuminate\Http\Response
   */
-  public function store(Request $request) { 
-  
+  public function store(Request $request) {   
     //Validasi semuanya terlebih dahulu
     $cradentials = Validator::make($request->all(), 
     [
@@ -88,11 +87,14 @@ class ProductAdminController extends Controller
       ]);
     }
 
-    for($i =0; $i < count($request["variant_name"]); $i++) {
-       Variant::create([
-        "product_id" => $fetchLagi->id,
-        "name" => $request["variant_name"][$i]
-      ]);
+    //variant bersifat opsional
+    if(isset($request["variant_name"])) {
+      for($i =0; $i < count($request["variant_name"]); $i++) {
+        Variant::create([
+          "product_id" => $fetchLagi->id,
+          "name" => $request["variant_name"][$i]
+        ]);
+      }
     }
 
     return redirect("/metal/products")->with("success", "Produk Anda Telah berhasil ditambahkan");
@@ -116,13 +118,18 @@ class ProductAdminController extends Controller
   * @return \Illuminate\Http\Response
   */
   public function edit(Product $product) {
-    $product->load(["size","variant"]);
+    $product->load(["size","variant","productGallery"]);
     $product["deskripsi"] = htmlspecialchars_decode($product["deskripsi"]);
     $product["body"] = htmlspecialchars_decode($product["body"]);
     $origin = DB::table("origin")->get();
+
+    //1. ambil gambar dari storage
+    $test = Storage::url($product->productGallery[0]->gambar);
+   
     return view("admin.product.edit", [
       "product" => $product,
-      "origin" => $origin
+      "origin" => $origin,
+      "test" => "http://localhost:8000/storage/origin-produk/carousel/Capture.PNG"
     ]);
   }
 
@@ -134,8 +141,6 @@ class ProductAdminController extends Controller
   * @return \Illuminate\Http\Response
   */
   public function update(Request $request, Product $product) {
-
-    dd($request);
     
     $rules = [
       "name" => "required|max:225",

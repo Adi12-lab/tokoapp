@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark bg-dark fixed-top">
-  <div class="container-fluid">
+  <div class="container">
     <a class="navbar-brand" href="#">Dashboard</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
       <span class="navbar-toggler-icon"></span>

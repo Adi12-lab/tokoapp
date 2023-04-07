@@ -156,6 +156,18 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="mb-3">
+                            <h4>Carousel Produk</h4>
+                            <input id="attachment-file" type="hidden" name="attachment-file" value="{{ old('attachment-file') }}">
+                            @error('attachment-file')
+                                <div class="text-danger">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                            <trix-editor class="attachment-file" placeholder="Input gambar disini" input="attachment-file" data-kind="carousel"></trix-editor>
+                        </div>
+                        
                             <div class="mb-3">
                                 <h4>Status Produk</h4>
                                 <input type="radio" class="btn-check" value="1" name="active" id="active_product"
@@ -166,7 +178,7 @@
                                     autocomplete="off">
                                 <label class="btn btn-outline-danger" for="deactive_product">Nonaktif</label>
                             </div>
-                            <button class="btn btn-primary px-4 mb-4" type="submit">Tambahkan Produk</button>
+                            <button class="btn btn-primary form px-4 mb-4" type="submit">Tambahkan Produk</button>
                     </form>
                 </div>
             </div>

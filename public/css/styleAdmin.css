@@ -1,11 +1,30 @@
-.trix-content {
-    
+ 
+input[name="attachment-file"] + trix-toolbar [data-trix-button-group]:not([data-trix-button-group="file-tools"]) {
+    display: none;
 }
-.attachment {
+input[name="attachment-file"] + trix-toolbar [data-trix-button-group="file-tools"] {
+    background-color: #B3B5BB;
+    font-size: 20px;
+}
+
+.attachment-file {
+    border: 5px dashed #C5D9E2;
+    height: 400px;
+    overflow-y: scroll;
+}
+.attachment-file::before {
+    content: attr(placeholder);
+    display: block;
+    color: #bbb;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+.attachment-file .attachment {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.attachment img{
-    width: 80%;
+.attachment-file .attachment img{
+    width: 60%;
 }
