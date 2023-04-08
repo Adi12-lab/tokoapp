@@ -175,29 +175,43 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="mb-3">
-                                <h4>Carousel Produk</h4>
-                                <input id="attachment-file" class="ckeditor" type="hidden" name="attachment-file"
-                                    value="{{ old('attachment-file') }}">
-                                @error('attachment-file')
-                                    <div class="text-danger">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
 
-                            </div>
-                            <div class="mb-3">
-                                <h4>Status Produk</h4>
-                                <input type="radio" class="btn-check" name="active_status" id="active_product"
-                                    autocomplete="off" {{ $product->active == 1 ? 'checked' : '' }}>
-                                <label class="btn btn-outline-success" for="active_product">Aktif</label>
+                        </div>
+                        {{-- Attachment Carousel --}}
+                        <div class="mb-3">
+                            <h4>Carousel Produk</h4>
+                            <input id="attachment-carousel" type="hidden" name="attachment-trix">
+                            <trix-editor class="attachment-trix" placeholder="Input gambar disini" input="attachment-carousel" data-kind="carousel"></trix-editor>
 
-                                <input type="radio" class="btn-check" name="active_status" id="deactive_product"
-                                    autocomplete="off" {{ $product->active == 0 ? 'checked' : '' }}>
-                                <label class="btn btn-outline-danger" for="deactive_product">Nonaktif</label>
-                            </div>
+                            {{-- Semua item yang disini akan ditangkap trix.js dan dimasukan kedalam trix editor yang diatas persis ini --}}
+                            @foreach($hidden_carousel as $carousel) 
+                                <input type="hidden" value="{{$carousel}}" name="hidden_attachment[]" data-hidden="carousel">
+                            @endforeach
+                        </div>
 
-                            <button class="btn btn-primary px-4 mb-4" type="submit">Update Produk</button>
+                       {{-- Attachment Gallery --}}
+                       <div class="mb-3">
+                        <h4>Gallery Produk</h4>
+                        <input id="attachment-gallery" type="hidden" name="attachment-trix">                          
+                        <trix-editor class="attachment-trix" placeholder="Input gambar disini" input="attachment-gallery" data-kind="gallery"></trix-editor>
+
+                        {{-- Semua item yang disini akan ditangkap trix.js dan dimasukan kedalam trix editor yang diatas persis ini --}}
+                        @foreach($hidden_carousel as $carousel) 
+                                <input type="hidden" value="{{$carousel}}" name="hidden_attachment[]" data-hidden="gallery">
+                        @endforeach
+                    </div>
+                    
+                        <div class="mb-3">
+                            <h4>Status Produk</h4>
+                            <input type="radio" class="btn-check" name="active_status" id="active_product"
+                                autocomplete="off" {{ $product->active == 1 ? 'checked' : '' }}>
+                            <label class="btn btn-outline-success" for="active_product">Aktif</label>
+
+                            <input type="radio" class="btn-check" name="active_status" id="deactive_product"
+                                autocomplete="off" {{ $product->active == 0 ? 'checked' : '' }}>
+                            <label class="btn btn-outline-danger" for="deactive_product">Nonaktif</label>
+                        </div>
+                        <button class="btn btn-primary px-4 mb-4" type="submit">Update Produk</button>
                     </form>
                 </div>
             </div>

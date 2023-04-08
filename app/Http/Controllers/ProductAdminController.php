@@ -124,12 +124,14 @@ class ProductAdminController extends Controller
     $origin = DB::table("origin")->get();
 
     //1. ambil gambar dari storage
-    $test = Storage::url($product->productGallery[0]->gambar);
-   
+    $hidden_carousel = Storage::allFiles("$product->slug/carousel");
+    $hidden_gallery = Storage::allFiles("$product->slug/gallery");
+
     return view("admin.product.edit", [
       "product" => $product,
       "origin" => $origin,
-      "test" => "http://localhost:8000/storage/origin-produk/carousel/Capture.PNG"
+      "hidden_carousel" => $hidden_carousel,
+      "hidden_gallery" => $hidden_gallery
     ]);
   }
 

@@ -1,18 +1,18 @@
  
-input[name="attachment-file"] + trix-toolbar [data-trix-button-group]:not([data-trix-button-group="file-tools"]) {
+input[name="attachment-trix"] + trix-toolbar [data-trix-button-group]:not([data-trix-button-group="file-tools"]) {
     display: none;
 }
-input[name="attachment-file"] + trix-toolbar [data-trix-button-group="file-tools"] {
+input[name="attachment-trix"] + trix-toolbar [data-trix-button-group="file-tools"] {
     background-color: #B3B5BB;
     font-size: 20px;
 }
 
-.attachment-file {
+.attachment-trix {
     border: 5px dashed #C5D9E2;
     height: 400px;
     overflow-y: scroll;
 }
-.attachment-file::before {
+.attachment-trix::before {
     content: attr(placeholder);
     display: block;
     color: #bbb;
@@ -20,11 +20,11 @@ input[name="attachment-file"] + trix-toolbar [data-trix-button-group="file-tools
     left: 50%;
     transform: translate(-50%, -50%);
   }
-.attachment-file .attachment {
+.attachment-trix .attachment {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.attachment-file .attachment img{
+.attachment-trix .attachment img{
     width: 60%;
 }

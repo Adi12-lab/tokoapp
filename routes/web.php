@@ -64,5 +64,6 @@ Route::post("/metal/testRequest", function(Request $request) {
 
 //Menangani attachment dari 
 Route::controller(AttachmentController::class)->group(function() {
-  Route::post("/toPending", "toPending" )->name("toPending");
+  Route::post("/toPending", "toPending" );
+  Route::post("/removeAttachment", "removeAttachment");
 });

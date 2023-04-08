@@ -157,15 +157,18 @@
                                 </tbody>
                             </table>
                         </div>
+                        {{-- Attachment Carousel --}}
                         <div class="mb-3">
                             <h4>Carousel Produk</h4>
-                            <input id="attachment-file" type="hidden" name="attachment-file" value="{{ old('attachment-file') }}">
-                            @error('attachment-file')
-                                <div class="text-danger">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                            <trix-editor class="attachment-file" placeholder="Input gambar disini" input="attachment-file" data-kind="carousel"></trix-editor>
+                            <input id="attachment-carousel" type="hidden" name="attachment-trix">
+                            <trix-editor class="attachment-trix" placeholder="Input gambar disini" input="attachment-carousel" data-kind="carousel"></trix-editor>
+                        </div>
+                        
+                        {{-- Attachment Gallery --}}
+                        <div class="mb-3">
+                            <h4>Gallery Produk</h4>
+                            <input id="attachment-gallery" type="hidden" name="attachment-trix">                          
+                            <trix-editor class="attachment-trix" placeholder="Input gambar disini" input="attachment-gallery" data-kind="gallery"></trix-editor>
                         </div>
                         
                             <div class="mb-3">
