@@ -18,10 +18,8 @@ class ProductAdminController extends Controller
   * @return \Illuminate\Http\Response
   */
   public function index() {
-    $products = Product::with(["size"])->get();
-    foreach ($products as $product) {
-      $product->deskripsi = htmlspecialchars_decode($product->deskripsi);
-    }
+    $products = Product::all();
+    
     return view("admin.product.index", [
       "products" => $products
     ]);
@@ -77,6 +75,7 @@ class ProductAdminController extends Controller
     Product::create($validated);
     $fetchLagi = Product::firstWhere("slug", $validated["slug"]);
     
+    //size harus ada, boleh tidak ada namannya !! tapi harus ada harga
     for($i = 0; $i < count($request["size_name"]); $i++ ) {
       Size::create([
         "product_id" => $fetchLagi->id,
@@ -161,11 +160,21 @@ class ProductAdminController extends Controller
     
     $cradentials = $request->validate($rules);
 
+    // Product::where("id", $product->id)->update($cradentials);
+    $updateProduct = Product::find($product->id);
+    $updateProduct->name = $cradentials['name'];
+    $updateProduct->kelompok = $cradentials['kelompok'];
+    $updateProduct->stok = $cradentials['stok'];
     if($request->file("gambar")) {
-      Storage::delete($product->gambar);
+      Storage::delete($product->gambar); //hapus gambar yang lama
       $cradentials["gambar"] = $request->file("gambar")->store("product");
+      $updateProduct->gambar = $cradentials['gambar'];
     }
-    Product::where("id", $product->id)->update($cradentials);
+    $updateProduct->origin = $cradentials['origin'];
+    $updateProduct->deskripsi = $cradentials['deskripsi'];
+    $updateProduct->body = $cradentials['body'];
+    $updateProduct->save();
+
 
     Size::whereNotIn("id",$request["size_id"])->delete();//Size yang ada didatabase yang tidak memiliki pasangan request kita hapus
 

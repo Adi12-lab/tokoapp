@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Product;
-use App\Models\Size;
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
@@ -65,5 +64,6 @@ Route::post("/metal/testRequest", function(Request $request) {
 //Menangani attachment dari 
 Route::controller(AttachmentController::class)->group(function() {
   Route::post("/toPending", "toPending" );
-  Route::post("/removeAttachment", "removeAttachment");
+  Route::post("/removeFromPending", "removeFromPending");
+  Route::post("/removeFromStorage", "removeFromStorage");
 });

@@ -4,7 +4,7 @@
         <div class="container border">
             <div class="row justify-content-center">
                 <div class="col col-md-8">
-                    <form action="/metal/products/{{ $product->slug }}" method="post" enctype="multipart/form-data">
+                    <form action="/metal/products/{{ $product->slug }}" id="editProductForm" method="post" enctype="multipart/form-data">
                         <h1 class="text-center">Update Produk</h1>
 
                         {{-- Data yang wajib --}}
@@ -196,8 +196,8 @@
                         <trix-editor class="attachment-trix" placeholder="Input gambar disini" input="attachment-gallery" data-kind="gallery"></trix-editor>
 
                         {{-- Semua item yang disini akan ditangkap trix.js dan dimasukan kedalam trix editor yang diatas persis ini --}}
-                        @foreach($hidden_carousel as $carousel) 
-                                <input type="hidden" value="{{$carousel}}" name="hidden_attachment[]" data-hidden="gallery">
+                        @foreach($hidden_gallery as $gallery) 
+                                <input type="hidden" value="{{$gallery}}" name="hidden_attachment[]" data-hidden="gallery">
                         @endforeach
                     </div>
                     

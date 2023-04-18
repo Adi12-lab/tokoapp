@@ -88,35 +88,53 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var trix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! trix */ "./node_modules/trix/dist/trix.esm.min.js");
 
 document.addEventListener("DOMContentLoaded", function () {
+  //=================Attribute diluar fungsi====================
+
+  var csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
   var editors = Array.from(document.querySelectorAll('.attachment-trix'));
-  var hiddenAttachment = Array.from(document.querySelectorAll("input[name='hidden_attachment[]']"));
+  var hiddenAttachment = Array.from(document.querySelectorAll("input[name='hidden_attachment[]']")).map(function (item) {
+    return {
+      "hidden_kind": item.getAttribute("data-hidden"),
+      //untuk bsa dapat dimasukan ke jenis editornya masing -masing
+      "hidden_url": item.value
+    };
+  });
+  var attachmentDatabase = []; //berisi attachment apa saja yang berasal dari database
+
   // Setiap editors kita push sebuah object yang berisi
-  console.log(hiddenAttachment);
-  // editor.addEventListener("trix-initialize", function() {
+  editors.forEach(function (item) {
+    item.input_hidden = hiddenAttachment.filter(function (filItem) {
+      return filItem.hidden_kind == item.getAttribute("data-kind");
+    });
+  });
+  editors.forEach(function (editor) {
+    editor.addEventListener("trix-initialize", function () {
+      editor.input_hidden.forEach(function (hiddenItem) {
+        var url = "".concat(window.location.origin, "/storage/").concat(hiddenItem.hidden_url); //gambar diambil dari sini
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'blob'; //bertipe blob
+        xhr.onload = function () {
+          if (xhr.readyState == 4 && xhr.status === 200) {
+            var blob = xhr.response;
+            var fileName = url.split('/').pop();
+            var fileType = blob.type;
+            var attachment = new trix__WEBPACK_IMPORTED_MODULE_0__["default"].Attachment({
+              contentType: fileType,
+              filename: fileName,
+              url: url,
+              fromWhere: "database"
+            });
+            editor.editor.insertAttachment(attachment);
+          }
+        };
+        xhr.send();
+      });
+    });
+  });
 
-  //    const url = 'http://localhost:8000/storage/origin-produk/carousel/Capture.PNG';
-  //    const xhr = new XMLHttpRequest();
-  //    xhr.open('GET', url, true);
-  //    xhr.responseType = 'blob';
+  //Event Listener menambahkan attachment
 
-  //    xhr.onload = function() {
-  //      if (xhr.readyState == 4 && xhr.status === 200) {
-  //        const blob = xhr.response;
-  //        const fileName = 'Capture.PNG';
-  //        const fileType = blob.type;
-  //       //  const file = new File([blob], fileName, { type: fileType });
-  //       const attachment = new Trix.Attachment({
-  //         contentType: fileType,
-  //         filename: fileName,
-  //         url: url
-  //       });
-  //       console.log(editor);
-  //        editor.editor.insertAttachment(attachment);
-  //      }
-  //    }; 
-  //   xhr.send();
-
-  // })
   document.addEventListener("trix-attachment-add", function (event) {
     var attachment = event.attachment;
     var editor = event.target;
@@ -125,19 +143,45 @@ document.addEventListener("DOMContentLoaded", function () {
       uploadAttachment(attachment, editorKind);
     }
   });
+
+  //Event Listener menghapus attachment
+
   document.addEventListener("trix-attachment-remove", function (event) {
     var editorKind = event.target.closest(".attachment-trix").getAttribute("data-kind");
-    var attachmentName = event.attachment.file.name;
-    console.log(attachmentName);
-    removeAttachment(attachmentName, editorKind);
+    var attachment = event.attachment.attachment.attributes.values;
+    var fromDatabase = attachment.fromWhere == 'database' ? true : false;
+    removeAttachment(attachment, editorKind, fromDatabase);
   });
-  function removeAttachment(attachmentName, editorKind) {
-    var csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-    var form = new FormData();
-    form.append("attachmentName", attachmentName);
-    form.append("kind", editorKind);
+
+  //Event listener Form Submit
+
+  var editProduct = document.querySelector('#editProductForm');
+  editProduct.addEventListener('submit', function () {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", '/removeAttachment', true);
+    xhr.open("POST", "/removeFromStorage", true);
+    xhr.setRequestHeader("X-CSRF-Token", csrfToken);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) console.log(xhr.responseText);
+    };
+    xhr.send(attachmentDatabase);
+  });
+
+  //Fungsi menghapus attachment
+
+  function removeAttachment(attachment, editorKind) {
+    var fromDatabase = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+    if (fromDatabase) {
+      //akan diatasi oleh controller laravel
+      attachmentDatabase.push(attachment.url);
+      return;
+    }
+    var form = new FormData();
+    form.append("attachmentName", attachment.filename);
+    form.append("kind", editorKind);
+    console.log(fromDatabase);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", '/removeFromPending', true);
     xhr.setRequestHeader("X-CSRF-Token", csrfToken);
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 200) {
@@ -146,10 +190,12 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     return xhr.send(form);
   }
+
+  //Fungsi mengupload attachment
+
   function uploadAttachment(attachment, editorKind) {
     var file = attachment.file;
     var form = new FormData();
-    var csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
     form.append("file", file);
     form.append("kind", editorKind);
     var xhr = new XMLHttpRequest();
