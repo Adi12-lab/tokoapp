@@ -28,6 +28,8 @@ $(document).ready(function () {
     },
   });
 
+//=======Sorting Harga===========
+
   //Dropdown Isotope
   let $grid = $(".grid.product").isotope({
     // options
@@ -87,7 +89,7 @@ $(document).ready(function () {
     }
     $(this).children().removeClass("invisible"); // tag i
   });
-  //----AFWAJA SHOP CART-----
+//----AFWAJA SHOP CART-----
 
   //Menghapus cart
   $(".removeCart").click(function (e) {
@@ -98,7 +100,7 @@ $(document).ready(function () {
       .val();
     $.ajax({
       url: "/deleteCart",
-      type: "post",
+      type: "get",
       headers: {
         "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
       },
@@ -106,7 +108,6 @@ $(document).ready(function () {
         id: productId,
       },
       success: function (text) {
-        console.log(text);
         window.location.reload();
       },
     });
@@ -151,12 +152,40 @@ $(document).ready(function () {
     });
   });
 
+//===========Product Blade. php===========
+$(".addCart").click(function() {
+  const thisParents = $(this).parents('.product-bottom'); 
+  const cartId = thisParents.find("input[name='id']").val();
+  const productName = thisParents.find("input[name='name']").val()
+  const productSize = thisParents.find("input[name='size']").val()
+  const productVariant = thisParents.find("input[name='variant']").val()
+  const productPrice = thisParents.find("input[name='price']").val()
+  const productQuantity = thisParents.find("input[name='quantity']").val()
+  const formData = new FormData();
+  formData.append("id", cartId);
+  formData.append("name", productName);
+  formData.append("size", productSize);
+  formData.append("price", productPrice);
+  formData.append("variant", productVariant);
+  formData.append("quantity", productQuantity);
 
-  // const tempDrop = []; //Berisi dropdown api pertama yaitu provinsi
-  // let arrDropList = [];
-  // $(".drop-list").each(function (i, item) {
-  //   tempDrop.push([$(item).data("id"), $(item).text()]);
-  // });
+  $.ajax({
+    url: "/addCart",
+    type: "post",
+    headers: {
+      "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
+    },
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function () {
+      window.location.reload();
+    }
+  });
+
+})
+
+  //==========Raja Ongkir API==========
   let provinceDrop = [];
   let cityDrop = [];
   
@@ -201,8 +230,7 @@ $(document).ready(function () {
               </li>
               `);
             });
-            //tampilkan pilihan lain lagi
-
+            //Di push ke variabel cityDrop untuk digunakan kembali untuk case berikutnya
             residenceCityBody.children('.drop-list').each(function (i, e) {
               cityDrop.push([$(e).data("id"), $(e).text()]);
             });
@@ -271,7 +299,7 @@ $(document).ready(function () {
 });
 $(".checkout").click(function () {
   const cartId = $(".cartId").val();
-  const productName = $(".productName").html();
+  const productName = $(".productName").text();
   const productSize = $(".option.size.active").attr("data-size");
   const productVariant = $(".option.variant.active").attr("data-variant");
   const productPrice = $(".option.size.active").attr("data-price-size");
@@ -296,16 +324,7 @@ $(".checkout").click(function () {
     contentType: false,
     success: function () {
       window.location.reload();
-    },
-    error: function (jqXHR,
-      textStatus,
-      errorThrown) {
-      console.log(jqXHR);
-      console.log(textStatus);
-      console.log(errorThrown);
     }
-
-
   });
   // formData.append()
 });

@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ProductGallery;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class ProductObserver
 {
@@ -54,26 +55,27 @@ class ProductObserver
      * @param  \App\Models\Product  $product
      * @return void
      */
-    public function updating(Product $product)
+    public function saving(Product $product)
     {
-        //===Hapus gambar yang dikehendaki dari database
-        foreach ($product->productGallery as $gallery) { //semua gambar yang dikehendaki dihapus
-            if (Storage::missing($gallery->gambar)) $product->productGallery()->firstWhere("gambar", $gallery->gambar)->delete();
-        }
-
-        //=====pindahkan file pending kedalam folder slugnya=====
-        $files = Storage::allFiles("pending");
-        $files = Arr::map($files, function ($value, $key) {
-            $temp = explode("/", $value);
-            return "$temp[1]/$temp[2]"; //carousel/file
-        });
-        foreach ($files as $file) {
-            Storage::move("pending/$file", "$product->slug/$file");
-            ProductGallery::create([
-                "product_id" => $product->id,
-                "jenis" => explode("/", $file)[0], //jenis
-                "gambar" => "$product->slug/$file", //slug/jenis/namaFIle
-            ]);
+        if($product->isUpdating()) {// karena jika tidak begini, maka jika ada pembuatan produk baru maka akan ketriger juga
+            //===Hapus gambar yang dikehendaki dari database
+            foreach ($product->productGallery as $gallery) { //semua gambar yang dikehendaki dihapus
+                if (Storage::missing($gallery->gambar)) $product->productGallery()->firstWhere("gambar", $gallery->gambar)->delete();
+            }
+            //=====pindahkan file pending kedalam folder slugnya=====
+            $files = Storage::allFiles("pending");
+            $files = Arr::map($files, function ($value, $key) {
+                $temp = explode("/", $value);
+                return "$temp[1]/$temp[2]"; //carousel/file
+            });
+            foreach ($files as $file) {
+                Storage::move("pending/$file", "$product->slug/$file");
+                ProductGallery::create([
+                    "product_id" => $product->id,
+                    "jenis" => explode("/", $file)[0], //jenis
+                    "gambar" => "$product->slug/$file", //slug/jenis/namaFIle
+                ]);
+            }
         }
        
         Storage::deleteDirectory("pending"); // karena bisa saja ada file yang diupload tapi tidak jadi

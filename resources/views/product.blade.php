@@ -2,7 +2,7 @@
 
 @section('isi')
 <section>
-  <div class="container-fluid">
+  <div class="container">
     {{ Breadcrumbs::render('produk') }}
     <div class="row">
       <div class="col-lg-10">
@@ -24,7 +24,7 @@
           <div class="card grid-item mb-3 rounded-0">
             <div class="row g-0">
               <div class="col-md-4">
-                <img src="img/product/{{ $product->image }}" class="img-fluid rounded-start"
+                <img src="{{asset("storage/$product->gambar")}}" class="img-fluid rounded-start"
                 alt="...">
               </div>
               <div class="col-md-8">
@@ -40,8 +40,6 @@
                   </div>
 
                   <div class="product-bottom mt-2">
-                    <form action="{{ route('productIndex.addCart') }}" method="POST">
-                      @csrf
                       <input type="hidden" name="id" value="{{ rand(100,500) }}">
                       <input type="hidden" name="name" value="{{ $product->name }}">
                       <input type="hidden" name="size" value="{{$product->size[0]->name ?? ""}}">
@@ -49,10 +47,9 @@
                       <input type="hidden" name="price" value="{{ $product->size[0]->price ?? "" }}">
                       <input type="hidden" name="variant" value="{{ $product->variant[0]->name ?? "" }}">
                       <input type="hidden" name="quantity" value="1">
-                      <button type="submit" name="submit" class="btn btn-outline-warning"><i
+                      <button type="button" class="addCart btn btn-outline-warning"><i
                         class="bi bi-cart text-warning"></i> Tambahkan ke
                         Keranjang</button>
-                    </form>
                     <span class="btn text-danger"><i class="fa-regular fa-heart"></i>
                       Favorit</span>
                   </div>

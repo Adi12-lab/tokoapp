@@ -8,7 +8,7 @@
         <div id="sync1" class="owl-carousel owl-theme">
           @foreach($product->productGallery->where("jenis","carousel") as $crl)
           <div class="item">
-            <img src="{{asset("img/productCarousel/".$crl->gambar)}}" class="img-thumbnail" alt="{{$crl->name}}">
+            <img src="{{asset("storage/".$crl->gambar)}}" class="img-thumbnail" alt="{{$crl->name}}">
           </div>
           @endforeach
         </div>

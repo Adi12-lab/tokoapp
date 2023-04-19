@@ -33,7 +33,7 @@ Route::get("/produk/{slug}", [ProductController::class, "detail"])->name("produk
 Route::controller(CartController::class)->group(function() {
   Route::post("/addCart", "addCart")->name("productIndex.addCart");
   Route::get("/cart", "cartContent")->name("cart");
-  Route::post("/deleteCart", "deleteCart");
+  Route::get("/deleteCart", "deleteCart");
   Route::post("/updateCart", "updateCart");
   Route::get("/clearCart", "clearCart");
   Route::get("/testCart", "testCart");

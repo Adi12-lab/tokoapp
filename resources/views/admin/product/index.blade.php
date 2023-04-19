@@ -30,7 +30,7 @@
                   <tr>
                     <th scope="row">{{$x}}</th>
                     {{-- Suatu saat gambar iki pasti tak ubah --}}
-                    <td><img src="{{ asset("img/product/".$product->gambar)}}" width = "250"alt=""></td> 
+                    <td><img src="{{ asset("storage/".$product->gambar)}}" width = "250"alt=""></td> 
                     <td>{{$product->name}}</td>
                     <td>{{$product->size[0]->price ?? ""}}</td>
                     <td>{{$product->stok}}</td>

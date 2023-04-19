@@ -12,20 +12,35 @@ use App\Models\Size;
 
 class Product extends Model
 {
+
   use HasFactory;
   protected $guarded = ["id"];
-  
-  public function productGallery() {
+
+  protected $isUpdating = false;
+
+  public function setIsUpdating($isUpdating)
+  {
+    $this->isUpdating = $isUpdating;
+  }
+
+  public function isUpdating()
+  {
+    return $this->isUpdating;
+  }
+  public function productGallery()
+  {
     return $this->hasMany(ProductGallery::class);
   }
-  public function variant() {
+  public function variant()
+  {
     return $this->hasMany(Variant::class);
   }
-  public function size() {
+  public function size()
+  {
     return $this->hasMany(Size::class);
   }
-  public function getRouteKeyName() {
+  public function getRouteKeyName()
+  {
     return 'slug';
   }
-  
 }

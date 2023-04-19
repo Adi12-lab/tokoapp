@@ -35,7 +35,7 @@
                         <div class="row cart-row">
                             <input type="hidden" class="cart-id form-control" value="{{ $cart->id }}">
                             <div class="col-md-2 cart-col">
-                                <img src="img/product/{{ $cart->database_data->gambar }}">
+                                <img src="{{ 'storage/'.$cart->database_data->gambar }}">
                             </div>
                             <div class="col-md-3 text-center py-3">
                                 <h4 class="cart-title">{{ $cart->name }}</h4>

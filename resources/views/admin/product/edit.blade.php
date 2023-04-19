@@ -203,14 +203,19 @@
                     
                         <div class="mb-3">
                             <h4>Status Produk</h4>
-                            <input type="radio" class="btn-check" name="active_status" id="active_product"
+                            <input type="radio" class="btn-check" name="active_status" id="active_product" value="1"
                                 autocomplete="off" {{ $product->active == 1 ? 'checked' : '' }}>
                             <label class="btn btn-outline-success" for="active_product">Aktif</label>
 
-                            <input type="radio" class="btn-check" name="active_status" id="deactive_product"
+                            <input type="radio" class="btn-check" name="active_status" id="deactive_product" value="0"
                                 autocomplete="off" {{ $product->active == 0 ? 'checked' : '' }}>
                             <label class="btn btn-outline-danger" for="deactive_product">Nonaktif</label>
                         </div>
+                        @error('active_status')
+                        <div class="text-danger">
+                            {{ $message }}
+                        </div>
+                    @enderror
                         <button class="btn btn-primary px-4 mb-4" type="submit">Update Produk</button>
                     </form>
                 </div>

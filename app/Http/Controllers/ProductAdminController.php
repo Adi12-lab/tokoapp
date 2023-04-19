@@ -18,7 +18,7 @@ class ProductAdminController extends Controller
   * @return \Illuminate\Http\Response
   */
   public function index() {
-    $products = Product::all();
+    $products = Product::with(["size"])->get();
     
     return view("admin.product.index", [
       "products" => $products
@@ -117,7 +117,7 @@ class ProductAdminController extends Controller
   * @return \Illuminate\Http\Response
   */
   public function edit(Product $product) {
-    $product->load(["size","variant","productGallery"]);
+    // dd($product->size);
     $product["deskripsi"] = htmlspecialchars_decode($product["deskripsi"]);
     $product["body"] = htmlspecialchars_decode($product["body"]);
     $origin = DB::table("origin")->get();
@@ -142,7 +142,7 @@ class ProductAdminController extends Controller
   * @return \Illuminate\Http\Response
   */
   public function update(Request $request, Product $product) {
-    
+    // dd($request->all());
     $rules = [
       "name" => "required|max:225",
       "kelompok" => "required",
@@ -150,18 +150,19 @@ class ProductAdminController extends Controller
       "gambar" => "image|file|max:1024",
       "origin" => "required|numeric",
       "deskripsi" => "required",
-      "body" => "required"
+      "body" => "required",
+      "active_status" => 'required'
       
     ];
     //berarti tida pengen ganti
     if ($product->slug != $request->slug) {
       $rules["slug"] = "required|max:225|unique:products";
     }
-    
     $cradentials = $request->validate($rules);
-
-    // Product::where("id", $product->id)->update($cradentials);
     $updateProduct = Product::find($product->id);
+
+
+    $updateProduct->setIsUpdating(true);
     $updateProduct->name = $cradentials['name'];
     $updateProduct->kelompok = $cradentials['kelompok'];
     $updateProduct->stok = $cradentials['stok'];
@@ -173,11 +174,11 @@ class ProductAdminController extends Controller
     $updateProduct->origin = $cradentials['origin'];
     $updateProduct->deskripsi = $cradentials['deskripsi'];
     $updateProduct->body = $cradentials['body'];
+    $updateProduct->active = $cradentials["active_status"];
+    //kita update carousel dan gallerynya
     $updateProduct->save();
 
-
-    Size::whereNotIn("id",$request["size_id"])->delete();//Size yang ada didatabase yang tidak memiliki pasangan request kita hapus
-
+    Size::where('product_id', $product->id)->whereNotIn("id",$request["size_id"])->delete();//Size yang ada didatabase yang tidak memiliki pasangan request kita hapus
     for($i = 0; $i < count($request["size_name"]); $i++) {
       $data_size = [
       "product_id" => $product->id,
@@ -191,17 +192,19 @@ class ProductAdminController extends Controller
        //id yang ditambahkan di javascript adalah 0, sedangkan didatabase tidak mungkin 0, jadi tidak mungkin ada id 0, sehingga data_size adalah ber id 0, dikarenakan tidak ada di database dengan id 0, maka akan dibuat data baru
       
     }
-
-    Variant::whereNotIn("id", $request["variant_id"])->delete();
-
-    for($i = 0; $i < count($request["variant_name"]); $i++) {
-
-      $data_variant = [
-        "product_id" => $product->id,
-        "name" => $request["variant_name"][$i]
-      ];
-      Variant::updateOrInsert(["id" => $request["variant_id"][$i]], $data_variant);
+    if(isset($request["variant_name"])) {
+      Variant::where("product_id", $product->id)->whereNotIn("id", $request["variant_id"])->delete();
+      for($i = 0; $i < count($request["variant_name"]); $i++) {
+  
+        $data_variant = [
+          "product_id" => $product->id,
+          "name" => $request["variant_name"][$i]
+        ];
+        Variant::updateOrInsert(["id" => $request["variant_id"][$i]], $data_variant);
+      }
     }
+
+
 
     return redirect("/metal/products")->with("success", "Produk Anda Telah berhasil diperbarui");
   }

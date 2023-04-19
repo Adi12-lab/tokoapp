@@ -16,7 +16,7 @@ class AttachmentController extends Controller
 
         $path = $request->file("file")->storeAs(
             "pending/" . $request->input("kind"),
-            $request->file("file")->getClientOriginalName()
+            Str::random(20).'.'.$request->file("file")->getClientOriginalExtension()
         );
 
         return response()->json([

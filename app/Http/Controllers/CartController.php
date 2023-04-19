@@ -33,7 +33,7 @@ class CartController extends Controller
       )];
     if ($allCart->isNotEmpty()) {
       foreach ($allCart as $cart) {
-        if ($cart->attributes->size == $productSize && $cart->attributes->variant == $productVariant) {
+        if ($cart->attributes->size == $productSize && $cart->attributes->variant == $productVariant) { //dicek apakah ada yang sama atau tidak
           $queryAdd["id"] = $cart->id;
         } else {
           $queryAdd["id"] = $cartId;
@@ -42,7 +42,6 @@ class CartController extends Controller
     } else {
       $queryAdd["id"] = $cartId;
     }
-    //dd($queryAdd);
     \Cart::add($queryAdd);
     Alert::success('Berhasil', 'Barang telah ditambahkan ke keranjang...')->autoClose(3000);
     /*return response($queryAdd,200)

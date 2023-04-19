@@ -20,11 +20,17 @@ class UserController extends Controller
     return view("admin.login");
   }
   public function authenticate(Request $request) {
+    $remember = $request->filled("remember") == true ? true : false;
     $credentials = $request->validate([
       'username' => ['required'],
       'password' => ['required'],
     ]);
-    if (Auth::attempt($credentials)) {
+
+    if(Auth::viaRemember()) { //jika dia login menggunakan fitur remember maka arahkan langsung ke dashboard
+      return redirect()->intended('/metal/dashboard');
+    }
+
+    if (Auth::attempt($credentials, $remember)) {//remember disimpan di database
       $request->session()->regenerate();
       return redirect()->intended('/metal/dashboard');
     }

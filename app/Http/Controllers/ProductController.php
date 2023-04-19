@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Product;
-use App\Models\Colour;
 use Cart;
 
 class ProductController extends Controller
@@ -30,7 +29,7 @@ class ProductController extends Controller
     
     return view("detailProduct", [
       "product" => $product,
-      "countCart" => \Cart::getContent()->count()
+      "countCart" => Cart::getContent()->count()//berfungsi untuk menghitung 
     ]);
   }
 }

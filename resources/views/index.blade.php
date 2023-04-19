@@ -19,22 +19,26 @@
 <section class="about">
   <div class="container">
     <div class="row mt-4">
-      <div class="animated-thumbnails-gallery col-lg-6 d-flex flex-wrap">
-        <a href="img/home/header-1.jpg" class="gallery-item d-inline-block me-2">
-          <img src="img/home/header-1.jpg" >
-        </a>
-        <a href="img/home/header-2.jpg" class="gallery-item d-inline-block">
-          <img src="img/home/header-2.jpg" class="">
-        </a>
-        <span class="mt-3 d-inline-block p-3 text-white text-center d-flex align-items-center">
-          "Demi Allah aman dan terpercaya"
-        </span>
-        <a href="img/home/header-2.jpg" class="gallery-item d-inline-block mt-2">
-          <img src="img/home/header-3.jpg" class="">
-        </a>
+      <div class="col-md-7 col-lg-4">
+        <div class="row">
+          <div class="col-6 col-md-6 border">
+            <img src="img/home/header-1.jpg">
+          </div>
+          <div class="col-6 col-sm-3 col-md-6">
+            <img src="img/home/header-2.jpg">
+          </div>
+          <div class="col-6 col-sm-3 col-md-6">
+            <span class="mt-3 d-inline-block p-3 text-white text-center d-flex align-items-center">
+              "Demi Allah aman dan terpercaya"
+            </span>
+          </div>
+          <div class="col-6 col-md-6">
+            <img src="img/home/header-3.jpg">
+          </div>
+        </div>
 
       </div>
-      <div class="col-lg-6">
+      <div class="col-lg-8">
         <h3 class="mt-3">Dapatkanlah di Afwaja Shop</h3>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo error impedit, expedita perspiciatis quisquam laborum consequuntur voluptas, in, nobis illum nisi voluptates aliquam debitis!
