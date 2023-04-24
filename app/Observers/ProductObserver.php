@@ -64,16 +64,16 @@ class ProductObserver
             }
             //=====pindahkan file pending kedalam folder slugnya=====
             $files = Storage::allFiles("pending");
-            $files = Arr::map($files, function ($value, $key) {
-                $temp = explode("/", $value);
-                return "$temp[1]/$temp[2]"; //carousel/file
-            });
+          
             foreach ($files as $file) {
-                Storage::move("pending/$file", "$product->slug/$file");
+                $extension = explode('.',$file);
+                $kind = explode("/", $file)[1]; //jenis = carousel, gallery
+                $new_file_name = "$kind/".Str::random(20).".".end($extension);
+                Storage::move($file, "$product->slug/$new_file_name");
                 ProductGallery::create([
                     "product_id" => $product->id,
-                    "jenis" => explode("/", $file)[0], //jenis
-                    "gambar" => "$product->slug/$file", //slug/jenis/namaFIle
+                    "jenis" => $kind, //jenis
+                    "gambar" => "$product->slug/$new_file_name", //slug/jenis/namaFIle
                 ]);
             }
         }

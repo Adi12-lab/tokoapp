@@ -5,7 +5,7 @@
   <div class="container">
     {{ Breadcrumbs::render('produk') }}
     <div class="row">
-      <div class="col-lg-10">
+      <div class="col-lg-8">
         <div class="sort dropdown mb-3">
           <button class="btn dropdown-toggle ms-auto d-block border px-3" type="button"
             data-bs-toggle="dropdown" aria-expanded="false">
@@ -25,7 +25,7 @@
             <div class="row g-0">
               <div class="col-md-4">
                 <img src="{{asset("storage/$product->gambar")}}" class="img-fluid rounded-start"
-                alt="...">
+                alt="{{$product->gambar}}">
               </div>
               <div class="col-md-8">
                 <div class="card-body">
@@ -43,8 +43,8 @@
                       <input type="hidden" name="id" value="{{ rand(100,500) }}">
                       <input type="hidden" name="name" value="{{ $product->name }}">
                       <input type="hidden" name="size" value="{{$product->size[0]->name ?? ""}}">
-
-                      <input type="hidden" name="price" value="{{ $product->size[0]->price ?? "" }}">
+                      <input type="hidden" name="weight" value="{{$product->size[0]->weight ?? ""}}">
+                      <input type="hidden" name="price" value="{{ $product->size[0]->price}}">
                       <input type="hidden" name="variant" value="{{ $product->variant[0]->name ?? "" }}">
                       <input type="hidden" name="quantity" value="1">
                       <button type="button" class="addCart btn btn-outline-warning"><i

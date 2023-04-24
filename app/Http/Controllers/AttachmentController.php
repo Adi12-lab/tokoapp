@@ -15,8 +15,7 @@ class AttachmentController extends Controller
         //Upload file ke folder pending yang didalamnya ada folder yang sesuai dengan nama slug produk
 
         $path = $request->file("file")->storeAs(
-            "pending/" . $request->input("kind"),
-            Str::random(20).'.'.$request->file("file")->getClientOriginalExtension()
+            "pending/" . $request->input("kind"), $request->file("file")->getClientOriginalName()
         );
 
         return response()->json([

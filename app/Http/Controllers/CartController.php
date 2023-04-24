@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Alert;
 use App\Http\Controllers\RajaOngkirController;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -17,7 +18,10 @@ class CartController extends Controller
     $productVariant = $all["variant"];
     $productPrice = intval($all["price"]);
     $productQuantity = intval($all["quantity"]);
+    $productWeight = intval($all["weight"]);
     $productName = $all["name"];
+
+  
 
     $allCart = \Cart::getContent()->where("name", $productName);
     if ($productSize == "undefined") $productSize = null;
@@ -29,7 +33,8 @@ class CartController extends Controller
       "quantity" => $productQuantity,
       'attributes' => array(
         "size" => $productSize,
-        "variant" => $productVariant
+        "variant" => $productVariant,
+        "weight" => $productWeight
       )];
     if ($allCart->isNotEmpty()) {
       foreach ($allCart as $cart) {
@@ -43,36 +48,42 @@ class CartController extends Controller
       $queryAdd["id"] = $cartId;
     }
     \Cart::add($queryAdd);
-    Alert::success('Berhasil', 'Barang telah ditambahkan ke keranjang...')->autoClose(3000);
-    /*return response($queryAdd,200)
-    ->header('Content-Type', 'text/plain');*/
-
-    // return $request;
+    Alert::success('Berhasil', 'Barang telah ditambahkan ke keranjang...');
   }
 
   public function cartContent() {
     $cartCollection = \Cart::getContent();
     $dataProduk = Product::with(["size", "variant"])->get();
-
-    $cartCollection->each(function($item, $key) use ($dataProduk) {
+    //Origin
+    $origin = DB::table("origin")->get();
+    $cartCollection->each(function($item, $key) use ($dataProduk, $origin) {
 
       $item->database_data = $dataProduk->firstWhere("name", $item->name); //Disini ada informasi gambar produk, nama dll sebagainya yang lebih terperinci
+      $item->database_data["originName"] = $origin->firstWhere("id_city", $item->database_data->origin)->nama;
       $item->put("priceSum", $item->price * $item->quantity);
 
     });
-
     $total_price_item = $cartCollection->sum("priceSum");
-    
-
+    // dd($cartCollection);
     //Menampilkan data provinsi di cart
     $provinsi = collect(json_decode(RajaOngkirController::get_province()));
     $provinsi = $provinsi["rajaongkir"]->results;
     
+
+    $originGroup = $cartCollection->groupBy(function($item, $key) {//origin diambil dari database tiap tiapp item cart
+      return $item->database_data["origin"];// sehingga akan terkelompok berdasarkan originnya
+    })->map(function($cartItem) {//setelah itu tiap origin di total berapa weight
+      return $cartItem->sum(function($insideItem) {
+        return $insideItem["attributes"]["weight"] * $insideItem["quantity"];
+      });
+    });
+
     return view("cart", [
       "carts" => $cartCollection,
       "countCart" => $cartCollection->count(),
       "total_price_item" => $total_price_item,
-      "provinsi" => $provinsi
+      "provinsi" => $provinsi,
+      "originGroup" => $originGroup
     ]);
   }
 
@@ -131,16 +142,7 @@ class CartController extends Controller
     return response($sameCart, 200)
     ->header('Content-Type', 'text/plain');
   }
-  /*public function degQuantity(Request $request) {
-      \Cart::update($request->id, array(
-  "quantity" => -1
-  ));
-    }
-    public function incQuantity(Request $request) {
-      \Cart::update($request->id, array(
-  "quantity" => +1
-  ));
-    }*/
+
   public function clearCart() {
     \Cart::clear();
   }

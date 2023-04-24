@@ -5,32 +5,96 @@ $(document).ready(function () {
       thumbnail: true,
     });
   });
-  //owl-carousel
-  $(".owl-carousel").owlCarousel({
-    center: true,
+  //==============Owl-carousel======================
+
+
+
+  var sync1 = $("#sync1");
+  var sync2 = $("#sync2");
+  var slidesPerPage = 4; //globaly define number of elements per page
+  var syncedSecondary = true;
+
+  sync1.owlCarousel({
+    items : 1,
+    slideSpeed : 2000,
+    autoplay: false,
+    dots: false,
+    loop: true,
+    responsiveRefreshRate : 200,
+
+  }).on('changed.owl.carousel', syncPosition);
+
+  sync2
+    .on('initialized.owl.carousel', function () {
+      sync2.find(".owl-item").eq(0).addClass("current");
+    })
+    .owlCarousel({
+    items : slidesPerPage,
     dots: false,
     nav: true,
-    navText: [
-      "<i class='fa-solid fa-chevron-left'></i>",
-      "<i class='fa-solid fa-chevron-right'></i>",
-    ],
-    loop: true,
-    margin: 10,
-    autoplay: true,
-    autoplayTimeout: 2400,
-    responsive: {
-      200: {
-        items: 1,
-      },
-      600: {
-        items: 4,
-      },
-    },
+    smartSpeed: 200,
+    slideSpeed : 500,
+    slideBy: slidesPerPage, //alternatively you can slide by 1, this way the active slide will stick to the first item in the second carousel
+    responsiveRefreshRate : 100,
+    navText: [`<i class="fa-solid fa-arrow-left"></i>`, `<i class="fa-solid fa-arrow-right"></i>` ]
+  }).on('changed.owl.carousel', syncPosition2);
+
+function syncPosition(el) {
+    //if you set loop to false, you have to restore this next line
+    //var current = el.item.index;
+    
+    //if you disable loop you have to comment this block
+    var count = el.item.count-1;
+    var current = Math.round(el.item.index - (el.item.count/2) - .5);
+    
+    if(current < 0) {
+      current = count;
+    }
+    if(current > count) {
+      current = 0;
+    }
+    
+    //end block
+
+    sync2
+      .find(".owl-item")
+      .removeClass("current")
+      .eq(current)
+      .addClass("current");
+    var onscreen = sync2.find('.owl-item.active').length - 1;
+    var start = sync2.find('.owl-item.active').first().index();
+    var end = sync2.find('.owl-item.active').last().index();
+    
+    if (current > end) {
+      sync2.data('owl.carousel').to(current, 100, true);
+    }
+    if (current < start) {
+      sync2.data('owl.carousel').to(current - onscreen, 100, true);
+    }
+  }
+  
+  function syncPosition2(el) {
+    if(syncedSecondary) {
+      var number = el.item.index;
+      sync1.data('owl.carousel').to(number, 100, true);
+    }
+  }
+  
+  sync2.on("click", ".owl-item", function(e){
+    e.preventDefault();
+    var number = $(this).index();
+    sync1.data('owl.carousel').to(number, 300, true);
   });
+
+  $(".daftar-galeri").owlCarousel({
+    items:6
+    
+  });
+
 
 //=======Sorting Harga===========
 
-  //Dropdown Isotope
+  // Isotope
   let $grid = $(".grid.product").isotope({
     // options
     itemSelector: ".grid-item",
@@ -38,13 +102,13 @@ $(document).ready(function () {
       nama: ".product-title",
       hargaMurah: function (itemElem) {
         return parseInt(
-          $(itemElem).find(".product-price").attr("data-price"),
+          $(itemElem).find(".product-price").data("price"),
           10
         );
       },
       hargaMahal: function (itemElem) {
         return parseInt(
-          $(itemElem).find(".product-price").attr("data-price"),
+          $(itemElem).find(".product-price").data("price"),
           10
         );
       },
@@ -63,15 +127,19 @@ $(document).ready(function () {
       .each(function (i, e) {
         $(e).find("i").addClass("invisible");
       });
+    
+    //ini dropdwon untuk sorting
     if ($(this).parents(".dropdown").hasClass("sort")) {
-      const nameSort = $(this).attr("data-sort");
-      const valueSort = $(this).attr("data-sort-by");
+      const nameSort = $(this).data("sort");
+      const valueSort = $(this).data("sort-by");
       $(".dropdown-toggle").children(".sortBy").html(nameSort);
       $grid.isotope({
         sortBy: valueSort,
       });
+    
+    //ini dropdwon yang lain
     } else {
-      const valDropDown = $(this).attr("data-dropdown");
+      const valDropDown = $(this).data("dropdown");
       const dropdown = $(this).parents(".dropdown");
       //Kita ganti htmlnya
       dropdown.find(".dropdown-html").html(valDropDown);
@@ -80,11 +148,11 @@ $(document).ready(function () {
       if (dropdown.hasClass("size")) {
         dropdown
           .find(".dropdown-html")
-          .attr("data-select-drop", valDropDown);
+          .data("select-drop", valDropDown);
       } else if (dropdown.hasClass("variant")) {
         dropdown
           .find(".dropdown-html")
-          .attr("data-select-drop", valDropDown);
+          .data("select-drop", valDropDown);
       }
     }
     $(this).children().removeClass("invisible"); // tag i
@@ -120,9 +188,9 @@ $(document).ready(function () {
       let cartRow = $(e).parents(".cart-row");
       cartId = cartRow.find(".cart-id").val();
       cartTitle = cartRow.find(".cart-title").html();
-      cartSize = cartRow.find(".size.dropdown .dropdown-html").attr("data-select-drop");
+      cartSize = cartRow.find(".size.dropdown .dropdown-html").data("select-drop");
       if (cartSize == undefined) cartSize = null;
-      cartVariant = cartRow.find(".variant.dropdown .dropdown-html").attr("data-select-drop");
+      cartVariant = cartRow.find(".variant.dropdown .dropdown-html").data("select-drop");
       if (cartVariant == undefined) cartVariant = null;
       cartQuantity = cartRow.find(".quantity-form").val();
 
@@ -153,18 +221,21 @@ $(document).ready(function () {
   });
 
 //===========Product Blade. php===========
+
 $(".addCart").click(function() {
   const thisParents = $(this).parents('.product-bottom'); 
   const cartId = thisParents.find("input[name='id']").val();
-  const productName = thisParents.find("input[name='name']").val()
-  const productSize = thisParents.find("input[name='size']").val()
-  const productVariant = thisParents.find("input[name='variant']").val()
-  const productPrice = thisParents.find("input[name='price']").val()
-  const productQuantity = thisParents.find("input[name='quantity']").val()
+  const productName = thisParents.find("input[name='name']").val();
+  const productSize = thisParents.find("input[name='size']").val();
+  const productWeight = thisParents.find("input[name='weight']").val();
+  const productVariant = thisParents.find("input[name='variant']").val();
+  const productPrice = thisParents.find("input[name='price']").val();
+  const productQuantity = thisParents.find("input[name='quantity']").val();
   const formData = new FormData();
   formData.append("id", cartId);
   formData.append("name", productName);
   formData.append("size", productSize);
+  formData.append("weight", productWeight);
   formData.append("price", productPrice);
   formData.append("variant", productVariant);
   formData.append("quantity", productQuantity);
@@ -201,7 +272,7 @@ $(".addCart").click(function() {
     $(this).siblings('.drop-list').removeClass('active');
     const drop_list = $(this).text();
     //Ambil orangtuanya(residence) dan temukan dropdown-toggle yang spesifik
-    $(this).parents(".residence").find('.dropdown-toggle').html(drop_list);
+    $(this).parents(".residence").find('.dropdown-toggle').text(drop_list);
     const kindRresidence = $(this).parents(".residence").data("kind-residence");
     const dropdownMenu = $(this).parents(".dropdown-menu-body");
 
@@ -213,9 +284,14 @@ $(".addCart").click(function() {
           url: "/getCity",
           type: "get",
           dataType: "json",
+          
           data: {
             id: $(this).data("id")
           },
+          beforeSend: function() {
+            // Menampilkan loader
+            $('.image-loader').toggleClass('d-none');
+         },
           success: function (results) {
             const result = results.rajaongkir.results;
             let residenceCityBody = $('.residence[data-kind-residence="city"] .dropdown-menu-body');
@@ -234,6 +310,7 @@ $(".addCart").click(function() {
             residenceCityBody.children('.drop-list').each(function (i, e) {
               cityDrop.push([$(e).data("id"), $(e).text()]);
             });
+            $(".image-loader").toggleClass("d-none");
 
           }
         });
@@ -241,9 +318,21 @@ $(".addCart").click(function() {
         //tambahkan data untuk city
         break;
         case "city":
-          console.log("memencet kota");
           tempDrop = cityDrop;
+          $.ajac({
+            url: '/getCost',
+            type:'post',
+            dataType:'json',
+            data: {
+              id:$(this).data("id")
+            }
+            
+          })
           break;
+        case 'cost':
+          dropdownMenu.siblings(".dropdown-input").val(''); //Kosongkan searchnya
+          dropdownMenu.children(`.drop-list[data-id="${$(this).data("id")}"]`).addClass("active");
+          return;
         default:
             console.log("dropdown cart not found");
             return;
@@ -251,8 +340,6 @@ $(".addCart").click(function() {
           dropdownMenu.siblings(".dropdown-input").val(''); //Kosongkan searchnya
           dropdownMenu.empty(); //Kosongkan semua drop list yang berada di dropdown-menu-body
           //isi semua dengan data yang ada
-          // console.log(tempDrop);
-          // return;
           $.each(tempDrop, (i, item) => {
             dropdownMenu.append(`<li class="drop-list" data-id="${item[0]}">${item[1]}</li>`);
           });
@@ -297,17 +384,19 @@ $(".addCart").click(function() {
     $(this).addClass("current");
   });
 });
-$(".checkout").click(function () {
+$(".addCart.body").click(function () {
   const cartId = $(".cartId").val();
   const productName = $(".productName").text();
-  const productSize = $(".option.size.active").attr("data-size");
-  const productVariant = $(".option.variant.active").attr("data-variant");
-  const productPrice = $(".option.size.active").attr("data-price-size");
+  const productSize = $(".option.size.active").data("size");
+  const productWeight = productSize ? $(".option.size.active").data("weight-size") : $("input[name='size']").val();
+  const productVariant = $(".option.variant.active").data("variant");
+  const productPrice = productSize ? $("option.size.active").data("price-size") : $("input[name='price']").val();
   const productQuantity = $(".quantity-form").val();
   const formData = new FormData();
   formData.append("id", cartId);
   formData.append("name", productName);
   formData.append("size", productSize);
+  formData.append("weight", productWeight);
   formData.append("price", productPrice);
   formData.append("variant", productVariant);
   formData.append("quantity", productQuantity);
