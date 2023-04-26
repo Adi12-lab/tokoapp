@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Alert;
 use App\Http\Controllers\RajaOngkirController;
 use Illuminate\Support\Facades\DB;
+use PDO;
 
 class CartController extends Controller
 {
@@ -59,25 +60,40 @@ class CartController extends Controller
     $cartCollection->each(function($item, $key) use ($dataProduk, $origin) {
 
       $item->database_data = $dataProduk->firstWhere("name", $item->name); //Disini ada informasi gambar produk, nama dll sebagainya yang lebih terperinci
-      $item->database_data["originName"] = $origin->firstWhere("id_city", $item->database_data->origin)->nama;
+      $item->database_data["originName"] = $origin->firstWhere("id_city", $item->database_data->origin)->nama; //dikasih tau nama originnya
       $item->put("priceSum", $item->price * $item->quantity);
 
     });
     $total_price_item = $cartCollection->sum("priceSum");
     // dd($cartCollection);
-    //Menampilkan data provinsi di cart
+    // //Menampilkan data provinsi di cart
     $provinsi = collect(json_decode(RajaOngkirController::get_province()));
     $provinsi = $provinsi["rajaongkir"]->results;
     
 
     $originGroup = $cartCollection->groupBy(function($item, $key) {//origin diambil dari database tiap tiapp item cart
-      return $item->database_data["origin"];// sehingga akan terkelompok berdasarkan originnya
-    })->map(function($cartItem) {//setelah itu tiap origin di total berapa weight
-      return $cartItem->sum(function($insideItem) {
-        return $insideItem["attributes"]["weight"] * $insideItem["quantity"];
+      return $item->database_data["originName"];// sehingga akan terkelompok berdasarkan originnya
+    })->map(function($item) {
+      //Masing - masing item ditotal berat dan quantitynya
+      return $item->each(function($inside) {
+        $inside->put("total_weight", $inside->attributes["weight"] * $inside->quantity);
       });
+    })->map(function($item) {
+      //setelah itu ditotal berat dari origin tersebut
+      return [
+        "items" => $item,
+        "origin_name" => $item->first()->database_data->originName,
+        "origin_code" => $item->first()->database_data->origin,
+        "total_weight_origin" => $item->sum("total_weight")
+      ];
     });
-
+    
+    // $totalWeightGroup = $originGroup->map(function($item) {
+    //   return $item->sum(function($insideItem) {
+    //     return $insideItem["attributes"]["weight"] * $insideItem["quantity"];
+    //   });
+    // });
+    
     return view("cart", [
       "carts" => $cartCollection,
       "countCart" => $cartCollection->count(),
@@ -86,7 +102,10 @@ class CartController extends Controller
       "originGroup" => $originGroup
     ]);
   }
-
+  
+  // $makanan = ["berkuah" => ["soto", "gule", "gudeg", "bubur"]];
+  // bagaimana cara mengubahnya menjadi dibawah ini, menggunakkan method collection dari laravel
+  // $makanan = ["berkuah" => ["items" => ["soto", "gule", "gudeg", "bubur"], "count" => 4]];
   public function deleteCart(Request $request) {
 
     \Cart::remove($request->id);
@@ -97,22 +116,24 @@ class CartController extends Controller
   
   public function updateCart(Request $request) {
     //alert()->success("Berhasil", "Keranjang telahb berhasil diupdate");
-    $product = Product::all();
+    $product = Product::with(["size", "variant"])->get();
     $dataCart = collect($request->all()["request"]);
-    $processCart = $dataCart->groupBy(['name', 'size', 'variant'])->map(function($group) {
+    $processCart = $dataCart->groupBy(['name', 'size', 'variant'])->map(function($group) { //DIkelompokkan yang sama
       return $group->map(function($group2) {
         return $group2->map(function($group3) {
           return [
             "id" => $group3->first()["id"],
             "name" => $group3->first()["name"],
             "size" => $group3->first()["size"],
+            "weight" => $group3->first()["weight"],
             "variant" => $group3->first()["variant"],
             "quantity" => $group3->sum("quantity")
           ];
         })->values();
       })->values();
     })->values()->collapse()->collapse()->toArray();
-    $sameCart = collect([]);
+    
+    $sameCart = collect([]);//dicek apakah ada yang sama, akan tetapi berbeda id
     foreach ($processCart as $prc) {
       //Ambil cart yang namanya sama
       $sameCart->push($dataCart
@@ -120,7 +141,7 @@ class CartController extends Controller
         ->where("size", $prc["size"])
         ->where("variant", $prc["variant"])
         ->where("id", "!=", $prc["id"])->values()->collapse());
-
+      
       \Cart::update($prc["id"], [
         "name" => $prc["name"],
         "price" => $product->firstWhere("name", $prc["name"])->size->firstWhere("name", $prc["size"])->price,
@@ -129,7 +150,8 @@ class CartController extends Controller
           "value" => $prc["quantity"]),
         'attributes' => array(
           "size" => $prc["size"],
-          "variant" => $prc["variant"]
+          "variant" => $prc["variant"],
+          "weight" => $product->firstWhere("name", $prc["name"])->size->firstWhere("name", $prc["size"])->weight
         )
       ]);
       //Hapus dari sameCart

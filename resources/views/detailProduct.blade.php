@@ -38,7 +38,7 @@
 
         {{-- Variant --}}
         @isset($product->variant[0]->name)
-        <div class="row">
+        <div class="row mt-2">
           <span class="font-dark fw-bold">Variant : </span>
           <div>
             @foreach($product->variant as $var)
@@ -56,13 +56,13 @@
         {{-- Jika ada sizenya maka tampilkan --}}
         @if($product->size[0]->name != null)
 
-        <div class="row size my-3">
+        <div class="row size">
           <span class="font-dark fw-bold">Ukuran : </span>
           <div>
 
             @foreach($product->size as $siz)
             @if($loop->first)
-            <a class="btn option size active" data-size="{{$siz->name}}" data-price-size="{{$siz->price}}">{{$siz->name}} : {{rupiah($siz->price ?? 0)}}</a>
+            <a class="btn option size active" data-size="{{$siz->name}}" data-price-size="{{$siz->price}}" data-weight-size="{{$siz->weight}}">{{$siz->name}} : {{rupiah($siz->price ?? 0)}}</a>
             @continue
             @endif
             <a class="btn option size" data-size="{{$siz->name}}" data-price-size="{{$siz->price}}" data-weight-size="{{$siz->weight}}">{{$siz->name}} : {{rupiah($siz->price)}} </a>

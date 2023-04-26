@@ -19,7 +19,7 @@ class RajaOngkirController extends Controller
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => "GET",
       CURLOPT_HTTPHEADER => array(
-        "key: c892332ce457abf0fdce1a3f40c6260e"
+        "key: ".env('RAJAONGKIR_API')
       ),
     ));
 
@@ -42,7 +42,7 @@ class RajaOngkirController extends Controller
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => "GET",
       CURLOPT_HTTPHEADER => array(
-        "key: c892332ce457abf0fdce1a3f40c6260e"
+        "key: ".env('RAJAONGKIR_API')
       ),
     ));
 
@@ -69,7 +69,7 @@ class RajaOngkirController extends Controller
       CURLOPT_POSTFIELDS => "origin=501&destination=114&weight=1700&courier=jne",
       CURLOPT_HTTPHEADER => array(
         "content-type: application/x-www-form-urlencoded",
-        "key: c892332ce457abf0fdce1a3f40c6260e"
+        "key: ".env('RAJAONGKIR_API')
       ),
     ));
 

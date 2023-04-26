@@ -183,7 +183,7 @@ function syncPosition(el) {
 
   //Update Cart
   $(".update-cart").click(function () {
-    let allCart = [];
+    let allCart = []; //Mengandung semua cart
     $(".cart-id").each(function (i, e) {
       let cartRow = $(e).parents(".cart-row");
       cartId = cartRow.find(".cart-id").val();
@@ -193,17 +193,18 @@ function syncPosition(el) {
       cartVariant = cartRow.find(".variant.dropdown .dropdown-html").data("select-drop");
       if (cartVariant == undefined) cartVariant = null;
       cartQuantity = cartRow.find(".quantity-form").val();
+      cartWeight = cartRow.find(".cart-weight").val();
 
       let singleCart = {
         id: cartId,
         name: cartTitle,
         size: cartSize,
+        weight:cartWeight,
         variant: cartVariant,
         quantity: cartQuantity,
       };
       allCart.push(singleCart);
     });
-
     $.ajax({
       url: "/updateCart",
       type: "post",
@@ -290,7 +291,7 @@ $(".addCart").click(function() {
           },
           beforeSend: function() {
             // Menampilkan loader
-            $('.image-loader').toggleClass('d-none');
+            $(".residence[data-kind-residence='city']").find('.image-loader').toggleClass('d-none');
          },
           success: function (results) {
             const result = results.rajaongkir.results;
@@ -310,7 +311,7 @@ $(".addCart").click(function() {
             residenceCityBody.children('.drop-list').each(function (i, e) {
               cityDrop.push([$(e).data("id"), $(e).text()]);
             });
-            $(".image-loader").toggleClass("d-none");
+            $(".residence[data-kind-residence='city']").find(".image-loader").toggleClass("d-none");//Hilangkan loadernya
 
           }
         });
@@ -319,19 +320,18 @@ $(".addCart").click(function() {
         break;
         case "city":
           tempDrop = cityDrop;
-          $.ajac({
-            url: '/getCost',
-            type:'post',
-            dataType:'json',
+          $.ajax({
+            url: "/getCost",
+            type: "post",
+            dataType: "json",
             data: {
-              id:$(this).data("id")
+              
             }
-            
           })
           break;
-        case 'cost':
+        case 'expedition':
           dropdownMenu.siblings(".dropdown-input").val(''); //Kosongkan searchnya
-          dropdownMenu.children(`.drop-list[data-id="${$(this).data("id")}"]`).addClass("active");
+          dropdownMenu.children(`.drop-list[data-courier="${$(this).data("courier")}"]`).addClass("active");
           return;
         default:
             console.log("dropdown cart not found");
@@ -388,9 +388,9 @@ $(".addCart.body").click(function () {
   const cartId = $(".cartId").val();
   const productName = $(".productName").text();
   const productSize = $(".option.size.active").data("size");
-  const productWeight = productSize ? $(".option.size.active").data("weight-size") : $("input[name='size']").val();
+  const productWeight = productSize? $(".option.size.active").data("weight-size") : $("input[name='weight']").val();
   const productVariant = $(".option.variant.active").data("variant");
-  const productPrice = productSize ? $("option.size.active").data("price-size") : $("input[name='price']").val();
+  const productPrice = productSize? $(".option.size.active").data("price-size") : $("input[name='price']").val();
   const productQuantity = $(".quantity-form").val();
   const formData = new FormData();
   formData.append("id", cartId);
@@ -400,8 +400,7 @@ $(".addCart.body").click(function () {
   formData.append("price", productPrice);
   formData.append("variant", productVariant);
   formData.append("quantity", productQuantity);
-
-
+  
   $.ajax({
     url: "/addCart",
     type: "post",
