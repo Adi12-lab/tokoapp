@@ -65,12 +65,14 @@ class CartController extends Controller
 
     });
     $total_price_item = $cartCollection->sum("priceSum");
-    // dd($cartCollection);
+    
     // //Menampilkan data provinsi di cart
     $provinsi = collect(json_decode(RajaOngkirController::get_province()));
     $provinsi = $provinsi["rajaongkir"]->results;
     
-
+    // === Cart Totals ===
+    $subTotal = $cartCollection->sum("priceSum");
+    // dd($subTotal);
     $originGroup = $cartCollection->groupBy(function($item, $key) {//origin diambil dari database tiap tiapp item cart
       return $item->database_data["originName"];// sehingga akan terkelompok berdasarkan originnya
     })->map(function($item) {
@@ -88,17 +90,12 @@ class CartController extends Controller
       ];
     });
     
-    // $totalWeightGroup = $originGroup->map(function($item) {
-    //   return $item->sum(function($insideItem) {
-    //     return $insideItem["attributes"]["weight"] * $insideItem["quantity"];
-    //   });
-    // });
-    
     return view("cart", [
       "carts" => $cartCollection,
       "countCart" => $cartCollection->count(),
       "total_price_item" => $total_price_item,
       "provinsi" => $provinsi,
+      "sub_total" => $subTotal,
       "originGroup" => $originGroup
     ]);
   }
@@ -160,9 +157,6 @@ class CartController extends Controller
            if(isset($sac["id"])) \Cart::remove($sac["id"]);
         }
     }
-
-    return response($sameCart, 200)
-    ->header('Content-Type', 'text/plain');
   }
 
   public function clearCart() {

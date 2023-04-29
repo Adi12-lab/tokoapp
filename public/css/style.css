@@ -88,6 +88,10 @@ a {
 a:hover {
   color: var(--color-succes);
 }
+
+.text-small {
+  font-size: .7rem;
+}
 img {
   width: 100%;
 }
@@ -504,6 +508,11 @@ footer .widget {
   max-height: 200px;
   overflow-y: scroll;
 }
+.residence .label-dropdown,
+.residence .label-active {
+  color: var(--color-black);
+}
+
 .residence .drop-list {
   border-radius: 4px;
   padding: 10px 7px;
@@ -514,6 +523,7 @@ footer .widget {
 .drop-list {
   cursor: pointer;
 }
+
 
 .cart-totals {
 	height: 381.4px;

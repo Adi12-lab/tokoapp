@@ -2,7 +2,7 @@
 
 if (!function_exists("rupiah")) {
   function rupiah($bilangan) {
-    return number_format($bilangan,0, "", ".");
+    return 'Rp '.number_format($bilangan,0, "", ".");
   }
 }
 function diskon($bil1, $bil2) {

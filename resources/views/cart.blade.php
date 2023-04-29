@@ -84,7 +84,7 @@
 
                             {{-- Price Produk --}}
                             <div class="col-md-2 cart-col ">
-                                <span class="text-secondary fs-5">Rp. {{ rupiah($cart->price) }}</span>
+                                <span class="text-secondary fs-5">{{ rupiah($cart->price) }}</span>
                             </div>
 
                             {{-- Quantity Produk --}}
@@ -97,7 +97,7 @@
                                     onclick="increment(this)">+</button>
                             </div>
                             <div class="col-md-2 cart-col">
-                                <span class="text-success fs-5 fw-bold">Rp. {{ rupiah($cart->priceSum) }}</span>
+                                <span class="text-success fs-5 fw-bold">{{ rupiah($cart->priceSum) }}</span>
                             </div>
                             <div class="col-md-1 cart-col">
                                 <a href="#"class="removeCart"><i
@@ -134,7 +134,8 @@
                             <div class="dropdown residence" data-kind-residence="province">
                                 <button class="btn dropdown-toggle border w-100 text-start px-4 py-3" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    Pilih provinsi
+                                    <span class="label-dropdown">Pilih provinsi</span>
+                                    <span class="label-active d-none"></span>
                                 </button>
                                 <div class="dropdown-menu w-100 p-3">
                                     <input type="text" class="dropdown-input form-control py-1">
@@ -153,7 +154,8 @@
                             <div class="dropdown residence" data-kind-residence="city">
                                 <button class="btn dropdown-toggle border w-100 text-start px-4 py-3 position-relative"
                                     type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Pilih kabupaten/kota
+                                    <span class="label-dropdown">Pilih Kabupaten/kota</span>
+                                    <span class="label-active d-none"></span>
                                     <img src="{{ asset('img/loader.gif') }}"
                                         class="image-loader position-absolute d-none" height="40"
                                         style="width:40px; right:0; bottom:8px;">
@@ -161,24 +163,43 @@
                                 <div class="dropdown-menu w-100 p-3">
                                     <input type="text" class="dropdown-input form-control py-1">
                                     <ul class="dropdown-menu-body mt-2">
-                                        <li class="drop-list active">Pilih kabupaten/kota</li>
                                     </ul>
                                 </div>
-
                             </div>
                         </div>
                         <div class="mb-3">
                             <div class="dropdown residence" data-kind-residence="expedition">
                                 <button class="btn dropdown-toggle border w-100 text-start px-4 py-3" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    Pilih pengiriman
+                                    <span class="label-dropdown">Pilih ekspedisi</span>
+                                    <span class="label-active d-none"></span>
                                 </button>
                                 <div class="dropdown-menu w-100 p-3">
                                     <ul class="dropdown-menu-body mt-2">
-                                        <li class="drop-list active">Pilih pengiriman</li>
+                                        <li class="drop-list" data-courier="jne">JNE</li>
+                                        <li class="drop-list" data-courier="pos">POS</li>
+                                        <li class="drop-list" data-courier="tiki">TIKI</li>
                                     </ul>
                                 </div>
                             </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="dropdown residence" data-kind-residence="expedition-package">
+                                <button class="btn dropdown-toggle border w-100 text-start px-4 py-3" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="label-dropdown">Pilih paket ekspedisi</span>
+                                    <span class="label-active d-none"></span>
+                                    <img src="{{ asset('img/loader.gif') }}"
+                                        class="image-loader position-absolute d-none" height="40"
+                                        style="width:40px; right:0; bottom:8px;">
+                                </button>
+                                <div class="dropdown-menu w-100 p-3">
+                                    <ul class="dropdown-menu-body mt-2">
+                                    </ul>
+                                </div>
+                            </div>
+                            <span class="text-center text-small"><strong class="text-danger">Perhatian !!</strong> ongkir mahal karena barang dikirim dari berbagai daerah</span>
+                            
                         </div>
                         <div class="mb-3">
                             <textarea class="form-control" placeholder="Alamat lengkap" id="floatingTextarea2"
@@ -197,7 +218,7 @@
                                     <h6 class="text-muted">Sub total</h6>
                                 </span>
                                 <span class="cart-total-amount">
-                                    <h4 class="fw-bold">Rp 9.000</h4>
+                                    <h4 class="fw-bold sub-total" data-price="{{$sub_total}}">{{rupiah($sub_total)}}</h4>
                                 </span>
                             </li>
                             <li class="cart-totals-li">
@@ -215,14 +236,16 @@
                                                     @foreach ($origin["items"] as $item)
                                                         <li class="all-lato-font">
                                                             <span>{{ $item['name'] }}</span>
-                                                            <span>{{$item["total_weight"]}}</span>
+                                                            <span>{{$item["total_weight"]}} gram</span>
                                                         </li>
-                                                    @endforeach
-                                                    <hr>
-                                                    <li>
-                                                        <span>Total berat : </span>
-                                                        <span>{{ $origin['total_weight_origin'] }} gram</span>
-                                                    </li>
+                                                        @endforeach
+                                                        <hr>
+                                                        <li>
+                                                            <span>Total berat : </span>
+                                                            <span>{{ $origin['total_weight_origin'] }} gram</span>
+                                                        </li>
+                                                    <input type="hidden" name="origin_code[]" value="{{$origin["origin_code"]}}" data-name='{{$origin["origin_name"]}}' data-weight="{{$origin["total_weight_origin"]}}">
+  
                                                 </ul>
                                                 <hr>
                                             @endforeach
@@ -230,7 +253,7 @@
                                     </div>
                                 </span>
                                 <span class="cart-total-amount">
-                                    <h4 class="fw-bold text-success">Rp 12.0000</h4>
+                                    <h4 class="fw-bold text-success ongkir" data-price="0">-</h4>
                                 </span>
                             </li>
                             <li class="cart-totals-li">
@@ -238,7 +261,7 @@
                                     <h6 class="text-muted">Tujuan</h6>
                                 </span>
                                 <span class="cart-total-amount">
-                                    <h4 class="fw-bold">Kabupaten Lumajang</h4>
+                                    <h4 class="fw-bold destination">-</h4>
                                 </span>
                             </li>
                             <li class="cart-totals-li">
@@ -246,7 +269,7 @@
                                     <h6 class="text-muted">Total</h6>
                                 </span>
                                 <span class="cart-total-amount">
-                                    <h4 class="fw-bold text-success">Rp 12.0000</h4>
+                                    <h4 class="fw-bold text-success total-cost" data-price="0">-</h4>
                                 </span>
                             </li>
                         </ul>

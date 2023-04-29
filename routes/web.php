@@ -50,14 +50,15 @@ Route::controller(UserController::class)->group(function() {
 Route::controller(RajaOngkirController::class)->group(function() {
   Route::get("/getProvince", "get_province");
   Route::get("/getCity", "get_city");
+  Route::get("/getCost", "get_cost");
 });
 
 Route::resource("/metal/products", ProductAdminController::class)->middleware("auth");
 
-Route::get("/metal/testRequest", function() {
+Route::get("/testRequest", function() {
   return view("testRequest");
 });
-Route::post("/metal/testRequest", function(Request $request) {
+Route::post("/testRequest", function(Request $request) {
   dd($request->all());
 });
 

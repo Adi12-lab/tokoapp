@@ -15,12 +15,12 @@ $(document).ready(function () {
   var syncedSecondary = true;
 
   sync1.owlCarousel({
-    items : 1,
-    slideSpeed : 2000,
+    items: 1,
+    slideSpeed: 2000,
     autoplay: false,
     dots: false,
     loop: true,
-    responsiveRefreshRate : 200,
+    responsiveRefreshRate: 200,
 
   }).on('changed.owl.carousel', syncPosition);
 
@@ -29,31 +29,31 @@ $(document).ready(function () {
       sync2.find(".owl-item").eq(0).addClass("current");
     })
     .owlCarousel({
-    items : slidesPerPage,
-    dots: false,
-    nav: true,
-    smartSpeed: 200,
-    slideSpeed : 500,
-    slideBy: slidesPerPage, //alternatively you can slide by 1, this way the active slide will stick to the first item in the second carousel
-    responsiveRefreshRate : 100,
-    navText: [`<i class="fa-solid fa-arrow-left"></i>`, `<i class="fa-solid fa-arrow-right"></i>` ]
-  }).on('changed.owl.carousel', syncPosition2);
+      items: slidesPerPage,
+      dots: false,
+      nav: true,
+      smartSpeed: 200,
+      slideSpeed: 500,
+      slideBy: slidesPerPage, //alternatively you can slide by 1, this way the active slide will stick to the first item in the second carousel
+      responsiveRefreshRate: 100,
+      navText: [`<i class="fa-solid fa-arrow-left"></i>`, `<i class="fa-solid fa-arrow-right"></i>`]
+    }).on('changed.owl.carousel', syncPosition2);
 
-function syncPosition(el) {
+  function syncPosition(el) {
     //if you set loop to false, you have to restore this next line
     //var current = el.item.index;
-    
+
     //if you disable loop you have to comment this block
-    var count = el.item.count-1;
-    var current = Math.round(el.item.index - (el.item.count/2) - .5);
-    
-    if(current < 0) {
+    var count = el.item.count - 1;
+    var current = Math.round(el.item.index - (el.item.count / 2) - .5);
+
+    if (current < 0) {
       current = count;
     }
-    if(current > count) {
+    if (current > count) {
       current = 0;
     }
-    
+
     //end block
 
     sync2
@@ -64,7 +64,7 @@ function syncPosition(el) {
     var onscreen = sync2.find('.owl-item.active').length - 1;
     var start = sync2.find('.owl-item.active').first().index();
     var end = sync2.find('.owl-item.active').last().index();
-    
+
     if (current > end) {
       sync2.data('owl.carousel').to(current, 100, true);
     }
@@ -72,27 +72,27 @@ function syncPosition(el) {
       sync2.data('owl.carousel').to(current - onscreen, 100, true);
     }
   }
-  
+
   function syncPosition2(el) {
-    if(syncedSecondary) {
+    if (syncedSecondary) {
       var number = el.item.index;
       sync1.data('owl.carousel').to(number, 100, true);
     }
   }
-  
-  sync2.on("click", ".owl-item", function(e){
+
+  sync2.on("click", ".owl-item", function (e) {
     e.preventDefault();
     var number = $(this).index();
     sync1.data('owl.carousel').to(number, 300, true);
   });
 
   $(".daftar-galeri").owlCarousel({
-    items:6
-    
+    items: 6
+
   });
 
 
-//=======Sorting Harga===========
+  //=======Sorting Harga===========
 
   // Isotope
   let $grid = $(".grid.product").isotope({
@@ -127,7 +127,7 @@ function syncPosition(el) {
       .each(function (i, e) {
         $(e).find("i").addClass("invisible");
       });
-    
+
     //ini dropdwon untuk sorting
     if ($(this).parents(".dropdown").hasClass("sort")) {
       const nameSort = $(this).data("sort");
@@ -136,8 +136,8 @@ function syncPosition(el) {
       $grid.isotope({
         sortBy: valueSort,
       });
-    
-    //ini dropdwon yang lain
+
+      //ini dropdwon yang lain
     } else {
       const valDropDown = $(this).data("dropdown");
       const dropdown = $(this).parents(".dropdown");
@@ -157,7 +157,7 @@ function syncPosition(el) {
     }
     $(this).children().removeClass("invisible"); // tag i
   });
-//----AFWAJA SHOP CART-----
+  //----AFWAJA SHOP CART-----
 
   //Menghapus cart
   $(".removeCart").click(function (e) {
@@ -199,7 +199,7 @@ function syncPosition(el) {
         id: cartId,
         name: cartTitle,
         size: cartSize,
-        weight:cartWeight,
+        weight: cartWeight,
         variant: cartVariant,
         quantity: cartQuantity,
       };
@@ -221,47 +221,68 @@ function syncPosition(el) {
     });
   });
 
-//===========Product Blade. php===========
+  //===========Product Blade. php===========
 
-$(".addCart").click(function() {
-  const thisParents = $(this).parents('.product-bottom'); 
-  const cartId = thisParents.find("input[name='id']").val();
-  const productName = thisParents.find("input[name='name']").val();
-  const productSize = thisParents.find("input[name='size']").val();
-  const productWeight = thisParents.find("input[name='weight']").val();
-  const productVariant = thisParents.find("input[name='variant']").val();
-  const productPrice = thisParents.find("input[name='price']").val();
-  const productQuantity = thisParents.find("input[name='quantity']").val();
-  const formData = new FormData();
-  formData.append("id", cartId);
-  formData.append("name", productName);
-  formData.append("size", productSize);
-  formData.append("weight", productWeight);
-  formData.append("price", productPrice);
-  formData.append("variant", productVariant);
-  formData.append("quantity", productQuantity);
+  $(".addCart").click(function () {
+    const thisParents = $(this).parents('.product-bottom');
+    const cartId = thisParents.find("input[name='id']").val();
+    const productName = thisParents.find("input[name='name']").val();
+    const productSize = thisParents.find("input[name='size']").val();
+    const productWeight = thisParents.find("input[name='weight']").val();
+    const productVariant = thisParents.find("input[name='variant']").val();
+    const productPrice = thisParents.find("input[name='price']").val();
+    const productQuantity = thisParents.find("input[name='quantity']").val();
+    const formData = new FormData();
+    formData.append("id", cartId);
+    formData.append("name", productName);
+    formData.append("size", productSize);
+    formData.append("weight", productWeight);
+    formData.append("price", productPrice);
+    formData.append("variant", productVariant);
+    formData.append("quantity", productQuantity);
 
-  $.ajax({
-    url: "/addCart",
-    type: "post",
-    headers: {
-      "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
-    },
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function () {
-      window.location.reload();
-    }
-  });
+    $.ajax({
+      url: "/addCart",
+      type: "post",
+      headers: {
+        "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
+      },
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function () {
+        window.location.reload();
+      }
+    });
 
-})
+  })
 
-  //==========Raja Ongkir API==========
+  //==========Cart & Raja Ongkir API==========
   let provinceDrop = [];
   let cityDrop = [];
-  
-  
+  let dataCost = {
+    courier: undefined,
+    dataOrigin: [],
+    destination: undefined
+  };
+  let cart_totals = {};
+  let dataCostTest = {
+    courier: "pos",
+    dataOrigin: [
+      { origin_code: '23', origin_name: 'Kota Bandung', origin_weight: '1200' },
+      { origin_code: '431', origin_name: 'Kota Sukabumi', origin_weight: '400' },
+      { origin_code: '126', origin_name: 'Kabupaten Garut', origin_weight: '200' }],
+    destination: "232"
+  }
+
+  $.each($("input[name='origin_code[]']"), (i, item) => {
+    dataCost.dataOrigin.push({
+      origin_code: $(item).val(),
+      origin_name: $(item).data("name"),
+      origin_weight: $(item).data("weight")
+    });
+  });
+  // sendDataCost(dataCostTest);
   $.each($(".residence[data-kind-residence=province] .dropdown-menu-body").children(".drop-list"), (i, item) => {//ambil semua element dan masukan pada provinceDrop
     // console.log(item)
     provinceDrop.push([$(item).data("id"), $(item).text()]);
@@ -269,11 +290,14 @@ $(".addCart").click(function() {
 
   $('.dropdown-menu-body').on('click', '.drop-list', function (e) {
     let tempDrop = []; //tempDrop dapat berisi dari provinceDrop cityDrop dll
+
     //Ambil saudaranya, dan hilangkan kelas active
     $(this).siblings('.drop-list').removeClass('active');
     const drop_list = $(this).text();
     //Ambil orangtuanya(residence) dan temukan dropdown-toggle yang spesifik
-    $(this).parents(".residence").find('.dropdown-toggle').text(drop_list);
+    $(this).parents(".residence").find(".label-dropdown").addClass("d-none");// hilangkan label
+    $(this).parents(".residence").find('.label-active').text(drop_list).removeClass("d-none"); //aktifkan yang aktif
+
     const kindRresidence = $(this).parents(".residence").data("kind-residence");
     const dropdownMenu = $(this).parents(".dropdown-menu-body");
 
@@ -281,18 +305,24 @@ $(".addCart").click(function() {
       //Jika residence yang dipilih adalah provinsi
       case "province":
         tempDrop = provinceDrop;
+        //Ubah label dropdown city (menjadi pilih kabupaten/kota)
+        $(".residence[data-kind-residence='city']").find(".label-dropdown").removeClass("d-none");
+        $(".residence[data-kind-residence='city']").find(".label-active").addClass("d-none");
+        $(".residence[data-kind-residence='city']").find(".dropdown-menu-body").empty();
+
+
         $.ajax({
           url: "/getCity",
           type: "get",
           dataType: "json",
-          
+
           data: {
             id: $(this).data("id")
           },
-          beforeSend: function() {
+          beforeSend: function () {
             // Menampilkan loader
             $(".residence[data-kind-residence='city']").find('.image-loader').toggleClass('d-none');
-         },
+          },
           success: function (results) {
             const result = results.rajaongkir.results;
             let residenceCityBody = $('.residence[data-kind-residence="city"] .dropdown-menu-body');
@@ -315,35 +345,55 @@ $(".addCart").click(function() {
 
           }
         });
-        
+
         //tambahkan data untuk city
         break;
-        case "city":
-          tempDrop = cityDrop;
-          $.ajax({
-            url: "/getCost",
-            type: "post",
-            dataType: "json",
-            data: {
-              
-            }
-          })
-          break;
-        case 'expedition':
-          dropdownMenu.siblings(".dropdown-input").val(''); //Kosongkan searchnya
-          dropdownMenu.children(`.drop-list[data-courier="${$(this).data("courier")}"]`).addClass("active");
-          return;
-        default:
-            console.log("dropdown cart not found");
-            return;
-          }
-          dropdownMenu.siblings(".dropdown-input").val(''); //Kosongkan searchnya
-          dropdownMenu.empty(); //Kosongkan semua drop list yang berada di dropdown-menu-body
-          //isi semua dengan data yang ada
-          $.each(tempDrop, (i, item) => {
-            dropdownMenu.append(`<li class="drop-list" data-id="${item[0]}">${item[1]}</li>`);
-          });
-          dropdownMenu.children(`.drop-list[data-id="${$(this).data("id")}"]`).addClass("active"); //jadikan data yang sekarang menjadi active
+      case "city":
+        tempDrop = cityDrop;
+        // Tujuan, untuk cost
+        dataCost.destination = $(this).data("id");
+        $(".residence[data-kind-residence='expedition-package']").find(".label-dropdown").removeClass("d-none");
+        $(".residence[data-kind-residence='expedition-package']").find(".label-active").addClass("d-none");
+        $(".residence[data-kind-residence='expedition-package']").find(".dropdown-menu-body").empty();
+        $(".cart-totals").find(".destination").text($(this).text());
+        sendDataCost(dataCost); //Kirim data untuk diproses biayanya
+        break;
+      case 'expedition':
+        dataCost.courier = $(this).data("courier");
+        dropdownMenu.children(`.drop-list[data-courier="${$(this).data("courier")}"]`).addClass("active");
+        $(".residence[data-kind-residence='expedition-package']").find(".label-dropdown").removeClass("d-none");
+        $(".residence[data-kind-residence='expedition-package']").find(".label-active").addClass("d-none");
+        $(".residence[data-kind-residence='expedition-package']").find(".dropdown-menu-body").empty();
+        sendDataCost(dataCost); //Kirim data untuk diproses biayanya
+        return;
+      case 'expedition-package':
+        dropdownMenu.children(`.drop-list[data-service="${$(this).data("service")}"]`).addClass("active");
+        console.log(typeof $(this).data("price"));
+        const ongkir = $(this).data("price");
+        //Di tulis di ongkirnya
+        $(".cart-totals").find(".ongkir").data("price", ongkir);
+        $(".cart-totals").find(".ongkir").text(rupiah(ongkir));
+
+        //Sub total + ongkir
+        const subTotal = $(".cart-totals").find(".sub-total").data("price");
+        const total = ongkir + subTotal;
+
+        //letakkan di total cost
+
+        $(".cart-totals").find(".total-cost").data("price", total);
+        $(".cart-totals").find(".total-cost").text(rupiah(total));
+        return;
+      default:
+        console.log("dropdown cart not found");
+        return;
+    }
+    dropdownMenu.siblings(".dropdown-input").val(''); //Kosongkan searchnya
+    dropdownMenu.empty(); //Kosongkan semua drop list yang berada di dropdown-menu-body
+    //isi semua dengan data yang ada
+    $.each(tempDrop, (i, item) => {
+      dropdownMenu.append(`<li class="drop-list" data-id="${item[0]}">${item[1]}</li>`);
+    });
+    dropdownMenu.children(`.drop-list[data-id="${$(this).data("id")}"]`).addClass("active"); //jadikan data yang sekarang menjadi active
 
   });
 
@@ -388,9 +438,9 @@ $(".addCart.body").click(function () {
   const cartId = $(".cartId").val();
   const productName = $(".productName").text();
   const productSize = $(".option.size.active").data("size");
-  const productWeight = productSize? $(".option.size.active").data("weight-size") : $("input[name='weight']").val();
+  const productWeight = productSize ? $(".option.size.active").data("weight-size") : $("input[name='weight']").val();
   const productVariant = $(".option.variant.active").data("variant");
-  const productPrice = productSize? $(".option.size.active").data("price-size") : $("input[name='price']").val();
+  const productPrice = productSize ? $(".option.size.active").data("price-size") : $("input[name='price']").val();
   const productQuantity = $(".quantity-form").val();
   const formData = new FormData();
   formData.append("id", cartId);
@@ -400,7 +450,7 @@ $(".addCart.body").click(function () {
   formData.append("price", productPrice);
   formData.append("variant", productVariant);
   formData.append("quantity", productQuantity);
-  
+
   $.ajax({
     url: "/addCart",
     type: "post",
@@ -475,3 +525,44 @@ function clearCart() {
   });
 }
 
+function sendDataCost(data) {
+  if (data.courier != undefined && data.destination != undefined) {
+    $.ajax({
+      url: '/getCost',
+      type: 'get',
+      dataType: "json",
+      data: {
+        dataCost: data
+      },
+      headers: {
+        "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
+      },
+      beforeSend: function () {
+        $(".residence[data-kind-residence='expedition-package']").find('.image-loader').toggleClass('d-none');
+      },
+      success: function (response) {
+        console.log(response);
+
+        let expeditionPackage = $('.residence[data-kind-residence="expedition-package"] .dropdown-menu-body');
+        //kosongkan terlebih dahulu
+        expeditionPackage.empty();
+        //setelah itu tambahkan itemnya
+        $.each(response, (i, item) => {
+          expeditionPackage.append(`
+          <li class="drop-list d-flex" data-service="${item.service}" data-price='${item.total_cost}'> ${item.description} (${item.service}) <span class="text-danger d-inline-block ms-auto">Rp ${item.total_cost}</span>
+          </li>
+          `);
+        });
+        $(".residence[data-kind-residence='expedition-package']").find(".image-loader").toggleClass("d-none");//Hilangkan loadernya
+
+      }
+    })
+  }
+  else {
+    console.log("data belum siap");
+  }
+}
+
+function rupiah(num) {
+  return "Rp "+num.toLocaleString("id-ID"); 
+}
