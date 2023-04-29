@@ -56,82 +56,82 @@ class RajaOngkirController extends Controller
   }
   public function get_cost(Request $request)
   {
-    // $dataCost = $request->all()["dataCost"];
-    // $results = collect([]);
-    // foreach($dataCost["dataOrigin"] as $origin) {
-    //   $curl = curl_init();
-    //   curl_setopt_array($curl, array(
-    //     CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
-    //     CURLOPT_RETURNTRANSFER => true,
-    //     CURLOPT_ENCODING => "",
-    //     CURLOPT_MAXREDIRS => 10,
-    //     CURLOPT_TIMEOUT => 30,
-    //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    //     CURLOPT_CUSTOMREQUEST => "POST",
-    //     CURLOPT_POSTFIELDS => "origin=".$origin["origin_code"]."&destination=".$dataCost["destination"]."&weight=".$origin["origin_weight"]."&courier=".$dataCost['courier'],
-    //     CURLOPT_HTTPHEADER => array(
-    //       "content-type: application/x-www-form-urlencoded",
-    //       "key: ".env('RAJAONGKIR_API')
-    //     ),
-    //   ));
+    $dataCost = $request->all()["dataCost"];
+    $results = collect([]);
+    foreach($dataCost["dataOrigin"] as $origin) {
+      $curl = curl_init();
+      curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://api.rajaongkir.com/starter/cost",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => "origin=".$origin["origin_code"]."&destination=".$dataCost["destination"]."&weight=".$origin["origin_weight"]."&courier=".$dataCost['courier'],
+        CURLOPT_HTTPHEADER => array(
+          "content-type: application/x-www-form-urlencoded",
+          "key: ".env('RAJAONGKIR_API')
+        ),
+      ));
   
-    //   $response = curl_exec($curl);
-    //   $err = curl_error($curl);
-    //   curl_close($curl); 
-    //   $temp = collect(json_decode($response, true)["rajaongkir"]["results"])->collapse();
-    //   $temp["origin_name"] = $origin["origin_name"];
-    //   $results->push($temp);
-    // }
+      $response = curl_exec($curl);
+      $err = curl_error($curl);
+      curl_close($curl); 
+      $temp = collect(json_decode($response, true)["rajaongkir"]["results"])->collapse();
+      $temp["origin_name"] = $origin["origin_name"];
+      $results->push($temp);
+    }
     
     
-$results = [
-    [
-        "code" => "pos",
-        "name" => "POS Indonesia (POS)",
-        "costs" => [
-            [
-                "service" => "REG",
-                "description" => "Pos Reguler",
-                "cost" => [["value" => 14500, "etd" => "2 HARI"]]
-            ],
-            [
-                "service" => "KARGO",
-                "description" => "Pos Kargo",
-                "cost" => [["value" => 55000, "etd" => "7 -14 HARI"]]
-            ]
-        ],
-        "origin_name" => "Kota Bandung"
-    ],
-    [
-        "code" => "pos",
-        "name" => "POS Indonesia (POS)",
-        "costs" => [
-            [
-                "service" => "REG",
-                "description" => "Pos Reguler",
-                "cost" => [["value" => 14500, "etd" => "2 HARI"]]
-            ],
-            [
-                "service" => "KARGO",
-                "description" => "Pos Kargo",
-                "cost" => [["value" => 60000, "etd" => "7-14 HARI"]]
-            ]
-        ],
-        "origin_name" => "Kota Sukabumi"
-    ],
-    [
-        "code" => "pos",
-        "name" => "POS Indonesia (POS)",
-        "costs" => [
-            [
-                "service" => "REG",
-                "description" => "Pos Reguler",
-                "cost" => [["value" => 15000, "etd" => "3 HARI"]]
-            ]
-        ],
-        "origin_name" => "Kabupaten Garut"
-    ]
-];
+// $results = [
+//     [
+//         "code" => "pos",
+//         "name" => "POS Indonesia (POS)",
+//         "costs" => [
+//             [
+//                 "service" => "REG",
+//                 "description" => "Pos Reguler",
+//                 "cost" => [["value" => 14500, "etd" => "2 HARI"]]
+//             ],
+//             [
+//                 "service" => "KARGO",
+//                 "description" => "Pos Kargo",
+//                 "cost" => [["value" => 55000, "etd" => "7 -14 HARI"]]
+//             ]
+//         ],
+//         "origin_name" => "Kota Bandung"
+//     ],
+//     [
+//         "code" => "pos",
+//         "name" => "POS Indonesia (POS)",
+//         "costs" => [
+//             [
+//                 "service" => "REG",
+//                 "description" => "Pos Reguler",
+//                 "cost" => [["value" => 14500, "etd" => "2 HARI"]]
+//             ],
+//             [
+//                 "service" => "KARGO",
+//                 "description" => "Pos Kargo",
+//                 "cost" => [["value" => 60000, "etd" => "7-14 HARI"]]
+//             ]
+//         ],
+//         "origin_name" => "Kota Sukabumi"
+//     ],
+//     [
+//         "code" => "pos",
+//         "name" => "POS Indonesia (POS)",
+//         "costs" => [
+//             [
+//                 "service" => "REG",
+//                 "description" => "Pos Reguler",
+//                 "cost" => [["value" => 15000, "etd" => "3 HARI"]]
+//             ]
+//         ],
+//         "origin_name" => "Kabupaten Garut"
+//     ]
+// ];
 
     $services = collect($results)
     ->flatMap(function ($item) {

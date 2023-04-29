@@ -5,7 +5,7 @@
   <div class="container">
     {{ Breadcrumbs::render('produk') }}
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-lg-9">
         <div class="sort dropdown mb-3">
           <button class="btn dropdown-toggle ms-auto d-block border px-3" type="button"
             data-bs-toggle="dropdown" aria-expanded="false">
@@ -13,15 +13,15 @@
               class="sortBy">Terbaru</span>
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#" data-sort="Harga termurah" data-sort-by="hargaMurah"><i class="bi bi-check-lg invisible"></i> Harga termurah</a></li>
+            <li><a class="dropdown-item" href="#" data-sort="price:asc" data-sort-by="Harga Termurah"><i class="bi bi-check-lg invisible"></i> Harga termurah</a></li>
             <li><a class="dropdown-item" href="#" data-sort="Terbaru"><i class="bi bi-check-lg"></i>Terbaru</a></li>
-            <li><a class="dropdown-item" href="#" data-sort="Harga termahal" data-sort-by="hargaMahal"><i
+            <li><a class="dropdown-item" href="#" data-sort="price:desc" data-sort-by="Harga Termahal"><i
               class="bi bi-check-lg invisible"></i> Harga termahal</a></li>
           </ul>
         </div>
         <div class="grid product">
           @foreach ($products as $product)
-          <div class="card grid-item mb-3 rounded-0">
+          <div class="card grid-item mb-3 mix rounded-0" data-price="{{$product->size[0]->price}}">
             <div class="row g-0">
               <div class="col-md-4">
                 <img src="{{asset("storage/$product->gambar")}}" class="img-fluid rounded-start"
@@ -60,8 +60,23 @@
           @endforeach
         </div>
       </div>
-      <div class="col-lg-2">
-        TEst
+      <div class="col-lg-3">
+        <div class="widget-category">
+          <h4>Category</h4>
+          <ul class="all-lato-font">
+  
+              <li><a href="">A first item</a> <span class="small-count">67</span> </li>
+  
+              <li><a href="">A second item</a>  <span class="small-count">67</span> </li>
+  
+              <li><a href="">A third item </a> <span class="small-count">67</span> </li>
+              
+              <li><a href="">A fourth item</a>  <span class="small-count">67</span></li>
+              
+              <li><a href="">And a fifth one</a>  <span class="small-count">67</span> </li>
+          </ul>
+      </div>
+  
       </div>
     </div>
   </div>

@@ -6,9 +6,6 @@ $(document).ready(function () {
     });
   });
   //==============Owl-carousel======================
-
-
-
   var sync1 = $("#sync1");
   var sync2 = $("#sync2");
   var slidesPerPage = 4; //globaly define number of elements per page
@@ -94,30 +91,19 @@ $(document).ready(function () {
 
   //=======Sorting Harga===========
 
-  // Isotope
-  let $grid = $(".grid.product").isotope({
-    // options
-    itemSelector: ".grid-item",
-    getSortData: {
-      nama: ".product-title",
-      hargaMurah: function (itemElem) {
-        return parseInt(
-          $(itemElem).find(".product-price").data("price"),
-          10
-        );
-      },
-      hargaMahal: function (itemElem) {
-        return parseInt(
-          $(itemElem).find(".product-price").data("price"),
-          10
-        );
-      },
-    },
-    layoutMode: "vertical",
-    sortAscending: {
-      hargaMahal: false,
-    },
-  });
+  //Mixitup
+  var grid = document.querySelector(".grid");
+  if(grid != null) {
+    var mixer = mixitup(grid);
+    var sortButtons = document.querySelectorAll('[data-sort]');
+  
+    sortButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var sortValue = this.getAttribute('data-sort');
+            mixer.sort(sortValue);
+        });
+    });
+  }
   //Dropdown
   $(".dropdown-item").click(function (e) {
     e.preventDefault();
@@ -130,33 +116,23 @@ $(document).ready(function () {
 
     //ini dropdwon untuk sorting
     if ($(this).parents(".dropdown").hasClass("sort")) {
-      const nameSort = $(this).data("sort");
       const valueSort = $(this).data("sort-by");
-      $(".dropdown-toggle").children(".sortBy").html(nameSort);
-      $grid.isotope({
-        sortBy: valueSort,
-      });
-
+      $(".dropdown-toggle").children(".sortBy").text(valueSort);
+    
       //ini dropdwon yang lain
     } else {
       const valDropDown = $(this).data("dropdown");
       const dropdown = $(this).parents(".dropdown");
       //Kita ganti htmlnya
       dropdown.find(".dropdown-html").html(valDropDown);
-
       //kita ganti propertinya
-      if (dropdown.hasClass("size")) {
-        dropdown
+      dropdown
           .find(".dropdown-html")
           .data("select-drop", valDropDown);
-      } else if (dropdown.hasClass("variant")) {
-        dropdown
-          .find(".dropdown-html")
-          .data("select-drop", valDropDown);
-      }
     }
     $(this).children().removeClass("invisible"); // tag i
   });
+  
   //----AFWAJA SHOP CART-----
 
   //Menghapus cart
@@ -549,7 +525,7 @@ function sendDataCost(data) {
         //setelah itu tambahkan itemnya
         $.each(response, (i, item) => {
           expeditionPackage.append(`
-          <li class="drop-list d-flex" data-service="${item.service}" data-price='${item.total_cost}'> ${item.description} (${item.service}) <span class="text-danger d-inline-block ms-auto">Rp ${item.total_cost}</span>
+          <li class="drop-list d-flex" data-service="${item.service}" data-price='${item.total_cost}'> ${item.description} (${item.service}) <span class="text-danger d-inline-block ms-auto">${rupiah(item.total_cost)}</span>
           </li>
           `);
         });
@@ -564,5 +540,5 @@ function sendDataCost(data) {
 }
 
 function rupiah(num) {
-  return "Rp "+num.toLocaleString("id-ID"); 
+  return "Rp " + num.toLocaleString("id-ID");
 }

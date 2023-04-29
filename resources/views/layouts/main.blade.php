@@ -36,7 +36,8 @@
      <script src="{{asset("js/jquery.js");}}"></script>
     <script src="{{asset("light/dist/lightgallery.umd.js");}}"></script>
     <script src = "{{asset("owl/dist/owl.carousel.min.js");}}"> </script>
-    <script src="{{asset("js/isotope.js");}}"></script>
+    <script src="{{asset("js/mixitup.min.js")}}"></script>
+    {{-- <script src="{{asset("js/isotope.js");}}"></script> --}}
     <script src="{{asset("js/method.js");}}"></script>
 
 </body>
