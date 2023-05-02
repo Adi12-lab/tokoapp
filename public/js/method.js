@@ -241,15 +241,19 @@ $(document).ready(function () {
     dataOrigin: [],
     destination: undefined
   };
-  let cart_totals = {};
-  let dataCostTest = {
-    courier: "pos",
-    dataOrigin: [
-      { origin_code: '23', origin_name: 'Kota Bandung', origin_weight: '1200' },
-      { origin_code: '431', origin_name: 'Kota Sukabumi', origin_weight: '400' },
-      { origin_code: '126', origin_name: 'Kabupaten Garut', origin_weight: '200' }],
-    destination: "232"
+  let dataCheckout = {
+    destination:undefined,
+    
   }
+  // let cart_totals = {};
+  // let dataCostTest = {
+  //   courier: "pos",
+  //   dataOrigin: [
+  //     { origin_code: '23', origin_name: 'Kota Bandung', origin_weight: '1200' },
+  //     { origin_code: '431', origin_name: 'Kota Sukabumi', origin_weight: '400' },
+  //     { origin_code: '126', origin_name: 'Kabupaten Garut', origin_weight: '200' }],
+  //   destination: "232"
+  // }
 
   $.each($("input[name='origin_code[]']"), (i, item) => {
     dataCost.dataOrigin.push({
@@ -398,7 +402,15 @@ $(document).ready(function () {
     });
   });
 
+// Tombol checkout cart
 
+$(".cart-checkout").click(function() {
+  const nama = $("#nama").val();
+  const alamat = $("#alamat").val();
+  const provinsi = $("#provinsi")
+  const formData = new FormData();
+  console.log(alamat);
+});
   //Body detail product
   $(".btn.option").click(function () {
     $(this).siblings().removeClass("active");
@@ -500,7 +512,9 @@ function clearCart() {
     },
   });
 }
+function checkout() {
 
+}
 function sendDataCost(data) {
   if (data.courier != undefined && data.destination != undefined) {
     $.ajax({
@@ -541,4 +555,8 @@ function sendDataCost(data) {
 
 function rupiah(num) {
   return "Rp " + num.toLocaleString("id-ID");
+}
+
+const validateCheckout = () => {
+  
 }

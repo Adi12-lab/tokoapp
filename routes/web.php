@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\RajaOngkirController;
 use App\Http\Controllers\AttachmentController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 /*
@@ -47,6 +48,13 @@ Route::controller(UserController::class)->group(function() {
 
 });
 
+Route::controller(OrderController::class)->group(function() {
+  Route::get("/metal/orders", "index")->name("index.order");
+  Route::get("/metal/order", "show");
+  Route::put("/metal/orders/update","update" )->name("update.order");
+  Route::delete("/metal/orders", "delete")->name("delete.order");
+});
+
 Route::controller(RajaOngkirController::class)->group(function() {
   Route::get("/getProvince", "get_province");
   Route::get("/getCity", "get_city");
@@ -54,6 +62,7 @@ Route::controller(RajaOngkirController::class)->group(function() {
 });
 
 Route::resource("/metal/products", ProductAdminController::class)->middleware("auth");
+
 
 Route::get("/testRequest", function() {
   return view("testRequest");

@@ -16,10 +16,10 @@
     section {
       margin-top: 65px;
     }
+    datalist {
+      display: inline
+    }
   </style>
-  <script type="module">
-
-  </script>
 </head>
 <body>
   @include("admin.partials.navbar")

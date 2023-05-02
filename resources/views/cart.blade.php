@@ -198,11 +198,12 @@
                                     </ul>
                                 </div>
                             </div>
-                            <span class="text-center text-small"><strong class="text-danger">Perhatian !!</strong> ongkir mahal karena barang dikirim dari berbagai daerah</span>
-                            
+                            <span class="text-center text-small"><strong class="text-danger">Perhatian !!</strong> ongkir
+                                mahal karena barang dikirim dari berbagai daerah</span>
+
                         </div>
                         <div class="mb-3">
-                            <textarea class="form-control" placeholder="Alamat lengkap" id="floatingTextarea2"
+                            <textarea class="form-control" placeholder="Alamat lengkap" id="alamat"
                                 style="width: 100%; height:200px;"></textarea>
                         </div>
                     </div>
@@ -218,7 +219,8 @@
                                     <h6 class="text-muted">Sub total</h6>
                                 </span>
                                 <span class="cart-total-amount">
-                                    <h4 class="fw-bold sub-total" data-price="{{$sub_total}}">{{rupiah($sub_total)}}</h4>
+                                    <h4 class="fw-bold sub-total" data-price="{{ $sub_total }}">
+                                        {{ rupiah($sub_total) }}</h4>
                                 </span>
                             </li>
                             <li class="cart-totals-li">
@@ -233,19 +235,22 @@
                                             @foreach ($originGroup as $origin)
                                                 <ul class="origin-item">
                                                     <strong>{{ $origin['origin_name'] }}</strong>
-                                                    @foreach ($origin["items"] as $item)
+                                                    @foreach ($origin['items'] as $item)
                                                         <li class="all-lato-font">
                                                             <span>{{ $item['name'] }}</span>
-                                                            <span>{{$item["total_weight"]}} gram</span>
+                                                            <span>{{ $item['total_weight'] }} gram</span>
                                                         </li>
-                                                        @endforeach
-                                                        <hr>
-                                                        <li>
-                                                            <span>Total berat : </span>
-                                                            <span>{{ $origin['total_weight_origin'] }} gram</span>
-                                                        </li>
-                                                    <input type="hidden" name="origin_code[]" value="{{$origin["origin_code"]}}" data-name='{{$origin["origin_name"]}}' data-weight="{{$origin["total_weight_origin"]}}">
-  
+                                                    @endforeach
+                                                    <hr>
+                                                    <li>
+                                                        <span>Total berat : </span>
+                                                        <span>{{ $origin['total_weight_origin'] }} gram</span>
+                                                    </li>
+                                                    <input type="hidden" name="origin_code[]"
+                                                        value="{{ $origin['origin_code'] }}"
+                                                        data-name='{{ $origin['origin_name'] }}'
+                                                        data-weight="{{ $origin['total_weight_origin'] }}">
+
                                                 </ul>
                                                 <hr>
                                             @endforeach
@@ -273,8 +278,9 @@
                                 </span>
                             </li>
                         </ul>
-                        <button class="cart-checkout w-100 mt-4">Checkout Now <i
-                                class="fa-solid fa-arrow-right-from-bracket text-white"></i></button>
+                        <button class="cart-checkout w-100 mt-4">
+                            Checkout Now <i class="fa-solid fa-arrow-right-from-bracket text-white"></i>
+                        </button>
                     </div>
                 </div>
             </div>
