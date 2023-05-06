@@ -1,3 +1,4 @@
+const base_url = window.location.origin;
 $(document).ready(function () {
   //lightgallery
   $(".animated-thumbnails-gallery").each(function (indeks, element) {
@@ -93,15 +94,15 @@ $(document).ready(function () {
 
   //Mixitup
   var grid = document.querySelector(".grid");
-  if(grid != null) {
+  if (grid != null) {
     var mixer = mixitup(grid);
     var sortButtons = document.querySelectorAll('[data-sort]');
-  
-    sortButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            var sortValue = this.getAttribute('data-sort');
-            mixer.sort(sortValue);
-        });
+
+    sortButtons.forEach(function (button) {
+      button.addEventListener('click', function () {
+        var sortValue = this.getAttribute('data-sort');
+        mixer.sort(sortValue);
+      });
     });
   }
   //Dropdown
@@ -118,7 +119,7 @@ $(document).ready(function () {
     if ($(this).parents(".dropdown").hasClass("sort")) {
       const valueSort = $(this).data("sort-by");
       $(".dropdown-toggle").children(".sortBy").text(valueSort);
-    
+
       //ini dropdwon yang lain
     } else {
       const valDropDown = $(this).data("dropdown");
@@ -127,12 +128,12 @@ $(document).ready(function () {
       dropdown.find(".dropdown-html").html(valDropDown);
       //kita ganti propertinya
       dropdown
-          .find(".dropdown-html")
-          .data("select-drop", valDropDown);
+        .find(".dropdown-html")
+        .data("select-drop", valDropDown);
     }
     $(this).children().removeClass("invisible"); // tag i
   });
-  
+
   //----AFWAJA SHOP CART-----
 
   //Menghapus cart
@@ -234,17 +235,12 @@ $(document).ready(function () {
   })
 
   //==========Cart & Raja Ongkir API==========
-  let provinceDrop = [];
-  let cityDrop = [];
+  
   let dataCost = {
     courier: undefined,
     dataOrigin: [],
     destination: undefined
   };
-  let dataCheckout = {
-    destination:undefined,
-    
-  }
   // let cart_totals = {};
   // let dataCostTest = {
   //   courier: "pos",
@@ -255,6 +251,7 @@ $(document).ready(function () {
   //   destination: "232"
   // }
 
+  //semua yang ada di checkout akan didata
   $.each($("input[name='origin_code[]']"), (i, item) => {
     dataCost.dataOrigin.push({
       origin_code: $(item).val(),
@@ -262,155 +259,76 @@ $(document).ready(function () {
       origin_weight: $(item).data("weight")
     });
   });
+  console.log(dataCost);
   // sendDataCost(dataCostTest);
-  $.each($(".residence[data-kind-residence=province] .dropdown-menu-body").children(".drop-list"), (i, item) => {//ambil semua element dan masukan pada provinceDrop
-    // console.log(item)
-    provinceDrop.push([$(item).data("id"), $(item).text()]);
+  $.each($('.select-input'), function (i, item) {
+    $(item).select2({
+      placeholder: $(item).data('placeholder'),
+      width: 'resolve'
+    })
   });
 
-  $('.dropdown-menu-body').on('click', '.drop-list', function (e) {
-    let tempDrop = []; //tempDrop dapat berisi dari provinceDrop cityDrop dll
-
-    //Ambil saudaranya, dan hilangkan kelas active
-    $(this).siblings('.drop-list').removeClass('active');
-    const drop_list = $(this).text();
-    //Ambil orangtuanya(residence) dan temukan dropdown-toggle yang spesifik
-    $(this).parents(".residence").find(".label-dropdown").addClass("d-none");// hilangkan label
-    $(this).parents(".residence").find('.label-active').text(drop_list).removeClass("d-none"); //aktifkan yang aktif
-
+  $('.select-input').on("select2:select", function (el) {
     const kindRresidence = $(this).parents(".residence").data("kind-residence");
-    const dropdownMenu = $(this).parents(".dropdown-menu-body");
-
+    const selectedOption = el.params.data.element;
+    let optionTemp = `<option value='' selected></option>`;
     switch (kindRresidence) {
-      //Jika residence yang dipilih adalah provinsi
-      case "province":
-        tempDrop = provinceDrop;
-        //Ubah label dropdown city (menjadi pilih kabupaten/kota)
-        $(".residence[data-kind-residence='city']").find(".label-dropdown").removeClass("d-none");
-        $(".residence[data-kind-residence='city']").find(".label-active").addClass("d-none");
-        $(".residence[data-kind-residence='city']").find(".dropdown-menu-body").empty();
 
-
+      case 'province':
+        const residenceCity = $(".residence[data-kind-residence='city']");
         $.ajax({
-          url: "/getCity",
-          type: "get",
-          dataType: "json",
-
+          url: '/getCity',
+          type: 'get',
           data: {
-            id: $(this).data("id")
+            id: $(this).val()
           },
           beforeSend: function () {
-            // Menampilkan loader
-            $(".residence[data-kind-residence='city']").find('.image-loader').toggleClass('d-none');
+            residenceCity.find('.image-loader').toggleClass('d-none');
           },
           success: function (results) {
-            const result = results.rajaongkir.results;
-            let residenceCityBody = $('.residence[data-kind-residence="city"] .dropdown-menu-body');
-            //kosongkan terlebih dahulu
-            residenceCityBody.empty();
+            residenceCity.find('.image-loader').toggleClass('d-none');
 
-            //setelah itu tambahkan itemnya
-            $.each(result, (i, item) => {
-              residenceCityBody.append(`
-              <li class="drop-list" data-id="${item.city_id}">
-              ${item.type} ${item.city_name}
-              </li>
-              `);
+            $.each(results, function (i, result) {
+              optionTemp += `\n<option value='${result.city_id}' data-destination='${result.type} ${result.city_name}'> ${result.type} ${result.city_name}</option>`
             });
-            //Di push ke variabel cityDrop untuk digunakan kembali untuk case berikutnya
-            residenceCityBody.children('.drop-list').each(function (i, e) {
-              cityDrop.push([$(e).data("id"), $(e).text()]);
-            });
-            $(".residence[data-kind-residence='city']").find(".image-loader").toggleClass("d-none");//Hilangkan loadernya
-
+            residenceCity.find('.select-input').html(optionTemp);
           }
         });
-
-        //tambahkan data untuk city
         break;
-      case "city":
-        tempDrop = cityDrop;
-        // Tujuan, untuk cost
-        dataCost.destination = $(this).data("id");
-        $(".residence[data-kind-residence='expedition-package']").find(".label-dropdown").removeClass("d-none");
-        $(".residence[data-kind-residence='expedition-package']").find(".label-active").addClass("d-none");
-        $(".residence[data-kind-residence='expedition-package']").find(".dropdown-menu-body").empty();
-        $(".cart-totals").find(".destination").text($(this).text());
-        sendDataCost(dataCost); //Kirim data untuk diproses biayanya
+      case 'city':
+        dataCost.destination = $(this).val();
+        const destination = $(selectedOption).data('destination');
+        $('.cart-totals .destination').text(destination);
+        sendDataCost(dataCost);
         break;
       case 'expedition':
-        dataCost.courier = $(this).data("courier");
-        dropdownMenu.children(`.drop-list[data-courier="${$(this).data("courier")}"]`).addClass("active");
-        $(".residence[data-kind-residence='expedition-package']").find(".label-dropdown").removeClass("d-none");
-        $(".residence[data-kind-residence='expedition-package']").find(".label-active").addClass("d-none");
-        $(".residence[data-kind-residence='expedition-package']").find(".dropdown-menu-body").empty();
-        sendDataCost(dataCost); //Kirim data untuk diproses biayanya
-        return;
+        dataCost.courier = $(this).val();
+        sendDataCost(dataCost);
+        break;
       case 'expedition-package':
-        dropdownMenu.children(`.drop-list[data-service="${$(this).data("service")}"]`).addClass("active");
-        console.log(typeof $(this).data("price"));
-        const ongkir = $(this).data("price");
-        //Di tulis di ongkirnya
-        $(".cart-totals").find(".ongkir").data("price", ongkir);
-        $(".cart-totals").find(".ongkir").text(rupiah(ongkir));
+        const subTotal = $('.cart-totals .sub-total').data('price');
+        const expeditionCost = $(selectedOption).data('price');
 
-        //Sub total + ongkir
-        const subTotal = $(".cart-totals").find(".sub-total").data("price");
-        const total = ongkir + subTotal;
+        const totalCost = subTotal + expeditionCost;
 
-        //letakkan di total cost
-
-        $(".cart-totals").find(".total-cost").data("price", total);
-        $(".cart-totals").find(".total-cost").text(rupiah(total));
-        return;
-      default:
-        console.log("dropdown cart not found");
-        return;
+        $('.cart-totals .sub-cost').data('price', expeditionCost);
+        $('.cart-totals .sub-cost').text(rupiah(expeditionCost));
+        $('.cart-totals .total-cost').data('price', totalCost);
+        $('.cart-totals .total-cost').text(rupiah(totalCost));
+        
     }
-    dropdownMenu.siblings(".dropdown-input").val(''); //Kosongkan searchnya
-    dropdownMenu.empty(); //Kosongkan semua drop list yang berada di dropdown-menu-body
-    //isi semua dengan data yang ada
-    $.each(tempDrop, (i, item) => {
-      dropdownMenu.append(`<li class="drop-list" data-id="${item[0]}">${item[1]}</li>`);
-    });
-    dropdownMenu.children(`.drop-list[data-id="${$(this).data("id")}"]`).addClass("active"); //jadikan data yang sekarang menjadi active
-
-  });
-
+  })
   //Mengambil data untuk diproses dalam sebuah event keyup
-  $('.dropdown-input').on('keyup', function () {
-    let dropdownMenu = $(this).siblings(".dropdown-menu-body");
-    dropdownMenu.empty();
-    //Ambil inputwn
 
-    let arrDropList = [];
-    switch (dropdownMenu.parents(".residence").data("kind-residence")) {
-      case "province":
-        arrDropList = provinceDrop;
-        break;
-      case "city":
-        arrDropList = cityDrop;
-        break;
-      default:
-        console.log("not found");
-    }
-    const searchValue = $(this).val().toLowerCase();
-    //Ambil drop_list
-    let result = arrDropList.filter((item) => item[1].toLowerCase().includes(searchValue));
-    $.each(result, (i, item) => {
-      dropdownMenu.append(`<li class="drop-list" data-id="${item[0]}">${item[1]}</li>`);
-    });
+  // Tombol checkout cart
+
+  $(".cart-checkout").click(function () {
+    const nama = $("#nama").val();
+    const alamat = $("#alamat").val();
+    const provinsi = $("#provinsi")
+    const formData = new FormData();
+    console.log(alamat);
   });
-
-// Tombol checkout cart
-
-$(".cart-checkout").click(function() {
-  const nama = $("#nama").val();
-  const alamat = $("#alamat").val();
-  const provinsi = $("#provinsi")
-  const formData = new FormData();
-  console.log(alamat);
-});
   //Body detail product
   $(".btn.option").click(function () {
     $(this).siblings().removeClass("active");
@@ -515,8 +433,12 @@ function clearCart() {
 function checkout() {
 
 }
+
 function sendDataCost(data) {
   if (data.courier != undefined && data.destination != undefined) {
+    console.log(data);
+    let optionTemp = `<option value=''> </option>`;
+    const residenceExpeditionPackage = $(".residence[data-kind-residence='expedition-package']");
     $.ajax({
       url: '/getCost',
       type: 'get',
@@ -524,32 +446,22 @@ function sendDataCost(data) {
       data: {
         dataCost: data
       },
-      headers: {
-        "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
-      },
       beforeSend: function () {
-        $(".residence[data-kind-residence='expedition-package']").find('.image-loader').toggleClass('d-none');
+        residenceExpeditionPackage.find(".image-loader").toggleClass('d-none')
       },
       success: function (response) {
         console.log(response);
 
-        let expeditionPackage = $('.residence[data-kind-residence="expedition-package"] .dropdown-menu-body');
-        //kosongkan terlebih dahulu
-        expeditionPackage.empty();
         //setelah itu tambahkan itemnya
         $.each(response, (i, item) => {
-          expeditionPackage.append(`
-          <li class="drop-list d-flex" data-service="${item.service}" data-price='${item.total_cost}'> ${item.description} (${item.service}) <span class="text-danger d-inline-block ms-auto">${rupiah(item.total_cost)}</span>
-          </li>
-          `);
+          optionTemp += `\n<option class='d-flex' value='${item.service}' data-price='${item.total_cost}'>  ${item.description} (${item.service}) <span class="text-danger d-inline-block ms-auto">${rupiah(item.total_cost)}</span> </option> `
         });
-        $(".residence[data-kind-residence='expedition-package']").find(".image-loader").toggleClass("d-none");//Hilangkan loadernya
+
+        residenceExpeditionPackage.find('.select-input').html(optionTemp);
+        residenceExpeditionPackage.find(".image-loader").toggleClass("d-none");//Hilangkan loadernya
 
       }
     })
-  }
-  else {
-    console.log("data belum siap");
   }
 }
 
@@ -557,6 +469,3 @@ function rupiah(num) {
   return "Rp " + num.toLocaleString("id-ID");
 }
 
-const validateCheckout = () => {
-  
-}

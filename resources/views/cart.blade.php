@@ -131,76 +131,48 @@
                             <input type="email" class="form-control" id="email" placeholder="Email">
                         </div>
                         <div class="mb-3">
-                            <div class="dropdown residence" data-kind-residence="province">
-                                <button class="btn dropdown-toggle border w-100 text-start px-4 py-3" type="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="label-dropdown">Pilih provinsi</span>
-                                    <span class="label-active d-none"></span>
-                                </button>
-                                <div class="dropdown-menu w-100 p-3">
-                                    <input type="text" class="dropdown-input form-control py-1">
-                                    <ul class="dropdown-menu-body mt-2">
-                                        <li class="drop-list active">Pilih provinsi</li>
-                                        @foreach ($provinsi as $prov)
-                                            <li class="drop-list" data-id="{{ $prov->province_id }}">
-                                                {{ $prov->province }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                            <div class="residence" data-kind-residence="province">
+                                <select class="select-input" style="width:100%;" data-placeholder="Pilih provinsi">
+                                    <option value="" selected></option>
+                                    @foreach($provinsi as $prov)
+                                    <option value="{{$prov->province_id}}">{{$prov->province}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                       
+                        <div class="mb-3" >
+                            <div class="residence position-relative" data-kind-residence="city">
+                                <select class="select-input" style="width:100%" data-placeholder="Pilih kabupaten/kota">
+                                    <option value="">Pilih kabupaten/kota</option>
+                                </select>
+                                <img src="{{ asset('img/loader.gif') }}"
+                                        class="image-loader position-absolute d-none" height="35"
+                                        style="width:35px; right: 40px; bottom:6px;">
+
+                            </div>
+                        </div>
+                       
+                        <div class="mb-3">
+                            <div class="residence" data-kind-residence="expedition">
+                                <select class="select-input" style="width:100%" data-placeholder="Pilih ekspedisi">
+                                    <option value=""></option>
+                                    <option value="jne">JNE</option>
+                                    <option value="pos">POS</option>
+                                    <option value="tiki">TIKI</option>
+                                </select>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <div class="dropdown residence" data-kind-residence="city">
-                                <button class="btn dropdown-toggle border w-100 text-start px-4 py-3 position-relative"
-                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="label-dropdown">Pilih Kabupaten/kota</span>
-                                    <span class="label-active d-none"></span>
-                                    <img src="{{ asset('img/loader.gif') }}"
-                                        class="image-loader position-absolute d-none" height="40"
-                                        style="width:40px; right:0; bottom:8px;">
-                                </button>
-                                <div class="dropdown-menu w-100 p-3">
-                                    <input type="text" class="dropdown-input form-control py-1">
-                                    <ul class="dropdown-menu-body mt-2">
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="dropdown residence" data-kind-residence="expedition">
-                                <button class="btn dropdown-toggle border w-100 text-start px-4 py-3" type="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="label-dropdown">Pilih ekspedisi</span>
-                                    <span class="label-active d-none"></span>
-                                </button>
-                                <div class="dropdown-menu w-100 p-3">
-                                    <ul class="dropdown-menu-body mt-2">
-                                        <li class="drop-list" data-courier="jne">JNE</li>
-                                        <li class="drop-list" data-courier="pos">POS</li>
-                                        <li class="drop-list" data-courier="tiki">TIKI</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="dropdown residence" data-kind-residence="expedition-package">
-                                <button class="btn dropdown-toggle border w-100 text-start px-4 py-3" type="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="label-dropdown">Pilih paket ekspedisi</span>
-                                    <span class="label-active d-none"></span>
-                                    <img src="{{ asset('img/loader.gif') }}"
-                                        class="image-loader position-absolute d-none" height="40"
-                                        style="width:40px; right:0; bottom:8px;">
-                                </button>
-                                <div class="dropdown-menu w-100 p-3">
-                                    <ul class="dropdown-menu-body mt-2">
-                                    </ul>
-                                </div>
+                            <div class="residence position-relative" data-kind-residence="expedition-package" >
+                                <select class="select-input" style="width:100%" data-placeholder="Pilih paket ekspedisi">
+                                </select>
+                                <img src="{{ asset('img/loader.gif') }}"
+                                            class="image-loader position-absolute d-none" height="35"
+                                            style="width:35px; right: 40px; bottom:6px;">
                             </div>
                             <span class="text-center text-small"><strong class="text-danger">Perhatian !!</strong> ongkir
                                 mahal karena barang dikirim dari berbagai daerah</span>
-
                         </div>
                         <div class="mb-3">
                             <textarea class="form-control" placeholder="Alamat lengkap" id="alamat"
@@ -258,7 +230,7 @@
                                     </div>
                                 </span>
                                 <span class="cart-total-amount">
-                                    <h4 class="fw-bold text-success ongkir" data-price="0">-</h4>
+                                    <h4 class="fw-bold text-success sub-cost" data-price="0">-</h4>
                                 </span>
                             </li>
                             <li class="cart-totals-li">
