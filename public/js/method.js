@@ -241,6 +241,27 @@ $(document).ready(function () {
     dataOrigin: [],
     destination: undefined
   };
+
+  let dataCart = {
+    nama_penerima: '',
+    no_telepon: '',
+    email: '',
+    province: '',
+    city: '',
+    expedition: '',
+    expedition_package:'',
+    alamat: '',
+    products: [
+
+    ],
+
+  }
+  $.each($('.cart-row'), function(i, item) {
+
+    dataCart.products.push({
+      nama:`${$(item).find('.cart-title').text()} ${$(item).find('.dropdown.size .dropdown-html').data('select-drop') ?? ''} ${$(item).find('.dropdown.variant .dropdown-html').data('select-drop') ?? ''}`
+    });
+  });
   // let cart_totals = {};
   // let dataCostTest = {
   //   courier: "pos",
@@ -268,6 +289,31 @@ $(document).ready(function () {
     })
   });
 
+//Form control yang berada di dalam data-penerima
+
+ $('.form-control').on('change', function(item) {
+  const kindForm = $(this).data('kind-form');
+  const value = $(this).val();
+  switch(kindForm) {
+    case 'nama_penerima':
+      dataCart.nama_penerima = value;
+      break;
+    case 'no_telepon':
+      dataCart.no_telepon = value;
+      break;
+    case 'email':
+      dataCart.email = value;
+      break;
+    case 'alamat':
+      dataCart.alamat = value;
+      break;
+    case 'note':
+      dataCart.note = value;
+  }
+  console.log(dataCart);
+});
+
+// Select2
   $('.select-input').on("select2:select", function (el) {
     const kindRresidence = $(this).parents(".residence").data("kind-residence");
     const selectedOption = el.params.data.element;
@@ -294,25 +340,45 @@ $(document).ready(function () {
             residenceCity.find('.select-input').html(optionTemp);
           }
         });
+
+        dataCart.province = $(selectedOption).text();//Data expedition untuk data Cart
+
+        $('.cart-totals .destination').text('-');
+        $('.cart-totals .expedition-cost').data('price', 0);
+        $('.cart-totals .expedition-cost').text('0');
+        $('.cart-totals .total-cost').text('0')
+        $('.cart-totals .total-cost').data('price',0)
+
         break;
       case 'city':
         dataCost.destination = $(this).val();
+        dataCart.city = $(selectedOption).text();
         const destination = $(selectedOption).data('destination');
         $('.cart-totals .destination').text(destination);
         sendDataCost(dataCost);
+        $('.cart-totals .expedition-cost').data('price', 0);
+        $('.cart-totals .expedition-cost').text('0');
+        $('.cart-totals .total-cost').text('0');
+        $('.cart-totals .total-cost').data('price',0)
         break;
       case 'expedition':
         dataCost.courier = $(this).val();
+        dataCart.expedition = $(this).val();
         sendDataCost(dataCost);
+        $('.cart-totals .expedition-cost').data('price', 0);
+        $('.cart-totals .expedition-cost').text('0');
+        $('.cart-totals .total-cost').text('0')
+        $('.cart-totals .total-cost').data('price',0)
         break;
-      case 'expedition-package':
+      case 'expedition_package':
+        dataCart.expedition_package = $(selectedOption).data('label');
         const subTotal = $('.cart-totals .sub-total').data('price');
         const expeditionCost = $(selectedOption).data('price');
 
         const totalCost = subTotal + expeditionCost;
 
-        $('.cart-totals .sub-cost').data('price', expeditionCost);
-        $('.cart-totals .sub-cost').text(rupiah(expeditionCost));
+        $('.cart-totals .expedition-cost').data('price', expeditionCost);
+        $('.cart-totals .expedition-cost').text(rupiah(expeditionCost));
         $('.cart-totals .total-cost').data('price', totalCost);
         $('.cart-totals .total-cost').text(rupiah(totalCost));
         
@@ -323,12 +389,25 @@ $(document).ready(function () {
   // Tombol checkout cart
 
   $(".cart-checkout").click(function () {
-    const nama = $("#nama").val();
-    const alamat = $("#alamat").val();
-    const provinsi = $("#provinsi")
-    const formData = new FormData();
-    console.log(alamat);
+    const {nama_penerima, no_telepon,email, province, city, expedition_package, alamat, note} = dataCart;
+    $('.alert-error').addClass('d-none');
+    if(nama_penerima != '' && no_telepon != '' && email != '' && alamat != '' && province != '' && city != '' && expedition_package != '' ) {
+      console.log("data siap dikirimkan");
+    } else {
+      const keys = Object.keys(dataCart);
+      const emptyData = keys.filter(key => dataCart[key] == '');
+
+      emptyData.forEach(function(item) {
+        $(`.alert-error.${item}`).removeClass('d-none');
+      });
+      console.log(dataCart);
+
+    }
+    
   });
+
+ 
+
   //Body detail product
   $(".btn.option").click(function () {
     $(this).siblings().removeClass("active");
@@ -430,15 +509,13 @@ function clearCart() {
     },
   });
 }
-function checkout() {
 
-}
 
 function sendDataCost(data) {
   if (data.courier != undefined && data.destination != undefined) {
     console.log(data);
     let optionTemp = `<option value=''> </option>`;
-    const residenceExpeditionPackage = $(".residence[data-kind-residence='expedition-package']");
+    const residenceExpeditionPackage = $(".residence[data-kind-residence='expedition_package']");
     $.ajax({
       url: '/getCost',
       type: 'get',
@@ -454,7 +531,7 @@ function sendDataCost(data) {
 
         //setelah itu tambahkan itemnya
         $.each(response, (i, item) => {
-          optionTemp += `\n<option class='d-flex' value='${item.service}' data-price='${item.total_cost}'>  ${item.description} (${item.service}) <span class="text-danger d-inline-block ms-auto">${rupiah(item.total_cost)}</span> </option> `
+          optionTemp += `\n<option value='${item.service}' data-price='${item.total_cost}' data-label='${item.description} ${item.service}'>  ${item.description} (${item.service}) <span class="text-danger d-inline-block ms-auto">${rupiah(item.total_cost)}</span> </option> `
         });
 
         residenceExpeditionPackage.find('.select-input').html(optionTemp);

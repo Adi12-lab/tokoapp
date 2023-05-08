@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Alert;
 use App\Http\Controllers\RajaOngkirController;
 use Illuminate\Support\Facades\DB;
-use PDO;
 
 class CartController extends Controller
 {
@@ -85,7 +84,7 @@ class CartController extends Controller
       return [
         "items" => $item,
         "origin_name" => $item->first()->database_data->originName,
-        "origin_code" => $item->first()->database_data->origin,
+        "origin_code" => $item->first()->database_data->origin, //diperlukan untuk request ajax javascript nanti
         "total_weight_origin" => $item->sum("total_weight")
       ];
     });
@@ -100,9 +99,6 @@ class CartController extends Controller
     ]);
   }
   
-  // $makanan = ["berkuah" => ["soto", "gule", "gudeg", "bubur"]];
-  // bagaimana cara mengubahnya menjadi dibawah ini, menggunakkan method collection dari laravel
-  // $makanan = ["berkuah" => ["items" => ["soto", "gule", "gudeg", "bubur"], "count" => 4]];
   public function deleteCart(Request $request) {
 
     \Cart::remove($request->id);

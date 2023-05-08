@@ -117,66 +117,74 @@
                 </div>
             </div>
 
-            <div class="row mt-3 justify-content-center">
+            <div class="row data-penerima mt-3 justify-content-center">
                 <div class="col-md-7">
                     <div class="card p-4">
                         <h3>Data penerima</h3>
                         <div class="my-3">
-                            <input type="text" class="form-control" id="nama" placeholder="Nama penerima">
+                            <input type="text" class="form-control" data-kind-form="nama_penerima" placeholder="Nama penerima">
+                            <span class="ms-2 text-danger text-small alert-error nama_penerima d-none">Nama penerima perlu diisi</span>
                         </div>
                         <div class="mb-3">
-                            <input type="number" class="form-control" id="telepon" placeholder="No telepon">
+                            <input type="number" class="form-control" data-kind-form="no_telepon" placeholder="No telepon">
+                            <span class="ms-2 text-danger text-small alert-error no_telepon d-none">No perlu diisi</span>
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" id="email" placeholder="Email">
+                            <input type="email" class="form-control" data-kind-form="email" placeholder="Email">
+                            <span class="ms-2 text-danger text-small alert-error email d-none">email perlu diisi</span>
                         </div>
                         <div class="mb-3">
                             <div class="residence" data-kind-residence="province">
-                                <select class="select-input" style="width:100%;" data-placeholder="Pilih provinsi">
+                                <select class="select-input" style="width:100%;" data-placeholder="Pilih provinsi" data-kind-form="province">
                                     <option value="" selected></option>
                                     @foreach($provinsi as $prov)
-                                    <option value="{{$prov->province_id}}">{{$prov->province}}</option>
-                                    @endforeach
-                                </select>
+                                        <option value="{{$prov->province_id}}">{{$prov->province}}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="ms-2 text-danger text-small alert-error province d-none">provinsi perlu diisi</span>
+                                </div>
                             </div>
-                        </div>
-                       
-                        <div class="mb-3" >
-                            <div class="residence position-relative" data-kind-residence="city">
-                                <select class="select-input" style="width:100%" data-placeholder="Pilih kabupaten/kota">
-                                    <option value="">Pilih kabupaten/kota</option>
-                                </select>
-                                <img src="{{ asset('img/loader.gif') }}"
-                                        class="image-loader position-absolute d-none" height="35"
-                                        style="width:35px; right: 40px; bottom:6px;">
-
+                            
+                            <div class="mb-3" >
+                                <div class="residence position-relative" data-kind-residence="city">
+                                    <select class="select-input" style="width:100%" data-placeholder="Pilih kabupaten/kota" data-kind-form="city">
+                                        <option value="">Pilih kabupaten/kota</option>
+                                    </select>
+                                    <img src="{{ asset('img/loader.gif') }}"
+                                    class="image-loader position-absolute d-none" height="35"
+                                    style="width:35px; right: 40px; bottom:6px;">
+                                    
+                                    <span class="ms-2 text-danger text-small alert-error city d-none">kabupaten/kota perlu diisi</span>
+                                </div>
                             </div>
-                        </div>
-                       
-                        <div class="mb-3">
-                            <div class="residence" data-kind-residence="expedition">
-                                <select class="select-input" style="width:100%" data-placeholder="Pilih ekspedisi">
-                                    <option value=""></option>
-                                    <option value="jne">JNE</option>
-                                    <option value="pos">POS</option>
-                                    <option value="tiki">TIKI</option>
-                                </select>
+                            
+                            <div class="mb-3">
+                                <div class="residence" data-kind-residence="expedition">
+                                    <select class="select-input" style="width:100%" data-placeholder="Pilih ekspedisi">
+                                        <option value=""></option>
+                                        <option value="jne">JNE</option>
+                                        <option value="pos">POS</option>
+                                        <option value="tiki">TIKI</option>
+                                    </select>
+                                    <span class="ms-2 text-danger text-small alert-error expedition d-none">pilih ekspedisi terlebih dahulu</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="residence position-relative" data-kind-residence="expedition-package" >
-                                <select class="select-input" style="width:100%" data-placeholder="Pilih paket ekspedisi">
-                                </select>
-                                <img src="{{ asset('img/loader.gif') }}"
-                                            class="image-loader position-absolute d-none" height="35"
-                                            style="width:35px; right: 40px; bottom:6px;">
-                            </div>
-                            <span class="text-center text-small"><strong class="text-danger">Perhatian !!</strong> ongkir
+                            <div class="mb-3">
+                                <div class="residence position-relative" data-kind-residence="expedition_package" >
+                                    <select class="select-input" style="width:100%" data-placeholder="Pilih paket ekspedisi" data-kind-form="expedition_package">
+                                    </select>
+                                    <img src="{{ asset('img/loader.gif') }}"
+                                    class="image-loader position-absolute d-none" height="35"
+                                    style="width:35px; right: 40px; bottom:6px;">
+                                </div>
+                            <span class="ms-2 text-danger text-small alert-error expedition_package d-none">pilih paket ekspedisi terlebih dahulu</span>
+                            <span class="ms-2 text-small d-block"><strong class="text-danger">Perhatian !!</strong> ongkir
                                 mahal karena barang dikirim dari berbagai daerah</span>
-                        </div>
-                        <div class="mb-3">
-                            <textarea class="form-control" placeholder="Alamat lengkap" id="alamat"
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" placeholder="Alamat lengkap" data-kind-form="alamat"
                                 style="width: 100%; height:200px;"></textarea>
+                                <span class="ms-2 text-danger text-small alert-error alamat d-none">alamat perlu diisi</span>
                         </div>
                     </div>
                 </div>
@@ -207,9 +215,10 @@
                                             @foreach ($originGroup as $origin)
                                                 <ul class="origin-item">
                                                     <strong>{{ $origin['origin_name'] }}</strong>
+
                                                     @foreach ($origin['items'] as $item)
                                                         <li class="all-lato-font">
-                                                            <span>{{ $item['name'] }}</span>
+                                                            <span>{{ $item['name']." ".$item['attributes']['size'] }}</span>
                                                             <span>{{ $item['total_weight'] }} gram</span>
                                                         </li>
                                                     @endforeach
@@ -230,7 +239,7 @@
                                     </div>
                                 </span>
                                 <span class="cart-total-amount">
-                                    <h4 class="fw-bold text-success sub-cost" data-price="0">-</h4>
+                                    <h4 class="fw-bold text-success expedition-cost" data-price="0">0</h4>
                                 </span>
                             </li>
                             <li class="cart-totals-li">
@@ -246,11 +255,15 @@
                                     <h6 class="text-muted">Total</h6>
                                 </span>
                                 <span class="cart-total-amount">
-                                    <h4 class="fw-bold text-success total-cost" data-price="0">-</h4>
+                                    <h4 class="fw-bold text-success total-cost" data-price="0">0</h4>
                                 </span>
                             </li>
                         </ul>
-                        <button class="cart-checkout w-100 mt-4">
+                        <div class="note mt-1 mb-3">
+                            <textarea class="form-control" placeholder="Catatan pembeli" id="note" data-kind-form="note"
+                            style="width: 100%; height:90px;"></textarea>
+                        </div>
+                        <button class="cart-checkout w-100 mt-4 d-block" type="button">
                             Checkout Now <i class="fa-solid fa-arrow-right-from-bracket text-white"></i>
                         </button>
                     </div>

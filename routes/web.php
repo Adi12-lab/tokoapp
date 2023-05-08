@@ -50,11 +50,15 @@ Route::controller(UserController::class)->group(function() {
 
 Route::controller(OrderController::class)->group(function() {
   Route::get("/metal/orders", "index")->name("index.order");
-  Route::get("/metal/order", "show");
+  Route::get("/cekOrder", 'show');
+  Route::get('/metal/order', "edit");
   Route::put("/metal/orders/update","update" )->name("update.order");
   Route::delete("/metal/orders", "delete")->name("delete.order");
 });
 
+Route::get("/pesanan", function() {
+  return view("orderDetails");
+})->name("pesanan");
 Route::controller(RajaOngkirController::class)->group(function() {
   Route::get("/getProvince", "get_province");
   Route::get("/getCity", "get_city");

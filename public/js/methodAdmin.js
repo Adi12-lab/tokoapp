@@ -74,7 +74,7 @@ $(document).ready(function () {
 
         let produk = "";
         response.product_order.forEach(function (item) {
-            produk +=   /*html*/
+            produk +=   
             `<tr>
               <td>${item.name_product}</td>
               <td>${item.size}</td>

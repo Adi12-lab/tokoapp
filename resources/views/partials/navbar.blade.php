@@ -34,10 +34,9 @@
         </li>
 
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control rounded-0 me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-grad ms-0 rounded-0" type="submit">Search</button>
-      </form>
+
+        <a href='/pesanan' class="btn btn-grad ms-0 px-3 py-2 rounded" type="submit"><i class="fa-solid fa-basket-shopping text-white"></i> Cek Pesanan</a>
+    
     </div>
   </div>
 </nav>
