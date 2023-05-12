@@ -84,7 +84,7 @@
 
                             {{-- Price Produk --}}
                             <div class="col-md-2 cart-col ">
-                                <span class="text-secondary fs-5">{{ rupiah($cart->price) }}</span>
+                                <span class="text-secondary cart-price fs-5" data-price="{{$cart->price}}">{{ rupiah($cart->price) }}</span>
                             </div>
 
                             {{-- Quantity Produk --}}
@@ -97,7 +97,7 @@
                                     onclick="increment(this)">+</button>
                             </div>
                             <div class="col-md-2 cart-col">
-                                <span class="text-success fs-5 fw-bold">{{ rupiah($cart->priceSum) }}</span>
+                                <span class="text-success fs-5 fw-bold cart-sub_price" data-price="{{$cart->priceSum}}">{{ rupiah($cart->priceSum) }}</span>
                             </div>
                             <div class="col-md-1 cart-col">
                                 <a href="#"class="removeCart"><i
@@ -154,8 +154,8 @@
                                     class="image-loader position-absolute d-none" height="35"
                                     style="width:35px; right: 40px; bottom:6px;">
                                     
-                                    <span class="ms-2 text-danger text-small alert-error city d-none">kabupaten/kota perlu diisi</span>
                                 </div>
+                                <span class="ms-2 text-danger text-small alert-error city d-none">kabupaten/kota perlu diisi</span>
                             </div>
                             
                             <div class="mb-3">

@@ -37,7 +37,6 @@ Route::controller(CartController::class)->group(function() {
   Route::get("/deleteCart", "deleteCart");
   Route::post("/updateCart", "updateCart");
   Route::get("/clearCart", "clearCart");
-  Route::get("/testCart", "testCart");
 });
 
 Route::controller(UserController::class)->group(function() {
@@ -51,6 +50,7 @@ Route::controller(UserController::class)->group(function() {
 Route::controller(OrderController::class)->group(function() {
   Route::get("/metal/orders", "index")->name("index.order");
   Route::get("/cekOrder", 'show');
+  Route::post("/metal/orders/store", "store");
   Route::get('/metal/order', "edit");
   Route::put("/metal/orders/update","update" )->name("update.order");
   Route::delete("/metal/orders", "delete")->name("delete.order");
@@ -80,4 +80,5 @@ Route::controller(AttachmentController::class)->group(function() {
   Route::post("/toPending", "toPending" );
   Route::post("/removeFromPending", "removeFromPending");
   Route::post("/removeFromStorage", "removeFromStorage");
+  Route::get('/clearPending', 'clearPending');
 });

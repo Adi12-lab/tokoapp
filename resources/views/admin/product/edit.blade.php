@@ -4,7 +4,8 @@
         <div class="container border">
             <div class="row justify-content-center">
                 <div class="col col-md-8">
-                    <form action="/metal/products/{{ $product->slug }}" id="editProductForm" method="post" enctype="multipart/form-data">
+                    <form action="/metal/products/{{ $product->slug }}" id="editProductForm" method="post"
+                        enctype="multipart/form-data">
                         <h1 class="text-center">Update Produk</h1>
 
                         {{-- Data yang wajib --}}
@@ -181,45 +182,62 @@
                         <div class="mb-3">
                             <h4>Carousel Produk</h4>
                             <input id="attachment-carousel" type="hidden" name="attachment-trix">
-                            <trix-editor class="attachment-trix" placeholder="Input gambar disini" input="attachment-carousel" data-kind="carousel"></trix-editor>
+                            <trix-editor class="attachment-trix" placeholder="Input gambar disini"
+                                input="attachment-carousel" data-kind="carousel"></trix-editor>
 
                             {{-- Semua item yang disini akan ditangkap trix.js dan dimasukan kedalam trix editor yang diatas persis ini --}}
-                            @foreach($hidden_carousel as $carousel) 
-                                <input type="hidden" value="{{$carousel}}" name="hidden_attachment[]" data-hidden="carousel">
+                            @foreach ($hidden_carousel as $carousel)
+                                <input type="hidden" value="{{ $carousel }}" name="hidden_attachment[]"
+                                    data-hidden="carousel">
                             @endforeach
                         </div>
 
-                       {{-- Attachment Gallery --}}
-                       <div class="mb-3">
-                        <h4>Gallery Produk</h4>
-                        <input id="attachment-gallery" type="hidden" name="attachment-trix">                          
-                        <trix-editor class="attachment-trix" placeholder="Input gambar disini" input="attachment-gallery" data-kind="gallery"></trix-editor>
+                        {{-- Attachment Gallery --}}
+                        <div class="mb-3">
+                            <h4>Gallery Produk</h4>
+                            <input id="attachment-gallery" type="hidden" name="attachment-trix">
+                            <trix-editor class="attachment-trix" placeholder="Input gambar disini"
+                                input="attachment-gallery" data-kind="gallery"></trix-editor>
 
-                        {{-- Semua item yang disini akan ditangkap trix.js dan dimasukan kedalam trix editor yang diatas persis ini --}}
-                        @foreach($hidden_gallery as $gallery) 
-                                <input type="hidden" value="{{$gallery}}" name="hidden_attachment[]" data-hidden="gallery">
-                        @endforeach
-                    </div>
-                    
+                            {{-- Semua item yang disini akan ditangkap trix.js dan dimasukan kedalam trix editor yang diatas persis ini --}}
+                            @foreach ($hidden_gallery as $gallery)
+                                <input type="hidden" value="{{ $gallery }}" name="hidden_attachment[]"
+                                    data-hidden="gallery">
+                            @endforeach
+                        </div>
+
                         <div class="mb-3">
                             <h4>Status Produk</h4>
-                            <input type="radio" class="btn-check" name="active_status" id="active_product" value="1"
-                                autocomplete="off" {{ $product->active == 1 ? 'checked' : '' }}>
+                            <input type="radio" class="btn-check" name="active_status" id="active_product"
+                                value="1" autocomplete="off" {{ $product->active == 1 ? 'checked' : '' }}>
                             <label class="btn btn-outline-success" for="active_product">Aktif</label>
 
-                            <input type="radio" class="btn-check" name="active_status" id="deactive_product" value="0"
-                                autocomplete="off" {{ $product->active == 0 ? 'checked' : '' }}>
+                            <input type="radio" class="btn-check" name="active_status" id="deactive_product"
+                                value="0" autocomplete="off" {{ $product->active == 0 ? 'checked' : '' }}>
                             <label class="btn btn-outline-danger" for="deactive_product">Nonaktif</label>
                         </div>
                         @error('active_status')
-                        <div class="text-danger">
-                            {{ $message }}
-                        </div>
-                    @enderror
+                            <div class="text-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
                         <button class="btn btn-primary px-4 mb-4" type="submit">Update Produk</button>
                     </form>
+                    <button type="button" class="test-button">Test</button>
                 </div>
             </div>
         </div>
     </section>
+    <script>
+        window.addEventListener("beforeunload", function() {
+            let xhr = new XMLHttpRequest;
+            xhr.open("GET", '/clearPending', true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.responseText);
+                }
+            }
+            xhr.send();
+        });
+    </script>
 @endsection

@@ -49,4 +49,7 @@ class AttachmentController extends Controller
 
         return response($attachmentDatabase, 200)->header("Content-Type", 'text/plain');
     }
+    public function clearPending() {
+        Storage::deleteDirectory("pending");
+    }
 }

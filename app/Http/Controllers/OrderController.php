@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class OrderController extends Controller
 {
@@ -23,6 +26,37 @@ class OrderController extends Controller
         $order->tanggal = Carbon::parse($unformattedDate)->locale('id')->isoFormat('dddd, D MMMM Y');
         $order->product_order = DB::table("product_order")->where("id_order", $request->id_order)->get();
         return response($order);
+    }
+    public function store(Request $request) {
+        
+        $random_string = Str::random(10);
+        $random_string = Str::upper($random_string);
+        $order = new Order;
+        $order->id_order = $random_string;
+        $order->nama_penerima = $request->nama_penerima;
+        $order->no_telepon = $request->no_telepon;
+        $order->email = $request->email;
+        $order->pengiriman = $request->expedition_package;
+        $order->biaya_pengiriman = $request->expedition_cost;
+        $order->alamat = "$request->alamat, $request->city, $request->province";
+        $order->note = $request->note ?? '';
+
+        $order->save();
+        
+        foreach($request->products as $product) {
+            DB::table("product_order")->insert([
+                "id_order" => $random_string,
+                "name_product" => $product["name_product"],
+                "size" => $product["size"],
+                "variant" => $product["variant"],
+                "price" => $product["price"],
+                "quantity" => $product["quantity"],
+                "sub_total" => $product["sub_total"]
+            ]);
+
+        };
+        Alert::success($random_string, "Salin kode tersebut, dan cek pesanannya")->autoClose(false);
+        return response(200);
     }
     public function edit(Request $request) {
         $order = Order::find($request->id_order);

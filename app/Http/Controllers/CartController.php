@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Alert;
+use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Controllers\RajaOngkirController;
 use Illuminate\Support\Facades\DB;
 
@@ -49,6 +49,7 @@ class CartController extends Controller
     }
     \Cart::add($queryAdd);
     Alert::success('Berhasil', 'Barang telah ditambahkan ke keranjang...');
+    return response(200);
   }
 
   public function cartContent() {

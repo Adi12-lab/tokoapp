@@ -246,7 +246,7 @@
                     $.each(response.product_order, function(i, item) {
                         product_order += /*html */
                             `<tr> 
-                            <th scope='row'>${item.name_product} </th>
+                            <th scope='row'>${item.name_product} ${item.size == null ? '' : item.size}/${item.variant == null ? '' : item.variant} </th>
                             <td scope='row' class='text-end'>${item.quantity} </td>
                             <td class="text-end"><b>${rupiah(item.sub_total)}</b></td>
                         </tr>`

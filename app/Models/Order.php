@@ -18,5 +18,6 @@ class Order extends Model
         static::deleting(function (Order $order) {
             DB::table("product_order")->where("id_order", $order->id_order)->delete();
         });
+       
     }
 }

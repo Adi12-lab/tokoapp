@@ -30,10 +30,8 @@ $(document).ready(function () {
       items: slidesPerPage,
       dots: false,
       nav: true,
-      smartSpeed: 200,
-      slideSpeed: 500,
       slideBy: slidesPerPage, //alternatively you can slide by 1, this way the active slide will stick to the first item in the second carousel
-      responsiveRefreshRate: 100,
+      responsiveRefreshRate: 1000,
       navText: [`<i class="fa-solid fa-arrow-left"></i>`, `<i class="fa-solid fa-arrow-right"></i>`]
     }).on('changed.owl.carousel', syncPosition2);
 
@@ -233,7 +231,6 @@ $(document).ready(function () {
     });
 
   })
-
   //==========Cart & Raja Ongkir API==========
   
   let dataCost = {
@@ -251,6 +248,7 @@ $(document).ready(function () {
     expedition: '',
     expedition_package:'',
     alamat: '',
+    note: '',
     products: [
 
     ],
@@ -259,7 +257,12 @@ $(document).ready(function () {
   $.each($('.cart-row'), function(i, item) {
 
     dataCart.products.push({
-      nama:`${$(item).find('.cart-title').text()} ${$(item).find('.dropdown.size .dropdown-html').data('select-drop') ?? ''} ${$(item).find('.dropdown.variant .dropdown-html').data('select-drop') ?? ''}`
+      name_product: $(item).find('.cart-title').text(),
+      size: $(item).find('.dropdown.size .dropdown-html').data('select-drop') ?? '',
+      variant: $(item).find('.dropdown.variant .dropdown-html').data('select-drop') ?? '',
+      price: $(item).find(".cart-price").data('price'),
+      quantity: $(item).find(".quantity-form").val(),
+      sub_total: $(item).find('.cart-sub_price').data('price')
     });
   });
   // let cart_totals = {};
@@ -374,7 +377,7 @@ $(document).ready(function () {
         dataCart.expedition_package = $(selectedOption).data('label');
         const subTotal = $('.cart-totals .sub-total').data('price');
         const expeditionCost = $(selectedOption).data('price');
-
+        dataCart.expedition_cost = expeditionCost;
         const totalCost = subTotal + expeditionCost;
 
         $('.cart-totals .expedition-cost').data('price', expeditionCost);
@@ -392,7 +395,21 @@ $(document).ready(function () {
     const {nama_penerima, no_telepon,email, province, city, expedition_package, alamat, note} = dataCart;
     $('.alert-error').addClass('d-none');
     if(nama_penerima != '' && no_telepon != '' && email != '' && alamat != '' && province != '' && city != '' && expedition_package != '' ) {
-      console.log("data siap dikirimkan");
+      $.ajax({
+        url: '/metal/orders/store',
+        headers: {
+          "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
+        },
+        type: 'post',
+        dataType: 'json',
+        data: dataCart,
+        statusCode: {
+          200: function() {
+            window.location.reload();
+          }
+        }
+
+      })
     } else {
       const keys = Object.keys(dataCart);
       const emptyData = keys.filter(key => dataCart[key] == '');
@@ -400,7 +417,6 @@ $(document).ready(function () {
       emptyData.forEach(function(item) {
         $(`.alert-error.${item}`).removeClass('d-none');
       });
-      console.log(dataCart);
 
     }
     
@@ -445,8 +461,10 @@ $(".addCart.body").click(function () {
     data: formData,
     processData: false,
     contentType: false,
-    success: function () {
-      window.location.reload();
+    statusCode: {
+      200: function() {
+        window.location.reload();
+      }
     }
   });
   // formData.append()
@@ -529,7 +547,7 @@ function sendDataCost(data) {
       success: function (response) {
         console.log(response);
 
-        //setelah itu tambahkan itemnya
+        //setelah itu tambahkan itemnyaphp
         $.each(response, (i, item) => {
           optionTemp += `\n<option value='${item.service}' data-price='${item.total_cost}' data-label='${item.description} ${item.service}'>  ${item.description} (${item.service}) <span class="text-danger d-inline-block ms-auto">${rupiah(item.total_cost)}</span> </option> `
         });

@@ -32,8 +32,8 @@
                   <a class="product-title d-block"
                     href="/produk/{{ $product->slug }}">{{ $product->name }}</a>
                   <span class="product-price fs-2" data-price="{{ $product->size[0]->price ?? 0 }}">
-                    Rp. {{rupiah($product->size[0]->price ?? 0)}}</span>
-                  <span class="product-price-old text-decoration-line-through">Rp.
+                    {{rupiah($product->size[0]->price ?? 0)}}</span>
+                  <span class="product-price-old text-decoration-line-through">
                     {{ $product->size[0]->old_price ?? ""}}</span>
                   <div class="product-text">
                     {!! $product->deskripsi !!}

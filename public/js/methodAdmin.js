@@ -69,7 +69,7 @@ $(document).ready(function () {
         $("input[name='id_order']").val(response.id_order);
         $("#nama").val(response.nama_penerima);
         $("#alamat").val(response.alamat);
-        $("#note").text(response.alamat);
+        $("#note").text(response.note);
         $("#tanggal").text(response.tanggal);
 
         let produk = "";
