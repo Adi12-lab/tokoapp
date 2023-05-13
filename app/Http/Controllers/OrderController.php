@@ -7,7 +7,6 @@ use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use RealRashid\SweetAlert\Facades\Alert;
 
 
 class OrderController extends Controller
@@ -55,8 +54,9 @@ class OrderController extends Controller
             ]);
 
         };
-        Alert::success($random_string, "Salin kode tersebut, dan cek pesanannya")->autoClose(false);
-        return response(200);
+        return response()->json([
+            "kode" => $random_string
+        ]);
     }
     public function edit(Request $request) {
         $order = Order::find($request->id_order);

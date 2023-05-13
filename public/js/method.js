@@ -225,8 +225,17 @@ $(document).ready(function () {
       data: formData,
       processData: false,
       contentType: false,
-      success: function () {
-        window.location.reload();
+      success: function (response) {
+    
+        Swal.fire({
+          title: response.title,
+          text: response.text,
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        }).then(() => {
+          window.location.reload();
+        });
+        
       }
     });
 
@@ -313,7 +322,6 @@ $(document).ready(function () {
     case 'note':
       dataCart.note = value;
   }
-  console.log(dataCart);
 });
 
 // Select2
@@ -403,11 +411,24 @@ $(document).ready(function () {
         type: 'post',
         dataType: 'json',
         data: dataCart,
-        statusCode: {
-          200: function() {
-            window.location.reload();
+        statusCode:{
+          200: function(response) {
+            Swal.fire({
+              title: `<strong id='alert-kode'>${response.kode}</strong>`,
+              text: "Salin kode tersebut, dan cek pesanannya",
+              icon: 'success',
+              showCloseButton: true,
+              focusConfirm: false,
+              confirmButtonText:
+                '<i class="fa-regular fa-clipboard text-white"></i> Salin kode',
+            }).then(() => {
+              const kode = $("#alert-kode").text();
+              navigator.clipboard.writeText(kode).then(() => {
+                alert("Copied to clipboard");
+              });
+            });
           }
-        }
+        } 
 
       })
     } else {
@@ -461,10 +482,16 @@ $(".addCart.body").click(function () {
     data: formData,
     processData: false,
     contentType: false,
-    statusCode: {
-      200: function() {
+    success: function(response) {
+      Swal.fire({
+        title: response.title,
+        text: response.text,
+        icon: 'success',
+        confirmButtonText: 'Ok'
+      }).then(() => {
         window.location.reload();
-      }
+      });
+      
     }
   });
   // formData.append()
@@ -516,16 +543,35 @@ function increment(element) {
 }
 
 function clearCart() {
-  $.ajax({
-    url: '/clearCart',
-    type: 'get',
-    headers: {
-      "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
-    },
-    success: function () {
-      window.location.reload();
-    },
-  });
+  Swal.fire({
+    title: 'Kosongkan keranjang',
+    text: "Semua barang yang ada di keranjang anda akan dikosongkan!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#4cbd89',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Kosongkan'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+            url: '/clearCart',
+            type: 'get',
+            headers: {
+              "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
+            },
+            success: () => {
+              Swal.fire(
+                'Dikosongkan',
+                'Keranjang anda telah dikosongkan',
+                'success'
+              ).then(() => {
+                window.location.reload();
+              })
+            },
+          });
+     
+    }
+  })
 }
 
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Controllers\RajaOngkirController;
 use Illuminate\Support\Facades\DB;
 
@@ -20,8 +19,6 @@ class CartController extends Controller
     $productQuantity = intval($all["quantity"]);
     $productWeight = intval($all["weight"]);
     $productName = $all["name"];
-
-  
 
     $allCart = \Cart::getContent()->where("name", $productName);
     if ($productSize == "undefined") $productSize = null;
@@ -48,8 +45,10 @@ class CartController extends Controller
       $queryAdd["id"] = $cartId;
     }
     \Cart::add($queryAdd);
-    Alert::success('Berhasil', 'Barang telah ditambahkan ke keranjang...');
-    return response(200);
+    return response()->json([
+      'title' => "Berhasil ditambahkan",
+      'text' => "Barang berhasil ditambahkan ke dalam keranjang" 
+    ]);
   }
 
   public function cartContent() {
@@ -103,7 +102,6 @@ class CartController extends Controller
   public function deleteCart(Request $request) {
 
     \Cart::remove($request->id);
-    Alert::success('Barang telah dihapus dari keranjang')->autoClose(3000);
     return response($request->id, 200)
     ->header('Content-Type', 'text/plain');
   }
