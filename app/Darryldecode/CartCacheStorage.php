@@ -1,11 +1,11 @@
 <?php
-namespace App\Cart;
+namespace App\Darryldecode;
 
 use Carbon\Carbon;
 use Cookie;
 use Darryldecode\Cart\CartCollection;
 
-class CacheStorage
+class CartCacheStorage
 {
     private $data = [];
     private $cart_id;

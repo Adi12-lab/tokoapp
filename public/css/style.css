@@ -93,7 +93,7 @@ img {
 }
 .all-lato-font,
 .all-lato-font > *,
-.all-lato-font > * > *:not(h4){
+.all-lato-font > * > *{
   font-family: "Lato", Sans-Serif;
 }
 
@@ -196,7 +196,18 @@ img {
 .cart-checkout:hover {
   background-color: #FDC040;
 }
-
+.btn-hover-yellow {
+  background-color: #3BB77E;
+  padding: 10px 20px;
+  color: white;
+  transition: all 300ms ease;
+  border-radius: 5px;
+  cursor:pointer;
+  border: none;
+}
+.btn-hover-yellow:hover {
+  background-color: #FDC040;
+}
 /* Background */
 
 .bg-dark {
@@ -342,9 +353,7 @@ backdrop-filter: blur(5px);
 }
 
 /*----Galeri---*/
-#sync1 .item {
 
-}
 
 #sync2 .item {
   width: 110px;
@@ -388,7 +397,6 @@ backdrop-filter: blur(5px);
 
 }
  .product-price {
-  font-size: 18px;
   font-weight: 700;
   color: var(--color-succes);
 }
@@ -510,7 +518,12 @@ footer .widget {
 .body-product .body-content ul li{
   list-style: disc inside;
 }
-
+.body-product .body-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 20px;
+}
 .quantity-form{
   width: 65px;
   text-align: center;
@@ -634,8 +647,65 @@ padding: 10px;
 }
 
 
-
-
+/* Wishlist */
+.wishlist thead th{
+  background-color: #ececec;
+  padding: 18px 0;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700;
+}
+.wishlist tbody td {
+  vertical-align: middle;
+  height: 183px;
+  padding: 15px 0;
+}
+.wishlist tbody td img {
+  width: 400px;
+}
+.wishlist .stock-status.tersedia {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700;
+  background-color: #def9ec;
+  border-radius: 5px;
+  color:#3BB77E ;
+  padding: 8px 12px;
+}
+@media screen and (max-width: 900px) {
+  .wishlist table, 
+  .wishlist thead, 
+  .wishlist tbody, 
+  .wishlist th, 
+  .wishlist td, 
+  .wishlist tr {
+    display: block;
+  }
+  .wishlist thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  .wishlist tr { 
+      border: 1px solid #ccc; 
+      margin-bottom: 5px;
+  }
+  
+  .wishlist td {
+  border: none;
+    height: 60px !important;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+  }
+  .wishlist td:nth-child(1) {
+      
+      height: 200px !important;
+  }
+  .wishlist td img {
+      width: 250px  !important ;
+      height: 100%;
+  }
+  
+}
 
 
 @media screen and (min-width : 576px ) {

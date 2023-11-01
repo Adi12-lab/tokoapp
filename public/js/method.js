@@ -274,16 +274,6 @@ $(document).ready(function () {
       sub_total: $(item).find('.cart-sub_price').data('price')
     });
   });
-  // let cart_totals = {};
-  // let dataCostTest = {
-  //   courier: "pos",
-  //   dataOrigin: [
-  //     { origin_code: '23', origin_name: 'Kota Bandung', origin_weight: '1200' },
-  //     { origin_code: '431', origin_name: 'Kota Sukabumi', origin_weight: '400' },
-  //     { origin_code: '126', origin_name: 'Kabupaten Garut', origin_weight: '200' }],
-  //   destination: "232"
-  // }
-
   //semua yang ada di checkout akan didata
   $.each($("input[name='origin_code[]']"), (i, item) => {
     dataCost.dataOrigin.push({
@@ -424,7 +414,7 @@ $(document).ready(function () {
             }).then(() => {
               const kode = $("#alert-kode").text();
               navigator.clipboard.writeText(kode).then(() => {
-                alert("Copied to clipboard");
+                alert("Kode berhasil disalin");
               });
             });
           }
@@ -443,8 +433,6 @@ $(document).ready(function () {
     
   });
 
- 
-
   //Body detail product
   $(".btn.option").click(function () {
     $(this).siblings().removeClass("active");
@@ -455,67 +443,74 @@ $(document).ready(function () {
     $(this).parents(".nav-tabs").find(".nav-link").removeClass("current");
     $(this).addClass("current");
   });
-});
-$(".addCart.body").click(function () {
-  const cartId = $(".cartId").val();
-  const productName = $(".productName").text();
-  const productSize = $(".option.size.active").data("size");
-  const productWeight = productSize ? $(".option.size.active").data("weight-size") : $("input[name='weight']").val();
-  const productVariant = $(".option.variant.active").data("variant");
-  const productPrice = productSize ? $(".option.size.active").data("price-size") : $("input[name='price']").val();
-  const productQuantity = $(".quantity-form").val();
-  const formData = new FormData();
-  formData.append("id", cartId);
-  formData.append("name", productName);
-  formData.append("size", productSize);
-  formData.append("weight", productWeight);
-  formData.append("price", productPrice);
-  formData.append("variant", productVariant);
-  formData.append("quantity", productQuantity);
-
-  $.ajax({
-    url: "/addCart",
-    type: "post",
-    headers: {
-      "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
-    },
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function(response) {
-      Swal.fire({
-        title: response.title,
-        text: response.text,
-        icon: 'success',
-        confirmButtonText: 'Ok'
-      }).then(() => {
-        window.location.reload();
+  $(".addCart.body").click(function () {
+    const cartId = $(".cartId").val();
+    const productName = $(".productName").text();
+    const productSize = $(".option.size.active").data("size");
+    const productWeight = productSize ? $(".option.size.active").data("weight-size") : $("input[name='weight']").val();
+    const productVariant = $(".option.variant.active").data("variant");
+    const productPrice = productSize ? $(".option.size.active").data("price-size") : $("input[name='price']").val();
+    const productQuantity = $(".quantity-form").val();
+    const formData = new FormData();
+    formData.append("id", cartId);
+    formData.append("name", productName);
+    formData.append("size", productSize);
+    formData.append("weight", productWeight);
+    formData.append("price", productPrice);
+    formData.append("variant", productVariant);
+    formData.append("quantity", productQuantity);
+  
+    $.ajax({
+      url: "/addCart",
+      type: "post",
+      headers: {
+        "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
+      },
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(response) {
+        Swal.fire({
+          title: response.title,
+          text: response.text,
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        }).then(() => {
+          window.location.reload();
+        });
+        
+      }
+    });
+    // formData.append()
+  });
+  
+  //product Detail body navigation
+  $(".nav-body").find(".nav-link").each(function (i, e) {
+    $(e).click(function (el) {
+      //kita ambil tujuannya
+      let destiny = $(this).attr("data-body");
+      el.preventDefault();
+      //hilanhkan kelas curent
+      $(".nav-body").find(".nav-link").each(function () {
+        $(this).removeClass("current");
       });
-      
-    }
+      //tambahkan kelas current
+      $(this).addClass("current");
+      //hilangkan body content
+      $(".body-content").each(function (e) {
+        $(this).fadeOut(500).addClass("d-none");
+      });
+      //munculkan body content
+      $(`.${destiny}`).fadeIn(500).removeClass("d-none");
+    });
+  
   });
-  // formData.append()
-});
+  // ====Wishlist====
+  $("#addWishlist").click(function() {
+    
+  });
+  
 
-//product Detail body navigation
-$(".nav-body").find(".nav-link").each(function (i, e) {
-  $(e).click(function (el) {
-    //kita ambil tujuannya
-    let destiny = $(this).attr("data-body");
-    el.preventDefault();
-    //hilanhkan kelas curent
-    $(".nav-body").find(".nav-link").each(function () {
-      $(this).removeClass("current");
-    });
-    //tambahkan kelas current
-    $(this).addClass("current");
-    //hilangkan body content
-    $(".body-content").each(function (e) {
-      $(this).fadeOut(500).addClass("d-none");
-    });
-    //munculkan body content
-    $(`.${destiny}`).fadeIn(500).removeClass("d-none");
-  });
 });
 
 //Mengurangi (decrement)

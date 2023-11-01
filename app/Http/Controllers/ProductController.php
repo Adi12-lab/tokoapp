@@ -11,14 +11,12 @@ class ProductController extends Controller
 {
   public function index(Request $request) {
     $products = Product::with(["size", "variant"])->get();
-    $countCart = Cart::getContent()->count();
     for ($i = 0; $i < count($products); $i++) {
       $products[$i]["deskripsi"] = htmlspecialchars_decode($products[$i]["deskripsi"]);
     }
     
     return view("product", [
       "products" => $products,
-      "countCart" => $countCart
     ]);
   }
   public function detail($slug) {
@@ -29,7 +27,6 @@ class ProductController extends Controller
     
     return view("detailProduct", [
       "product" => $product,
-      "countCart" => Cart::getContent()->count()//berfungsi untuk menghitung 
     ]);
   }
 }

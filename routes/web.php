@@ -4,6 +4,7 @@ use App\Models\Product;
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductAdminController;
 use App\Http\Controllers\RajaOngkirController;
@@ -38,6 +39,14 @@ Route::controller(CartController::class)->group(function() {
   Route::post("/updateCart", "updateCart");
   Route::get("/clearCart", "clearCart");
 });
+
+Route::controller(WishlistController::class)->group(function() {
+  Route::get("/addWishlist","addWishlist")->name("wishlist.add");
+  Route::get("/favorit", "index")->name("wishlist.index");
+  Route::get("/clear-wishlist", "clear");
+  Route::get("/remove-wishlist/{slug}", "removeWishlist")->name("wishlist.remove");
+});
+
 
 Route::controller(UserController::class)->group(function() {
   Route::get("/metal", "login")->name("login");

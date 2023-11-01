@@ -5,7 +5,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <span class="d-flex">
-      <a class="position-relative me-4">
+      <a href="{{route("wishlist.index")}}" class="position-relative me-4">
         <img src="{{asset("icon-heart.svg")}}" />
       <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-success">
         99
@@ -14,7 +14,7 @@
       <a href="/cart" class="position-relative ms-2">
         <img src="{{asset("icon-cart.svg")}}" />
       <span class="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-success">
-        {{$countCart}}
+        {{\Cart::getContent()->count()}}
         <span class="visually-hidden">Terdapat</span>
       </a>
     </span>

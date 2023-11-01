@@ -1,0 +1,82 @@
+@use '../config' as c;
+.header {
+    margin-top: 0;
+
+    .header-hero {
+        height: 400px;
+        width: 100vw;
+        background-image: url('../img/home/bg-header2.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        color: white;
+
+        p {
+            font-family: "Playfair Display", cursive;
+            font-style: italic;
+            color: c.$bs-gray-400;
+        }
+
+    }
+
+}
+
+.about {
+
+    img {
+        width: 170px;
+    }
+
+    span {
+        font-family: "Poppins", Sans-Serif;
+        width: 200px;
+        background: c.$color-grad;
+    }
+
+}
+
+.reason {
+
+    .card {
+        box-shadow: rgba(83, 88, 93, 0.1) 0px 0px 40px 0px;
+
+        i {
+            align-self: center;
+            font-size: 5.2rem;
+            background: -webkit-linear-gradient(270deg, #97c74e 0%, #2ab9a5 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+      }
+}
+
+.daftar-product {
+    background: c.$color-grad;
+    padding: 25px 4px;
+
+    .card {
+        transition: all 400ms ease;
+        box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+
+        &:hover {
+            border: 3px solid c.$color-grad;
+          }
+      }
+     
+  
+  }
+  .product .title::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: -50px;
+    left: 47%;
+    border-top: 40px solid white;
+    border-right: 40px solid transparent;
+    border-left: 40px solid transparent;
+  }
+   
+
+

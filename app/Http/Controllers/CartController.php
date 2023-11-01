@@ -91,8 +91,8 @@ class CartController extends Controller
     
     return view("cart", [
       "carts" => $cartCollection,
-      "countCart" => $cartCollection->count(),
       "total_price_item" => $total_price_item,
+      "countCart" => $cartCollection->count(),
       "provinsi" => $provinsi,
       "sub_total" => $subTotal,
       "originGroup" => $originGroup

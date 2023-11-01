@@ -40,8 +40,9 @@
                   </div>
 
                   <div class="product-bottom mt-2">
-                      <input type="hidden" name="id" value="{{ rand(100,500) }}">
+                      <input type="hidden" name="id" value="{{ rand(100,500) }}"> <!-- Ini untuk id cart -->
                       <input type="hidden" name="name" value="{{ $product->name }}">
+                      <input type="hidden" name="slug" value="{{$product->slug}}">
                       <input type="hidden" name="size" value="{{$product->size[0]->name ?? ""}}">
                       <input type="hidden" name="weight" value="{{$product->size[0]->weight ?? ""}}">
                       <input type="hidden" name="price" value="{{ $product->size[0]->price}}">
@@ -50,8 +51,8 @@
                       <button type="button" class="addCart btn btn-outline-warning"><i
                         class="bi bi-cart text-warning"></i> Tambahkan ke
                         Keranjang</button>
-                    <span class="btn text-danger"><i class="fa-regular fa-heart"></i>
-                      Favorit</span>
+                    <button class="btn text-danger" id="addWishlist" type="button"><i class="fa-regular fa-heart"></i>
+                      Favorit</button>
                   </div>
                 </div>
               </div>

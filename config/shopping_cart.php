@@ -1,4 +1,5 @@
 <?php
+use App\Darryldecode\CartCacheStorage;
 
 return [
     /*
@@ -23,7 +24,7 @@ return [
      *
      * the configuration for persisting cart
      */
-    'storage' => \App\Cart\CacheStorage::class,
+    'storage' => CartCacheStorage::class,
 
     /*
      * ---------------------------------------------------------------
@@ -33,4 +34,5 @@ return [
      * the configuration for cart events
      */
     'events' => null,
+
 ];

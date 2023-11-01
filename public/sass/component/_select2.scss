@@ -1,0 +1,47 @@
+@use '../config' as c;
+
+.select2-selection {
+    min-height: 48px;
+    text-align: left;
+    border: 1px solid #dee2e6 !important;
+}
+
+.select2-search--dropdown {
+    .select2-search__field {
+        border: 1px solid c.$color-bg !important;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.select2-container--default {
+    .select2-results__option {
+        padding: 10px;
+
+        &--highlighted {
+            background-color: c.$color-sucess-young !important;
+        }
+
+        &[aria-selected="true"] {
+            background-color: c.$color-success !important;
+        }
+    }
+
+    .select2-selection--single {
+        position: relative;
+
+        .select2-selection__placeholder {
+            color: c.$color-black !important;
+        }
+    }
+}
+
+.select2-selection__rendered {
+    margin: 10px;
+}
+
+.select2-selection__arrow {
+    margin: 10px;
+}

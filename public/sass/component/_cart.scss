@@ -1,0 +1,95 @@
+@use '../config' as c;
+
+.cart-col {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    padding: 10px;
+}
+.cart-head {
+    * {
+        background: c.$bs-gray-300;
+        height: 70px;
+        text-align: center;
+        line-height: 70px;
+        font-weight: 700;
+        font-size: 1.2rem;
+      }
+      span {
+        color: var(--bs-gray-dark);
+      }
+} 
+
+.cart.dropdown {
+  width: max-content;
+}
+
+
+
+.cart-totals {
+    height: 460px;
+    border: 0.8px solid c.$bs-gray-400;
+    padding: 30px 40px;
+    box-shadow: rgba(0, 0, 0, 0.05) 5px 5px 15px 0px;
+
+    .cart-totals-ul {
+        border: 0.8px solid c.$bs-gray-400;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 0.8px solid c.$bs-gray-400;
+
+        .cart-total-amount,
+        .cart-total-label {
+            padding: 8px;
+        }
+    }
+
+    .cart-total-amount {
+        flex-grow: 1.5;
+        text-align: right;
+    }
+
+    .cart-total-label {
+        flex-grow: 1;
+    }
+
+    .dropdown-toggle {
+        background-color: transparent;
+        font-size: 0.8rem;
+        border: none;
+    }
+
+    .dropdown-menu {
+        padding: 10px;
+        width: 400px;
+    }
+
+    .origin-item li {
+        border: none;
+    }
+}
+
+.info-cost {
+    .dropdown-menu {
+        width: 270px;
+    }
+    .dropdown-toggle {
+        background-color: transparent;
+        color: #253d4e;
+
+        &::after{
+            content: none;
+        }
+    }
+
+    .dropdown-toggle:hover + .dropdown-menu {
+        display: block;
+    }
+}
+

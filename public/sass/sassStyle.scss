@@ -1,0 +1,450 @@
+@use 'config' as c;
+@use 'component/index';
+@use 'component/select2';
+@use 'component/cart';
+
+* {
+    font-family: "Quicksand", sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    list-style: none;
+    color: c.$color-second;
+
+}
+
+h1 {
+    font-family: "Poppins", sans-serif;
+    font-size: 40px;
+    line-height: 38.4px;
+}
+
+h2 {
+    font-size: 32px;
+    line-height: 29.8px;
+}
+
+h3 {
+    font-size: 28px;
+
+}
+
+h4 {
+    font-size: 24px;
+}
+
+h5 {
+    font-size: 16px;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+        color: c.$color-success;
+    }
+}
+
+.all-lato-font {
+    font-family: "Lato", Sans-Serif;
+
+    & * {
+        font-family: inherit;
+    }
+}
+
+@mixin btn-styles($bg-color, $border-color, $text-color) {
+    background: $bg-color;
+    border: 2px solid $border-color;
+    color: $text-color;
+}
+
+.btn {
+    width: max-content;
+    height: max-content;
+    font-family: "Quicksand", Sans-Serif;
+    padding: 5px;
+    vertical-align: middle;
+
+    &.option {
+        font-family: "Lato", Sans-Serif;
+        padding: 3px 10px;
+        color: c.$color-second;
+        border-radius: 0;
+
+        &:active,
+        &.active {
+            background-color: c.$color-primary;
+            color: white;
+        }
+    }
+
+    &-primary {
+        @include btn-styles(c.$color-primary, c.$color-primary, white);
+
+        i {
+            color: white;
+        }
+
+        &:hover {
+            background: c.$color-primary !important;
+            border: 2px solid c.$color-primary !important;
+            filter: brightness(0.9);
+        }
+    }
+
+    &-outline-primary {
+        @include btn-styles(white, c.$color-primary, c.$color-primary);
+    }
+
+    &-grad {
+        @include btn-styles(c.$color-grad, c.$color-grad, white);
+    }
+
+    &-outline-grad {
+        @include btn-styles(white, c.$color-grad, c.$color-primary);
+    }
+
+    &-light {
+        @include btn-styles(c.$color-light, c.$color-light, #000000);
+    }
+
+    &-outline-light {
+        @include btn-styles(white, #d0d4d9, #b4b9bd);
+
+        &:hover {
+            background-color: #d0d4d9;
+            color: black;
+        }
+    }
+}
+
+.action-btn {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
+    border: 1px solid #f1f1f1;
+    color: #7E7E7E;
+    border-radius: 10px;
+    line-height: 50px;
+    text-align: center;
+    transition: all 300ms ease;
+
+    &:hover {
+        background-color: #3BB77E;
+        transform: translateY(-8px);
+
+        i {
+            color: white;
+        }
+    }
+}
+
+.cart-checkout,
+.btn-hover-yellow {
+    background-color: #3BB77E;
+    padding: 10px 20px;
+    color: white;
+    transition: all 300ms ease;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #FDC040;
+    }
+}
+
+.btn-hover-yellow {
+    border: none;
+}
+
+/* Background */
+
+.bg-dark {
+    background-color: c.$bs-gray-dark;
+    color: white;
+}
+
+.bg-success {
+    background-color: c.$color-success !important;
+}
+
+.bg-grad {
+    background: c.$color-grad;
+    color: white;
+}
+
+.bg-grad2 {
+    background: rgb(255, 180, 11);
+    background: linear-gradient(290deg, rgba(255, 180, 11, 1) 3%, rgba(240, 110, 12, 1) 78%);
+}
+
+
+.navbar {
+    background: rgba(131, 209, 90, 0.72);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.navbar-brand {
+    font-family: 'Poppins', Sans-Serif;
+    font-size: 1.3rem;
+
+    span {
+        color: c.$color-danger;
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+    }
+}
+
+.navbar-toggler-icon {
+    color: white;
+}
+
+.nav-link {
+    color: c.$bs-gray-600;
+    font-weight: bold;
+    transition: transform 400ms ease;
+
+    &:hover {
+        transform: translateX(10px);
+        color: c.$color-success;
+    }
+
+    &.current {
+        color: c.$color-success;
+    }
+
+    &.current i {
+        color: inherit;
+    }
+}
+
+
+// Detail Produk
+
+
+.body-product {
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+
+    .nav-body .nav-link {
+        margin-right: 5px;
+        transition: all 0.2s ease 0s;
+        border-radius: 30px;
+
+        &.current {
+            border: 1px solid #e9ecef;
+            transform: translateY(-4px);
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        }
+
+        &:hover {
+            transform: translateY(-4px);
+        }
+    }
+
+    .body-content {
+
+        ol,
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        ol li {
+            list-style: decimal inside;
+        }
+
+        ul li {
+            list-style: disc inside;
+        }
+    }
+
+    .body-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        gap: 20px;
+    }
+
+
+}
+
+.quantity-form {
+    width: 65px;
+    text-align: center;
+    height: 35.5px;
+}
+
+.product-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: c.$color-black;
+  
+  }
+   .product-price {
+    font-weight: 700;
+    color: c.$color-success;
+  }
+   .product-price-old {
+    font-size: 14px;
+    font-weight: 700;
+    color: c.$color-second;
+  }
+  .product-text div {
+    font-family: "Lato", sans-serif;
+    color: c.$color-second;
+  }
+
+
+/* Wishlist */
+.wishlist {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
+
+    thead {
+        th {
+            background-color: #ececec;
+            padding: 18px 0;
+        }
+    }
+
+    tbody {
+        td {
+            vertical-align: middle;
+            height: 183px;
+            padding: 15px 0;
+
+            img {
+                width: 400px;
+            }
+        }
+    }
+
+    .stock-status {
+        &.tersedia {
+            background-color: #def9ec;
+            border-radius: 5px;
+            color: #3BB77E;
+            padding: 8px 12px;
+        }
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .wishlist {
+
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+            display: block;
+        }
+
+        thead {
+            tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+        }
+
+        tr {
+            border: 1px solid #ccc;
+            margin-bottom: 5px;
+        }
+
+        td {
+            border: none;
+            height: 60px !important;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+
+            &:nth-child(1) {
+                height: 200px !important;
+            }
+
+            img {
+                width: 250px !important;
+                height: 100%;
+            }
+        }
+    }
+}
+
+//Breadcrumb
+
+
+.breadcrumb-item {
+    font-size: 0.9rem;
+
+    &.first::before{
+        font-family: "FontAwesome";
+        content:"\f494";
+        display: inline-block;
+        margin-right: 5px;
+      }
+
+      & + &::before {
+        font-family: 'FontAwesome';
+        font-size: 0.6rem;
+        line-height: 1.4rem;
+        content: "\f054";
+      }
+  }
+  
+
+
+
+//Owl carousel
+
+
+.owl-carousel {
+    .owl-nav {
+        position: absolute;
+        bottom: 35%;
+        background: transparent;
+        display: flex;
+        justify-content: space-between;
+        width: inherit;
+
+        .owl-prev,
+        .owl-next {
+            background-color: #F2F3F4 !important;
+            border-radius: 50% !important;
+            width: 40px !important;
+            height: 40px !important;
+            cursor: pointer !important;
+            transition: all 300ms ease !important;
+
+            i {
+                color: #7E7E7E !important;
+            }
+        }
+
+        .owl-prev:hover,
+        .owl-next:hover {
+            background-color: c.$color-success !important;
+
+            i {
+                color: white !important;
+            }
+        }
+    }
+}
+
+footer {
+    background-color: #F7F8F9;
+    padding: 48px 0;
+    .widget {
+        background: c.$color-grad;
+      }
+  }
